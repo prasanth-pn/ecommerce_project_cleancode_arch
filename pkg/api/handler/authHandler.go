@@ -5,7 +5,6 @@ import (
 	domain "clean/pkg/domain"
 	services "clean/pkg/usecase/interfaces"
 	utils "clean/pkg/utils"
-	"errors"
 	"fmt"
 	"net/http"
 
@@ -17,13 +16,13 @@ import (
 
 type AuthHandler struct {
 	authUseCase services.AuthUseCase
-	jwtUseCase services.JWTService
+	jwtUseCase  services.JWTService
 }
 
-func NewAuthHandler(usecase services.AuthUseCase,jwtUseCase services.JWTService) *AuthHandler {
+func NewAuthHandler(usecase services.AuthUseCase, jwtUseCase services.JWTService) *AuthHandler {
 	return &AuthHandler{
 		authUseCase: usecase,
-		jwtUseCase: jwtUseCase,
+		jwtUseCase:  jwtUseCase,
 	}
 
 }
@@ -50,29 +49,33 @@ func NewAuthHandler(usecase services.AuthUseCase,jwtUseCase services.JWTService)
 // @Router /user/register [post]
 func (cr *AuthHandler) Register(c *gin.Context) {
 	var user domain.Users
+	//var id domain.UserResponse
 	if err := c.BindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
-	_,err:=cr.authUseCase.FindUser(user.Email)
-	if err!=nil{
-		//errors.New("the user already exists")
-		return 
-	}
-	
+	// id, err := cr.authUseCase.FindUser(user.Email)
+	// fmt.Println(user.Email, err, id)
+	// if err != nil {
+	// 	//errors.New("the user already exists")
+	// 	return
 
+	// }
+
+	user, err := cr.authUseCase.Register(c.Request.Context(), user)
 	reply := "welcome  " + user.First_Name
-	user, err= cr.authUseCase.Register(c.Request.Context(), user)
 
 	if err != nil {
-		respons := response.ErrorResponse("failed to login", err.Error(), nil)
+		fmt.Println("user already exists")
+		respons := response.ErrorResponse("failed register", err.Error(), nil)
 		c.Writer.Header().Set("Content-Type", "application/json")
 		c.Writer.WriteHeader(http.StatusUnauthorized)
 		fmt.Printf("\n\n%v", respons)
 		utils.ResponseJSON(c, respons)
 		return
+
 	}
-	respons := response.SuccessResponse(true, "login successfully", reply)
+	respons := response.SuccessResponse(true, "user registration completed  successfully", reply)
 	copier.Copy(&respons, &reply)
 	c.JSON(http.StatusOK, respons)
 
@@ -86,18 +89,27 @@ func (cr *AuthHandler) UserLogin(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
+	fmt.Println(user.Email)
 	err := cr.authUseCase.VerifyUser(user.Email, user.Password)
+
 	if err != nil {
-		respons := response.ErrorResponse("failed to login", err.Error(), nil)
-		// c.Header().Add("Content-Type","application/json")
+		respons := response.ErrorResponse("failed to login", err.Error(), user)
 		c.Writer.Header().Set("Content-Type", "application/json")
-		//w.WriteHeader(http.StatusUnauthorized)
 		c.Writer.WriteHeader(http.StatusUnauthorized)
 		fmt.Printf("\n\n%v", respons)
 		utils.ResponseJSON(c, respons)
 		return
 	}
-	respons := response.SuccessResponse(true, "Login successfully", nil)
+	fmt.Println(user)
+	users, _ := cr.authUseCase.FindUser(user.Email)
+
+	token := cr.jwtUseCase.GenerateToken(uint(user.ID), user.First_Name, "admin")
+
+	fmt.Println(user.First_Name, token)
+	fmt.Printf("\n\ntockenygbhuy : %v\n\n", token)
+	users.Password = ""
+	users.Token = token
+	respons := response.SuccessResponse(true, "Login successfully", users.Token)
 	copier.Copy(&respons, nil)
 	c.JSON(http.StatusOK, respons)
 }
@@ -113,7 +125,7 @@ func (cr *AuthHandler) AdminRegister(c *gin.Context) {
 	}
 	admin, err := cr.authUseCase.AdminRegister(c.Request.Context(), admin)
 	if err != nil {
-		respons := response.ErrorResponse("failed to login", err.Error(), nil)
+		respons := response.ErrorResponse("failed to register", err.Error(), nil)
 		c.Writer.Header().Set("Content-Type", "application/json")
 		c.Writer.WriteHeader(http.StatusUnauthorized)
 		fmt.Printf("\n\n%v", respons)
@@ -125,7 +137,7 @@ func (cr *AuthHandler) AdminRegister(c *gin.Context) {
 	c.JSON(http.StatusOK, respons)
 
 }
-func (cr *AuthHandler) AdminLogin(c *gin.Context){
+func (cr *AuthHandler) AdminLogin(c *gin.Context) {
 	var admin domain.Admins
 
 	if err := c.BindJSON(&admin); err != nil {
@@ -133,31 +145,28 @@ func (cr *AuthHandler) AdminLogin(c *gin.Context){
 		return
 	}
 	//fmt.Println(admin.UserName,admin.Password,"admionhfjdfnjkfdnjf")
-	err:=cr.authUseCase.VerifyAdmin(admin.UserName,admin.Password)
-	if err!=nil{
-		respons:=response.ErrorResponse("failes to login",err.Error(),nil)
-		c.Writer.Header().Set("Content-Type","application/json")
+	err := cr.authUseCase.VerifyAdmin(admin.UserName, admin.Password)
+	if err != nil {
+		respons := response.ErrorResponse("failes to login", err.Error(), nil)
+		c.Writer.Header().Set("Content-Type", "application/json")
 		c.Writer.WriteHeader(http.StatusUnauthorized)
-		utils.ResponseJSON(c,respons)
-		return 
+		utils.ResponseJSON(c, respons)
+		return
 	}
-	user,_:=cr.authUseCase.FindAdmin(admin.UserName)
+	user, _ := cr.authUseCase.FindAdmin(admin.UserName)
 	fmt.Println(user)
-	token:=cr.jwtUseCase.GenerateToken(uint(user.ID),user.UserName,"admin")
-	
-	fmt.Println(user.UserName,token)
-	fmt.Printf("\n\ntockenygbhuy : %v\n\n",token)
-	admin.Password=""
-	user.Token=token
+	token := cr.jwtUseCase.GenerateToken(uint(user.ID), user.UserName, "admin")
 
-	respons:=response.SuccessResponse(true,"login successful",user.Token)
-	copier.Copy(&respons,respons.Data)
-	c.JSON(http.StatusOK,respons)
+	fmt.Println(user.UserName, token)
+	fmt.Printf("\n\ntockenygbhuy : %v\n\n", token)
+	admin.Password = ""
+	user.Token = token
+
+	respons := response.SuccessResponse(true, "login successful", user.Token)
+	copier.Copy(&respons, respons.Data)
+	c.JSON(http.StatusOK, respons)
 
 }
-
-
-
 
 // func (cr *UserHandler)FindAll(c *gin.Context){
 // 	users,err:=cr.userUseCase.FindAll(c.Request.Context())

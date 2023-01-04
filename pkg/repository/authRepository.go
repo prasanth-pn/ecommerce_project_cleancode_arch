@@ -5,11 +5,9 @@ import (
 	interfaces "clean/pkg/repository/interfaces"
 	"context"
 	"database/sql"
-
+	"fmt"
 	//"errors"
 	//"fmt"
-
-	
 )
 
 type authDatabase struct {
@@ -41,7 +39,8 @@ RETURNING id;`
 		user.Email,
 		user.Gender,
 		user.Phone,
-		user.Password).Scan(&id)
+		user.Password,
+		user.Status).Scan(&id)
 	return  id ,err
 
 }
@@ -69,6 +68,7 @@ WHERE email=$1;`
 		&user.Password,
 		&user.Phone,
 	)
+	fmt.Println(user.Email,"repository",user,err)
 	return user, err
 }
 
@@ -99,12 +99,12 @@ FROM admins WHERE user_name=$1;`
 
 }
 
-func (c *authDatabase) VerifyAdmin(username string) (domain.AdminResponse, error) {
-//	fmt.Println(username, "hsfuijdhuikjsadufkjgbfuj\n\n\n ")
-	var admin domain.AdminResponse
-	result := c.DB.First(&admin, "user_name=?", username)
-fmt.Printf("\n\n repository %v", admin.UserName)
+// func (c *authDatabase) VerifyAdmin(username string) (domain.AdminResponse, error) {
+// //	fmt.Println(username, "hsfuijdhuikjsadufkjgbfuj\n\n\n ")
+// 	var admin domain.AdminResponse
+// 	result := c.DB.First(&admin, "user_name=?", username)
+// fmt.Printf("\n\n repository %v", admin.UserName)
 
-	return admin, result.Error
+// 	return admin, result.Error
 
-}
+// }

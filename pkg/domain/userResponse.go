@@ -5,7 +5,7 @@ package domain
 
 
 type UserResponse struct{
-	ID           string     `json:"id" gorm:"primaryKey"`
+	ID           uint     `json:"id" gorm:"primaryKey"`
 	First_Name   string 	`json:"first_name" gorm:"not null"`
 	Last_Name    string 	`json:"last_name" gorm:"not null"`
 	Email        string 	`json:"email" gorm:"not null" valid:"email"`
@@ -22,5 +22,5 @@ type AdminResponse struct {
 	UserName string `json:"email"`
 	Password string `json:"password,omitempty"`
 	Token    string `json:"token,omitempty"`
-	
+
 }

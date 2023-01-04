@@ -6,7 +6,7 @@ import(
 	"clean/pkg/domain"
 )
 type AuthRepository interface{
-	Register(ctx context.Context,user domain.Users)(error)
+	Register(ctx context.Context,user domain.Users)(int,error)
 	AdminRegister(ctx context.Context,admin domain.Admins)(error)
 	FindAdmin(username string)(domain.AdminResponse,error)
 	// FindAll(ctx context.Context)([]domain.Users,error)
