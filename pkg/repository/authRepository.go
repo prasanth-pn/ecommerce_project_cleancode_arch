@@ -99,12 +99,12 @@ FROM admins WHERE user_name=$1;`
 
 }
 
-// func (c *authDatabase) VerifyAdmin(username string) (domain.AdminResponse, error) {
-// //	fmt.Println(username, "hsfuijdhuikjsadufkjgbfuj\n\n\n ")
-// 	var admin domain.AdminResponse
-// 	result := c.DB.First(&admin, "user_name=?", username)
-// fmt.Printf("\n\n repository %v", admin.UserName)
+func (c *authDatabase) VerifyAdmin(username string) (domain.AdminResponse, error) {
+//	fmt.Println(username, "hsfuijdhuikjsadufkjgbfuj\n\n\n ")
+	var admin domain.AdminResponse
+	result := c.DB.First(&admin, "user_name=?", username)
+fmt.Printf("\n\n repository %v", admin.UserName)
 
-// 	return admin, result.Error
+	return admin, result.Error
 
-// }
+}
