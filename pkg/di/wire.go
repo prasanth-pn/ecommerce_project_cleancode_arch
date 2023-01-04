@@ -9,6 +9,7 @@ import (
 	config "clean/pkg/config"
 	db "clean/pkg/db"
 	usecase "clean/pkg/usecase"
+	middleware"clean/pkg/api/middleware"
 
 	"github.com/google/wire"
 
@@ -18,13 +19,18 @@ import (
 func InitializeEvent(cfg config.Config) (*http.ServerHTTP, error) {
 	wire.Build(db.ConnectDB,
 		 repository.NewUserRepository,
+		 repository.NewAdminRepository,
 		  usecase.NewUserUseCase,
+		  usecase.NewAdminUseCase,
+		  usecase.NewAuthUseCase,
 		  usecase.NewJWTService,
 		 handler.NewUserHandler,
+		 handler.NewAdminHandler,
 		  repository.NewAuthRepository,
-		  usecase.NewAuthUseCase,
 		 handler.NewAuthHandler,
+		 middleware.NewUserMiddleware,
 		 http.NewServerHTTP,
+
 		)
 	return &http.ServerHTTP{}, nil
 }

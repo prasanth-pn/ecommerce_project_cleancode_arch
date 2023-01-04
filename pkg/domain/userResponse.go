@@ -1,5 +1,7 @@
 package domain
 
+import "github.com/golang-jwt/jwt/v4"
+
 
 
 
@@ -23,4 +25,10 @@ type AdminResponse struct {
 	Password string `json:"password,omitempty"`
 	Token    string `json:"token,omitempty"`
 
+}
+type SignedDetails struct {
+	User_Id    uint
+	First_Name string
+	Email      string
+	jwt.StandardClaims
 }

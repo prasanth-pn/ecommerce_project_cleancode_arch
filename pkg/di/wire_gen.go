@@ -9,6 +9,7 @@ package di
 import (
 	"clean/pkg/api"
 	"clean/pkg/api/handler"
+	"clean/pkg/api/middleware"
 	"clean/pkg/config"
 	"clean/pkg/db"
 	"clean/pkg/repository"
@@ -26,6 +27,10 @@ func InitializeEvent(cfg config.Config) (*http.ServerHTTP, error) {
 	authUseCase := usecase.NewAuthUseCase(authRepository)
 	jwtService := usecase.NewJWTService()
 	authHandler := handler.NewAuthHandler(authUseCase, jwtService)
-	serverHTTP := http.NewServerHTTP(userHandler, authHandler)
+	adminRepository := repository.NewAdminRepository(sqlDB)
+	adminUseCase := usecase.NewAdminUseCase(adminRepository)
+	adminHandler := handler.NewAdminHandler(adminUseCase, jwtService)
+	middlewareMiddleware := middleware.NewUserMiddleware(jwtService)
+	serverHTTP := http.NewServerHTTP(userHandler, authHandler, adminHandler, middlewareMiddleware)
 	return serverHTTP, nil
 }

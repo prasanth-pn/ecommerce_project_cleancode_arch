@@ -2,9 +2,7 @@ package http
 
 import (
 	handler "clean/pkg/api/handler"
-
-	//middleware 		"clean/pkg/api/middleware"
-	//"fmt"
+	"clean/pkg/api/middleware"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -16,7 +14,11 @@ type ServerHTTP struct {
 	engine *gin.Engine
 }
 
-func NewServerHTTP(UserHandler *handler.UserHandler,AuthHandler *handler.AuthHandler) *ServerHTTP {
+func NewServerHTTP(UserHandler *handler.UserHandler,
+	AuthHandler *handler.AuthHandler,
+	AdminHandler *handler.AdminHandler,
+	middleware middleware.Middleware,
+	) *ServerHTTP {
 	engine := gin.New()
 
 	//engine logger from gin
@@ -28,14 +30,23 @@ func NewServerHTTP(UserHandler *handler.UserHandler,AuthHandler *handler.AuthHan
 	engine.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	//request jwt
 
-	// engine.POST("/login", middleware.LoginHandler)
-	engine.POST("/admin/register",AuthHandler.AdminRegister)
-	engine.POST("/admin/login",AuthHandler.AdminLogin)
-	engine.POST("/user/register", AuthHandler.Register)
-	engine.POST("/user/login",AuthHandler.UserLogin)
-	//api := engine.Group("/api", middleware.AuthorizationMiddleware)
+	userapi := engine.Group("userapi")
+	
+	userapi.POST("/user/register", AuthHandler.Register)
+	userapi.POST("/user/login",AuthHandler.UserLogin)
 
-	// api.GET("list/users", UserHandler.FindAll)
+
+	userapi.Use(middleware.AuthorizeJWT)
+
+
+	adminapi := engine.Group("adminapi")
+
+
+	adminapi.POST("/admin/register",AuthHandler.AdminRegister)
+	adminapi.POST("/admin/login",AuthHandler.AdminLogin)
+
+	adminapi.Use(middleware.AuthorizeJWT)
+	adminapi.GET("admin/list/users", AdminHandler.ListUsers)
 
 	return &ServerHTTP{engine: engine}
 

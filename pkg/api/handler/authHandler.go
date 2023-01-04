@@ -16,13 +16,13 @@ import (
 
 type AuthHandler struct {
 	authUseCase services.AuthUseCase
-	jwtUseCase  services.JWTService
+	jwtService  services.JWTService
 }
 
 func NewAuthHandler(usecase services.AuthUseCase, jwtUseCase services.JWTService) *AuthHandler {
 	return &AuthHandler{
 		authUseCase: usecase,
-		jwtUseCase:  jwtUseCase,
+		jwtService:  jwtUseCase,
 	}
 
 }
@@ -103,7 +103,7 @@ func (cr *AuthHandler) UserLogin(c *gin.Context) {
 	fmt.Println(user)
 	users, _ := cr.authUseCase.FindUser(user.Email)
 
-	token := cr.jwtUseCase.GenerateToken(uint(user.ID), user.First_Name, "admin")
+	token := cr.jwtService.GenerateToken(uint(user.ID), user.First_Name, "admin")
 
 	fmt.Println(user.First_Name, token)
 	fmt.Printf("\n\ntockenygbhuy : %v\n\n", token)
@@ -155,7 +155,7 @@ func (cr *AuthHandler) AdminLogin(c *gin.Context) {
 	}
 	user, _ := cr.authUseCase.FindAdmin(admin.UserName)
 	fmt.Println(user)
-	token := cr.jwtUseCase.GenerateToken(uint(user.ID), user.UserName, "admin")
+	token := cr.jwtService.GenerateToken(uint(user.ID), user.UserName, "admin")
 
 	fmt.Println(user.UserName, token)
 	fmt.Printf("\n\ntockenygbhuy : %v\n\n", token)

@@ -8,6 +8,7 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/google/wire v0.5.0
 	github.com/jinzhu/copier v0.3.5
+	github.com/joho/godotenv v1.4.0
 	github.com/lib/pq v1.10.7
 	github.com/spf13/viper v1.14.0
 	github.com/swaggo/files v1.0.0
