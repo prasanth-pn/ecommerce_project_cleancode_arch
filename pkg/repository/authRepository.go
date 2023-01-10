@@ -5,6 +5,7 @@ import (
 	interfaces "clean/pkg/repository/interfaces"
 	"context"
 	"database/sql"
+	"fmt"
 	//"errors"
 	//"fmt"
 )
@@ -67,6 +68,7 @@ WHERE email=$1;`
 		&user.Password,
 		&user.Phone,
 	)
+	fmt.Println(err, email, "usdderreopooooooooojjjjj")
 	return user, err
 }
 

@@ -45,3 +45,13 @@ type ProductResponse struct{
 	Trending      bool
 	Category_Name string
 }
+type CartListResponse []struct {
+	User_id      string
+	Product_id   string
+	Product_Name string
+	Price        string
+	Email        string
+	Quantity     string
+	Total_Amount uint
+	Total_Price  string
+}

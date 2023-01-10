@@ -21,23 +21,23 @@ type Users struct {
 	Pincode      uint   `json:"pincode " `
 	Cart         Cart
 	Cart_id      uint `json:"cart_id" `
-	Address        Address
-	Address_id uint `json:"address_id" `
-	Orders         Orders
-	Orders_ID uint `json:"orders_id" `
+	Address      Address
+	Address_id   uint `json:"address_id" `
+	Orders       Orders
+	Orders_ID    uint `json:"orders_id" `
 	//Wallet_Balance uint `json:"wallet_balance" `
 	//Applied_Coupons   Applied_Coupons
 	Applied_CouponsID uint
 	WishList          WishList
-	WishListID uint
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
+	WishListID        uint
+	CreatedAt         time.Time
+	UpdatedAt         time.Time
 }
 type Cart struct {
-	Cart_id     uint `json:"cart_id" gorm:"primaryKey;autoIncrement:true;unique"  `
-	User_Id     uint `json:"user_id"   `
-	ProductID   uint `json:"product_id"  `
-	Quantity    uint `json:"quantity" `
+	Cart_id     uint    ` gorm:"primaryKey"`
+	User_Id     uint    `json:"user_id"   `
+	ProductID   uint    `json:"product_id"  `
+	Quantity    uint    `json:"quantity" `
 	Total_Price float32 `json:"total_price"   `
 }
 type Cartsinfo struct {
@@ -50,6 +50,7 @@ type Cartsinfo struct {
 	Quantity     string
 	Total_Price  string
 }
+
 type Address struct {
 	Address_id   uint   `json:"address_id" gorm:"primaryKey"  `
 	UserId       uint   `json:"user_id"  gorm:"not null" `

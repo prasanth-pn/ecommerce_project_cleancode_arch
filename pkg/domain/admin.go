@@ -8,14 +8,14 @@ type Admins struct {
 	Password string `json:"password" gorm:"not null"`
 }
 type Category struct {
-	Category_id   int    `gorm:"primaryKey;autoIncrement:true;unique"`
+	Category_id   int    `gorm:"primaryKey;"`
 	Category_Name string `json:"category_name" gorm:"not null"`
 	Description   string `json:"description" gorm:"not null"`
 	Image         string `json:"image"`
 }
 
 type Product struct {
-	Product_Id   int     `gorm:"primaryKey;autoIncrement:true;unique"`
+	Product_Id   int     `gorm:"primaryKey"`
 	Product_name string  `json:"product_name" gorm:"not null"`
 	Description  string  `json:"description" gorm:"not null"`
 	Quantity     uint16  `json:"quantity" gorm:"not null"`
@@ -25,11 +25,9 @@ type Product struct {
 	Available    bool    `json:"available" gorm:"not null"`
 	Trending     bool    `json:"trending" gorm:"not null"`
 	Category_id  uint    `json:"category_id"`
-	//	Brand      Brand
-	Brand_id    uint `json:"brand_id" `
 	Cart        Cart
 	Cart_id     uint `json:"cart_id" `
-	Category    Category
-	WishList    WishList
+	//Category    Category
+	//WishList    WishList
 	WishListID  uint
 }

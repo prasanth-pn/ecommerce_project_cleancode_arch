@@ -83,3 +83,28 @@ func (c *userDatabase) ListCart(User_id uint) ([]domain.Cart, error) {
 	}
 	return carts, nil
 }
+
+func (c *userDatabase) QuantityCart(product_id, user_id uint) (domain.Cart, error) {
+	var cart domain.Cart
+	query := `SELECT quantity FROM carts WHERE product_id=$1 and user_id=$2;`
+	err := c.DB.QueryRow(query, product_id, user_id).Scan(&cart.Quantity)
+	return cart, err
+}
+func (c *userDatabase) UpdateCart(totalprice float32, quantity, product_id, user_id uint) error {
+	var cart domain.Cart
+	query := `UPDATE carts SET quantity=$1,total_price=$2 WHERE product_id=$3 and user_id=$4;`
+
+	err := c.DB.QueryRow(query, quantity, totalprice, product_id, user_id).Scan(&cart.Quantity,
+		&cart.Total_Price)
+	return err
+
+}
+
+func (c *userDatabase) CreateCart(cart domain.Cart) error {
+	query := `INSERT INTO carts(user_id,product_id,quantity,total_price)
+	values($1,$2,$3,$4);`
+	err := c.DB.QueryRow(query, cart.User_Id, cart.ProductID, cart.Quantity, cart.Total_Price).Err()
+	return err
+}
+
+// i.DB.Raw("update carts set quantity=?,total_price=? where product_id=? and user_id=? ", prodqua+cart.Quantity, totl, prodid, user.ID).Scan(&Cart)

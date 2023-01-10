@@ -41,6 +41,10 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	//------------------------------------user middleware-------------
 	userapi.Use(middleware.AuthorizeJWT)
 	userapi.POST("/add/cart", UserHandler.AddToCart)
+	userapi.GET("/list/cart",UserHandler.ListCart)
+	userapi.GET("/checkout",UserHandler.Checkout)
+	userapi.POST("/checkout/add-address",UserHandler.AddAddress)
+
 
 	//------------------------------admin----------------
 	adminapi := engine.Group("admin")
