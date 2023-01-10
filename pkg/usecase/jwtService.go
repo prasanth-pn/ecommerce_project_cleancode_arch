@@ -34,14 +34,12 @@ func (j *jwtService) GenerateToken(User_Id uint, First_Name, Email string) strin
 			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(24)).Unix(),
 		},
 	}
-	fmt.Println("sdfgfdgdsgfssdf", j.SecretKey, "deghfhfhdfhgfghhihihihihi")
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, err := token.SignedString([]byte(j.SecretKey))
 	if err != nil {
 		log.Println(err)
 	}
-	fmt.Println("\n\n\n tokensigned token", signedToken, j.SecretKey)
 	return signedToken
 
 }
@@ -59,7 +57,8 @@ func (j *jwtService) VerifyToken(signedToken string) (bool, *domain.SignedDetail
 }
 
 func (j *jwtService) GetTokenFromString(signedToken string, claims *domain.SignedDetails) (*jwt.Token, error) {
-	return jwt.ParseWithClaims(signedToken, claims, func(token *jwt.Token) (interface{}, error) {
+	return jwt.ParseWithClaims(signedToken, claims, 
+		func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method:#{token.Header['alg']}")
 		}

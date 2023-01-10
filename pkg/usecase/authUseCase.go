@@ -23,18 +23,18 @@ func NewAuthUseCase(repo interfaces.AuthRepository) services.AuthUseCase {
 
 // ------------------------------------------register-------------------------
 func (c *authUseCase) Register(ctx context.Context, user domain.Users) (domain.Users, error) {
-	_,err:=c.FindUser(user.Email)
+	retun, _ := c.FindUser(user.Email)
+	fmt.Println(user.Email, retun.Email)
+	//fmt.Println(retun.Email, user.Email)
+	if retun.Email == user.Email {
+		return user, errors.New("user already exists ")
 
-	if err!=nil{
-		return user,errors.New("user already exists")
-		
 	}
 
-
-_,	err = c.authRepo.Register(ctx, user)
-if err!=nil{
-	return user,errors.New("failed to register")
-}
+	_, err := c.authRepo.Register(ctx, user)
+	if err != nil {
+		return user, errors.New("email id already exists")
+	}
 	fmt.Println(user, "register")
 
 	//fmt.Printf("\n\n %v ")
@@ -43,8 +43,9 @@ if err!=nil{
 
 // -----------------------------------------verifyUser-----------------------------
 func (c *authUseCase) VerifyUser(email, password string) error {
-	user, _ := c.FindUser(email)
-	if user.ID ==0 {
+	user, err := c.FindUser(email)
+	fmt.Println(err, user, "kijsdfghbjdbjekhsafbnfjhnjknb")
+	if err != nil {
 		return errors.New("username or password is incorrect")
 	}
 	IsValidPassword := VerifyPassword(password, user.Password)
@@ -58,9 +59,10 @@ func (c *authUseCase) VerifyUser(email, password string) error {
 func (c *authUseCase) FindUser(email string) (domain.UserResponse, error) {
 	var user domain.UserResponse
 	user, err := c.authRepo.FindUser(email)
-	if user.ID>0&&err == nil {
-		return user, errors.New("user alresady exists")
+	if err != nil {
+		return user, err
 	}
+
 	return user, nil
 }
 

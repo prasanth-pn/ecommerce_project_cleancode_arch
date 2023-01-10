@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "clean/cmd/api/docs"
+	_"clean/pkg/common/response"
 	"clean/pkg/config"
 	"clean/pkg/db"
 	"clean/pkg/di"

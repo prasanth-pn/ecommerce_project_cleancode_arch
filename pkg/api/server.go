@@ -3,6 +3,7 @@ package http
 import (
 	handler "clean/pkg/api/handler"
 	"clean/pkg/api/middleware"
+
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -18,7 +19,7 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	AuthHandler *handler.AuthHandler,
 	AdminHandler *handler.AdminHandler,
 	middleware middleware.Middleware,
-	) *ServerHTTP {
+) *ServerHTTP {
 	engine := gin.New()
 
 	//engine logger from gin
@@ -30,23 +31,27 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	engine.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	//request jwt
 
-	userapi := engine.Group("userapi")
-	
-	userapi.POST("/user/register", AuthHandler.Register)
-	userapi.POST("/user/login",AuthHandler.UserLogin)
+	userapi := engine.Group("user")
+	{
+		userapi.POST("/register", AuthHandler.Register)
+		userapi.GET("/list/products", UserHandler.ListProducts)
+		userapi.POST("/login", AuthHandler.UserLogin)
+	}
 
-
+	//------------------------------------user middleware-------------
 	userapi.Use(middleware.AuthorizeJWT)
+	userapi.POST("/add/cart", UserHandler.AddToCart)
 
+	//------------------------------admin----------------
+	adminapi := engine.Group("admin")
+	adminapi.POST("/register", AuthHandler.AdminRegister)
+	adminapi.POST("/login", AuthHandler.AdminLogin)
 
-	adminapi := engine.Group("adminapi")
-
-
-	adminapi.POST("/admin/register",AuthHandler.AdminRegister)
-	adminapi.POST("/admin/login",AuthHandler.AdminLogin)
-
+	//---------------------------middleware checking------------------
 	adminapi.Use(middleware.AuthorizeJWT)
-	adminapi.GET("admin/list/users", AdminHandler.ListUsers)
+	adminapi.GET("/list/users", AdminHandler.ListUsers)
+	adminapi.POST("add/category", AdminHandler.AddCategory)
+	adminapi.POST("/add/products", AdminHandler.AddProducts)
 
 	return &ServerHTTP{engine: engine}
 

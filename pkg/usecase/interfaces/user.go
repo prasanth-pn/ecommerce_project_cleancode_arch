@@ -1,11 +1,9 @@
 package interfaces
 
+import "clean/pkg/domain"
 
-import(
-	//domain"clean/pkg/domain"
-	//"context"
-)
-
-type UserUseCase interface{
-	
+type UserUseCase interface {
+	ListProducts() ([]domain.ProductResponse, error)
+	FindProduct(product_id uint) (domain.Product, error)
+	ListCart(User_id uint) ([]domain.Cart, error)
 }
