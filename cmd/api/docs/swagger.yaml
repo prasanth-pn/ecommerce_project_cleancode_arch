@@ -1,16 +1,52 @@
 basePath: /
+definitions:
+  response.Response:
+    properties:
+      data: {}
+      errors: {}
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
 host: localhost:8080
 info:
   contact:
     email: support@swagger.io
     name: API Support
     url: http://www.swagger.io/support
-  description: This is a sample server todo server. You can visit the GitHub repository
+  description: This is a sample server  server. You can visit the GitHub repository
     at https://github.com/LordGhostX/swag-gin-demo
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
   title: Go + Gin ecommerce API
   version: "1.0"
-paths: {}
+paths:
+  /user/login:
+    post:
+      operationId: user login authentication
+      parameters:
+      - description: 'Email : '
+        in: path
+        name: Email
+        required: true
+        type: string
+      - description: 'Password : '
+        in: path
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Login for user
 swagger: "2.0"

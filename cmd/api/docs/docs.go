@@ -23,7 +23,62 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/user/login": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Login for user",
+                "operationId": "user login authentication",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Email : ",
+                        "name": "Email",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Password : ",
+                        "name": "password",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "response.Response": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "errors": {},
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
@@ -33,7 +88,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Go + Gin ecommerce API",
-	Description:      "This is a sample server todo server. You can visit the GitHub repository at https://github.com/LordGhostX/swag-gin-demo",
+	Description:      "This is a sample server  server. You can visit the GitHub repository at https://github.com/LordGhostX/swag-gin-demo",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

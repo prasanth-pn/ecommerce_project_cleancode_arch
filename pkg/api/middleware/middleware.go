@@ -26,8 +26,11 @@ func NewUserMiddleware(jwtUseCase services.JWTService) Middleware {
 }
 func (cr *middleware) AuthorizeJWT(c *gin.Context) {
 	authHeader := c.Request.Header["Authorization"]
+	//fmt.Println(len(authHeader), "authHeader")1
 	auth := strings.Join(authHeader, " ")
+	//fmt.Println(len(auth), "auth") 194
 	bearerToken := strings.Split(auth, " ")
+	//fmt.Println(len(bearerToken), "bearer token") 2
 
 	if len(bearerToken) != 2 {
 		err := errors.New("request does not contain an access token")
@@ -52,5 +55,5 @@ func (cr *middleware) AuthorizeJWT(c *gin.Context) {
 	user_email := fmt.Sprint(claims.Email)
 	id := fmt.Sprint(claims.User_Id)
 	c.Writer.Header().Set("email", user_email)
-	c.Writer.Header().Set("id", id)
+	c.Writer.Header().Set(" id", id)
 }

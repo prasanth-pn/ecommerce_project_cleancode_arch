@@ -21,8 +21,8 @@ func NewAuthRepository(DB *sql.DB) interfaces.AuthRepository {
 }
 
 // ------------------register------------------------------------------------------------------
-func (c *authDatabase) Register(ctx context.Context, user domain.Users)(int, error) {
-	var id int
+func (c *authDatabase) Register(ctx context.Context, user domain.Users) (int, error) {
+	var User_id int
 	query := `INSERT INTO users(
                   first_name,
                   last_name,
@@ -32,7 +32,7 @@ func (c *authDatabase) Register(ctx context.Context, user domain.Users)(int, err
                   password,
 				status)
     VALUES($1,$2,$3,$4,$5,$6,$7)
-RETURNING id;`
+RETURNING user_id;`
 	err := c.DB.QueryRow(query,
 		user.First_Name,
 		user.Last_Name,
@@ -40,8 +40,8 @@ RETURNING id;`
 		user.Gender,
 		user.Phone,
 		user.Password,
-		user.Status).Scan(&id)
-	return  id ,err
+		user.Status).Scan(&User_id)
+	return User_id, err
 
 }
 
@@ -50,7 +50,7 @@ func (c *authDatabase) FindUser(email string) (domain.UserResponse, error) {
 	var user domain.UserResponse
 
 	query := `SELECT
-    id,
+    user_id,
 first_name,
 last_name,
 email,
@@ -68,10 +68,9 @@ WHERE email=$1;`
 		&user.Password,
 		&user.Phone,
 	)
-	fmt.Println(user.Email,"repository",user,err)
+	fmt.Println(err, email, "usdderreopooooooooojjjjj")
 	return user, err
 }
-
 
 // --------------------------adminRegister---------------------------------
 func (c *authDatabase) AdminRegister(ctx context.Context, admin domain.Admins) error {
@@ -98,13 +97,3 @@ FROM admins WHERE user_name=$1;`
 	return admin, err
 
 }
-
-// func (c *authDatabase) VerifyAdmin(username string) (domain.AdminResponse, error) {
-// //	fmt.Println(username, "hsfuijdhuikjsadufkjgbfuj\n\n\n ")
-// 	var admin domain.AdminResponse
-// 	result := c.DB.First(&admin, "user_name=?", username)
-// fmt.Printf("\n\n repository %v", admin.UserName)
-
-// 	return admin, result.Error
-
-// }
