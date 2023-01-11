@@ -4,7 +4,6 @@ import (
 	config "clean/pkg/config"
 	domain "clean/pkg/domain"
 
-
 	//"fmt"
 
 	"gorm.io/driver/postgres"
@@ -13,7 +12,7 @@ import (
 
 func ConnectGormDB(cfg config.Config) (*gorm.DB, error) {
 	// psqlInfo:="host=localhost user=tuser dbname=sample port=5432 password=1234"
-	psqlInfo:=cfg.DBSOURCE
+	psqlInfo := cfg.DBSOURCE
 	db, dbErr := gorm.Open(postgres.Open(psqlInfo), &gorm.Config{
 		SkipDefaultTransaction: true,
 	})
@@ -22,5 +21,7 @@ func ConnectGormDB(cfg config.Config) (*gorm.DB, error) {
 	db.AutoMigrate(domain.Product{})
 	db.AutoMigrate(domain.Category{})
 	db.AutoMigrate(&domain.Cart{})
+	db.AutoMigrate(&domain.Teacher{})
+	db.AutoMigrate(&domain.Student{})
 	return db, dbErr
 }

@@ -9,4 +9,7 @@ type UserRepository interface {
 	QuantityCart(product_id, user_id uint) (domain.Cart, error)
 	UpdateCart(totalprice float32,quantity,product_id,user_id uint)error
 	CreateCart(cart domain.Cart)error
+	ViewCart(user_id uint)([]domain.CartListResponse,error)
+	TotalCartPrice(user_id uint)(float32,error)
+	
 }

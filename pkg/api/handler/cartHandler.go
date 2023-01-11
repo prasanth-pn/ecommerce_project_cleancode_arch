@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"clean/pkg/common/response"
 	"clean/pkg/domain"
+	"clean/pkg/utils"
 	"fmt"
 	"log"
 	"net/http"
@@ -60,7 +62,10 @@ func (cr *UserHandler) AddToCart(c *gin.Context) {
 			fmt.Println(quantity, err, "atlast found", total)
 			product_quantity += quantity.Quantity
 			err = cr.UserService.UpdateCart(totalprice, product_quantity, product_id, user.ID)
-			fmt.Println(err)
+
+			if err != nil {
+				return
+			}
 			c.JSON(200, gin.H{
 				"msg": "quantity updated",
 			})
@@ -69,20 +74,46 @@ func (cr *UserHandler) AddToCart(c *gin.Context) {
 		}
 	}
 	err = cr.UserService.CreateCart(cart)
-	fmt.Println(err)         
+	fmt.Println(err)
 }
-func (cr *UserHandler)ListCart(c *gin.Context){
+func (cr *UserHandler) ListCart(c *gin.Context) {
 	// var products domain.Product
 	// var userid domain.Users
-	// var cart domain.CartListResponse
+	//var cart []domain.CartListResponse
 
 	email := c.Writer.Header().Get("email")
-	fmt.Println(email)
+	user, err := cr.AuthService.FindUser(email)
+	if err != nil {
+		respons := response.ErrorResponse("oops user not found", err.Error(), nil)
+		c.Writer.WriteHeader(http.StatusBadRequest)
+		utils.ResponseJSON(c, respons)
+		return
+	}
+	var cart []domain.CartListResponse
 
+	cart, err = cr.UserService.ViewCart(user.ID)
+	if err != nil {
+		respons := response.ErrorResponse("oops carts not fetched ", err.Error(), nil)
+		c.Writer.WriteHeader(http.StatusBadRequest)
+		utils.ResponseJSON(c, respons)
+		return
 
+	}
+
+	fmt.Println("user", "cart", cart)
+	fmt.Println(email, user.ID)
+	var totalPrice float32
+	totalPrice, err = cr.UserService.TotalCartPrice(user.ID)
+
+	fmt.Println(totalPrice, err)
+	respons := response.SuccessResponse(true, "successfully listed cart", cart, totalPrice)
+	c.Writer.WriteHeader(200)
+	utils.ResponseJSON(c, respons)
+
+	//cart:=cr.UserService.ListCart(user.ID)
 
 }
-func (cr *UserHandler)Checkout(c *gin.Context){
-	email:=c.Writer.Header().Get("email")
+func (cr *UserHandler) Checkout(c *gin.Context) {
+	email := c.Writer.Header().Get("email")
 	fmt.Println(email)
 }

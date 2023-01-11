@@ -66,7 +66,7 @@ func (c *userDatabase) ListCart(User_id uint) ([]domain.Cart, error) {
 
 	rows, err := c.DB.Query(query, User_id)
 	if err != nil {
-		return carts, errors.New("error in query")
+		return nil, errors.New("error in query")
 
 	}
 	defer rows.Close()
@@ -76,7 +76,7 @@ func (c *userDatabase) ListCart(User_id uint) ([]domain.Cart, error) {
 			&cart.ProductID)
 
 		if err != nil {
-			return carts, errors.New("error while scaning in database")
+			return nil, errors.New("error while scaning in database")
 		}
 		carts = append(carts, cart)
 
@@ -108,3 +108,50 @@ func (c *userDatabase) CreateCart(cart domain.Cart) error {
 }
 
 // i.DB.Raw("update carts set quantity=?,total_price=? where product_id=? and user_id=? ", prodqua+cart.Quantity, totl, prodid, user.ID).Scan(&Cart)
+
+func (c *userDatabase) ViewCart(user_id uint) ([]domain.CartListResponse, error) {
+	var carts []domain.CartListResponse
+
+	query := `SELECT C.quantity,C.total_price,P.description,P.image_path,P.product_name
+	FROM products AS P
+	INNER JOIN carts AS C
+	ON C.cart_id=P.product_id
+	WHERE C.user_id=$1;`
+	rows, err := c.DB.Query(query, user_id)
+	fmt.Println(err, "error in repo")
+
+	if err != nil {
+		return nil, errors.New("error is happend in viewcart while query")
+	}
+	defer rows.Close()
+	var cart domain.CartListResponse
+	for rows.Next() {
+
+		err := rows.Scan(&cart.Quantity,
+			&cart.Total_Price,
+			&cart.Description,
+			&cart.Image_Path,
+			&cart.Product_Name,
+		)
+		if err != nil {
+			return nil, errors.New("errors while returning  values to cart response")
+		}
+		carts = append(carts, cart)
+
+	}
+	return carts, nil
+}
+func (c *userDatabase) TotalCartPrice(user_id uint) (float32, error) {
+	query := `SELECT sum(total_price) from carts
+	WHERE user_id=$1;`
+	var value float32
+	err := c.DB.QueryRow(query, user_id).Scan(&value)
+	if err != nil {
+		return value, errors.New("errror in total casrtsprice repo ")
+	}
+	//defer rows.Close()
+
+	
+
+	return value, nil
+}

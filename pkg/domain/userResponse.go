@@ -2,29 +2,23 @@ package domain
 
 import "github.com/golang-jwt/jwt/v4"
 
-
-
-
-
-type UserResponse struct{
-	ID           uint     `json:"id"`
-	First_Name   string 	`json:"first_name"`
-	Last_Name    string 	`json:"last_name" `
-	Email        string 	`json:"email" gorm:"not null"`
-	Gender       string 	`json:"gender"`
-	Phone        string 	`json:"phone" gorm:"not null"`
-	Password     string 	`json:"password" gorm:"not null" valid:"length(6/12)"`
-	Status       bool   	`json:"status"`
-	Verification bool  		`json:"verification"`
-	Token     	 string 	`json:"token"`
-
+type UserResponse struct {
+	ID           uint   `json:"id"`
+	First_Name   string `json:"first_name"`
+	Last_Name    string `json:"last_name" `
+	Email        string `json:"email" gorm:"not null"`
+	Gender       string `json:"gender"`
+	Phone        string `json:"phone" gorm:"not null"`
+	Password     string `json:"password" gorm:"not null" valid:"length(6/12)"`
+	Status       bool   `json:"status"`
+	Verification bool   `json:"verification"`
+	Token        string `json:"token"`
 }
 type AdminResponse struct {
 	ID       int    `json:"id_login"`
 	UserName string `json:"email"`
 	Password string `json:"password,omitempty"`
 	Token    string `json:"token,omitempty"`
-
 }
 type SignedDetails struct {
 	User_Id    uint
@@ -33,8 +27,7 @@ type SignedDetails struct {
 	jwt.StandardClaims
 }
 
-
-type ProductResponse struct{
+type ProductResponse struct {
 	Product_Id    int
 	Product_Name  string
 	Description   string
@@ -45,13 +38,15 @@ type ProductResponse struct{
 	Trending      bool
 	Category_Name string
 }
-type CartListResponse []struct {
-	User_id      string
-	Product_id   string
+type CartListResponse struct {
+	User_id      uint
+	Product_id   uint
 	Product_Name string
-	Price        string
+	Description  string
+	Image_Path   string
+	Price        float32
 	Email        string
-	Quantity     string
-	Total_Amount uint
-	Total_Price  string
+	Quantity     uint
+	Total_Amount float32
+	Total_Price  float32
 }

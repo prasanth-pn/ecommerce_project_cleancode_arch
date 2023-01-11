@@ -8,10 +8,8 @@ import (
 
 func ResponseJSON(c *gin.Context, data interface{}) {
 	c.Writer.Header().Set("Content-Type", "application/json")
-	err := json.NewEncoder(c.Writer).Encode(data)
-	if err != nil {
-		return
-	}
+	json.NewEncoder(c.Writer).Encode(data)
+	
 
 }
 
