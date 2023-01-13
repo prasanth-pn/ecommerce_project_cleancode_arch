@@ -2,18 +2,19 @@ package main
 
 import (
 	_ "clean/cmd/api/docs"
-	_"clean/pkg/common/response"
+	_ "clean/pkg/common/response"
 	"clean/pkg/config"
 	"clean/pkg/db"
 	"clean/pkg/di"
 	"fmt"
 	"log"
+
 	"github.com/joho/godotenv"
 )
 
 // @title Go + Gin ecommerce API
 // @version 1.0
-// @description This is a sample server  server. You can visit the GitHub repository at https://github.com/LordGhostX/swag-gin-demo
+// @description This is a sample server  server. You can visit the GitHub repository at https://github.com/prasanth-pn/clean-code-architecture-ecommerce
 
 // @contact.name API Support
 // @contact.url http://www.swagger.io/support
@@ -22,16 +23,18 @@ import (
 // @license.name MIT
 // @license.url https://opensource.org/licenses/MIT
 
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 // @host localhost:8080
 // @BasePath /
 // @query.collection.format multi
 
 func main() {
 	err := godotenv.Load()
-	if err!=nil{
+	if err != nil {
 		log.Fatal("error loading env file")
 	}
-
 
 	config, configErr := config.LoadConfig()
 	if configErr != nil {
@@ -39,8 +42,8 @@ func main() {
 
 	}
 	//connect database
-	gorm,_:=db.ConnectGormDB(config)
-	fmt.Printf("\n\n%v",gorm)
+	gorm, _ := db.ConnectGormDB(config)
+	fmt.Printf("\n\n%v", gorm)
 
 	server, diErr := di.InitializeEvent(config)
 

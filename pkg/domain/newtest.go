@@ -1,12 +1,14 @@
 package domain
+
 type Teacher struct {
-    ID int `sql:"primary key"`
-    Name string
+	ID   int
+	Name string
 }
 
 type Student struct {
-    ID int `sql:"primary key"`
-    Title string
-    Body string
-    UserID int `sql:"type:integer REFERENCES users(id)"`
+	ID      int `sql:"primary key"`
+	Title   string
+	Body    string
+	UserID  int
+	Teacher Teacher `gorm:"foreignkey:UserID"`
 }

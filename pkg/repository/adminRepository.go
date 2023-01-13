@@ -62,10 +62,10 @@ func (c *adminDatabase) AddProducts(product domain.Product) error {
 			  color,
 			  available,
 			  trending,
-			  category_id)
-	VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9);`
+			  category_id,brand_id)
+	VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10);`
 
-	err := c.DB.QueryRow(query, product.Product_name,
+	err := c.DB.QueryRow(query, product.Product_Name,
 		product.Description,
 		product.Quantity,
 		product.Image_Path,
@@ -73,7 +73,8 @@ func (c *adminDatabase) AddProducts(product domain.Product) error {
 		product.Color,
 		product.Available,
 		product.Trending,
-		product.Category_id,
+		product.Category_Id,
+		product.Brand_Id,
 	).Err()
 	return err
 }
@@ -82,5 +83,20 @@ func (c *adminDatabase) AddCategory(category domain.Category) error {
 	VALUES($1,$2,$3);`
 	err := c.DB.QueryRow(query, category.Category_Name,
 		category.Description, category.Image).Err()
+	return err
+}
+
+func (c *adminDatabase) AddBrand(brand domain.Brand) error {
+	query := `INSERT INTO brands(brand_name,brand_description,discount)
+	VALUES($1,$2,$3);`
+	err := c.DB.QueryRow(query, brand.Brand_Name, brand.Brand_Description, brand.Discount).Err()
+
+	return err
+
+}
+
+func (c *adminDatabase) AddModel(model domain.Model) error {
+	query := `INSERT INTO models(model_name)VALUES($1);`
+	err := c.DB.QueryRow(query, model.Model_Name).Err()
 	return err
 }

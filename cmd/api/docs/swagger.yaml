@@ -1,5 +1,153 @@
-basePath: /
 definitions:
+  domain.Admins:
+    properties:
+      id:
+        type: integer
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  domain.Cart:
+    properties:
+      cart_id:
+        type: integer
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+      total_price:
+        type: number
+      updatedAt:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  domain.Category:
+    properties:
+      category_id:
+        type: integer
+      category_name:
+        type: string
+      description:
+        type: string
+      image:
+        type: string
+    type: object
+  domain.Login:
+    properties:
+      email:
+        maxLength: 50
+        minLength: 3
+        type: string
+      password:
+        maxLength: 12
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  domain.Product:
+    properties:
+      available:
+        type: boolean
+      cart:
+        $ref: '#/definitions/domain.Cart'
+      cart_id:
+        type: integer
+      category_id:
+        type: integer
+      color:
+        type: string
+      description:
+        type: string
+      image_path:
+        type: string
+      price:
+        type: number
+      product_Id:
+        type: integer
+      product_name:
+        type: string
+      quantity:
+        type: integer
+      trending:
+        type: boolean
+      wishListID:
+        description: |-
+          Category    Category
+          WishList    WishList
+        type: integer
+    type: object
+  domain.Users:
+    properties:
+      address_id:
+        type: integer
+      applied_CouponsID:
+        type: integer
+      cart_id:
+        type: integer
+      city:
+        type: string
+      country:
+        type: string
+      email:
+        maxLength: 50
+        minLength: 3
+        type: string
+      first_name:
+        maxLength: 12
+        minLength: 3
+        type: string
+      gender:
+        maxLength: 8
+        minLength: 4
+        type: string
+      last_name:
+        maxLength: 12
+        minLength: 1
+        type: string
+      orders_ID:
+        type: integer
+      password:
+        maxLength: 12
+        minLength: 6
+        type: string
+      phone:
+        maxLength: 12
+        minLength: 3
+        type: string
+      status:
+        type: boolean
+      user_Id:
+        type: integer
+      verification:
+        type: boolean
+      wishListID:
+        type: integer
+    required:
+    - email
+    - first_name
+    - gender
+    - last_name
+    - password
+    - phone
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
   response.Response:
     properties:
       data: {}
@@ -9,34 +157,29 @@ definitions:
       status:
         type: boolean
     type: object
-host: localhost:8080
 info:
   contact:
     email: support@swagger.io
     name: API Support
     url: http://www.swagger.io/support
   description: This is a sample server  server. You can visit the GitHub repository
-    at https://github.com/LordGhostX/swag-gin-demo
+    at https://github.com/prasanth-pn/clean-code-architecture-ecommerce
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
   title: Go + Gin ecommerce API
   version: "1.0"
 paths:
-  /user/login:
+  /admin/add/category:
     post:
-      operationId: user login authentication
+      operationId: AddCategory by admin
       parameters:
-      - description: 'Email : '
-        in: path
-        name: Email
+      - description: AdminAddCategory
+        in: body
+        name: AdminAddCategory
         required: true
-        type: string
-      - description: 'Password : '
-        in: path
-        name: password
-        required: true
-        type: string
+        schema:
+          $ref: '#/definitions/domain.Category'
       produces:
       - application/json
       responses:
@@ -48,5 +191,155 @@ paths:
           description: Unprocessable Entity
           schema:
             $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: List user for admin
+      tags:
+      - Admin
+  /admin/add/products:
+    post:
+      operationId: AdminAddProducts
+      parameters:
+      - description: AdminAddProduct
+        in: body
+        name: AdminAddProducts
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: List user for admin
+      tags:
+      - Admin
+  /admin/list/users:
+    get:
+      operationId: ListUsers by admin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: List user for admin
+      tags:
+      - Admin
+  /admin/login:
+    post:
+      operationId: AdminLogin for Admin
+      parameters:
+      - description: AdminLogin
+        in: body
+        name: AdminLogin
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Admins'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Admin Login for Admin
+      tags:
+      - Admin
+  /admin/register:
+    post:
+      operationId: AdminRegister for Admin
+      parameters:
+      - description: AdminRegister
+        in: body
+        name: AdminRegister
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Admins'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Register for Admin
+      tags:
+      - Admin
+  /user/login:
+    post:
+      operationId: user login authentication
+      parameters:
+      - description: userLogin
+        in: body
+        name: userLogin
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
       summary: Login for user
+      tags:
+      - User
+  /user/register:
+    post:
+      operationId: Register for user
+      parameters:
+      - description: Register
+        in: body
+        name: Register
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Users'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Register for user
+      tags:
+      - User
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

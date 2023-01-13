@@ -33,3 +33,13 @@ func (c *adminUseCase) AddCategory(ctx context.Context, category domain.Category
 	err := c.adminRepo.AddCategory(category)
 	return err
 }
+
+func (c *adminUseCase)AddBrand(ctx context.Context, brand domain.Brand)error  {
+
+	err:=c.adminRepo.AddBrand(brand)
+	return err
+}
+func ( c *adminUseCase)AddModel(ctx context.Context,model domain.Model)error{
+	err:=c.adminRepo.AddModel(model)
+	return err
+}

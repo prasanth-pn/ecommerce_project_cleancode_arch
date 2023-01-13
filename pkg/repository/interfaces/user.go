@@ -11,5 +11,7 @@ type UserRepository interface {
 	CreateCart(cart domain.Cart)error
 	ViewCart(user_id uint)([]domain.CartListResponse,error)
 	TotalCartPrice(user_id uint)(float32,error)
+	AddAddress(address domain.Address)error
+	ListAddress(user_id uint)([]domain.Address,error)
 	
 }

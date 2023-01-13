@@ -41,10 +41,10 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	//------------------------------------user middleware-------------
 	userapi.Use(middleware.AuthorizeJWT)
 	userapi.POST("/add/cart", UserHandler.AddToCart)
-	userapi.GET("/list/cart",UserHandler.ListCart)
-	userapi.GET("/checkout",UserHandler.Checkout)
-	userapi.POST("/checkout/add-address",UserHandler.AddAddress)
-
+	userapi.GET("/list/cart", UserHandler.ListCart)
+	//userapi.POST("/add/",UserHandler.Checkout)
+	userapi.POST("/checkout/add/address", UserHandler.AddAddress)
+	userapi.GET("/checkout/list/address",UserHandler.ListAddress)
 
 	//------------------------------admin----------------
 	adminapi := engine.Group("admin")
@@ -55,6 +55,8 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	adminapi.Use(middleware.AuthorizeJWT)
 	adminapi.GET("/list/users", AdminHandler.ListUsers)
 	adminapi.POST("add/category", AdminHandler.AddCategory)
+	adminapi.POST("add/brands", AdminHandler.AddBrand)
+	adminapi.POST("add/models", AdminHandler.AddModel)
 	adminapi.POST("/add/products", AdminHandler.AddProducts)
 
 	return &ServerHTTP{engine: engine}

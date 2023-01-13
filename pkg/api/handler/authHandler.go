@@ -7,6 +7,7 @@ import (
 	utils "clean/pkg/utils"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/copier"
@@ -25,6 +26,14 @@ func NewAuthHandler(usecase services.AuthUseCase, jwtUseCase services.JWTService
 
 }
 
+// @Summary Register for user
+// @ID Register for user
+// @Tags User
+// @Produce json
+// @Param Register body domain.Users{} true "Register"
+// @Success 200 {object} response.Response{}
+// @Failure 401 {object} response.Response{}
+// @Router /user/register [post]
 func (cr *AuthHandler) Register(c *gin.Context) {
 	var user domain.Users
 	if err := c.BindJSON(&user); err != nil {
@@ -35,11 +44,8 @@ func (cr *AuthHandler) Register(c *gin.Context) {
 	reply := "welcome  " + user.First_Name
 
 	if err != nil {
-		//fmt.Println("user already exists")
 		respons := response.ErrorResponse("failed register", err.Error(), nil)
-		c.Writer.Header().Set("Content-Type", "application/json")
 		c.Writer.WriteHeader(http.StatusUnauthorized)
-		fmt.Printf("\n\n%v", respons)
 		utils.ResponseJSON(c, respons)
 		return
 
@@ -53,15 +59,16 @@ func (cr *AuthHandler) Register(c *gin.Context) {
 // -------------------------------UserLogin----------------------------------------
 // @Summary Login for user
 // @ID user login authentication
+// @Tags User
 // @Produce json
-// @Param        Email   path      string  true  "Email : "
-// @Param        password   path      string  true  "Password : "
+// @Param userLogin body domain.Login{} true "userLogin"
 // @Success 200 {object} response.Response{}
-// @Failure 422 {object} response.Response{}
+// @Failure 401 {object} response.Response{}
 // @Router /user/login [post]
 func (cr *AuthHandler) UserLogin(c *gin.Context) {
+	fmt.Println(time.Now())
 
-	var user domain.Users
+	var user domain.Login
 	if err := c.BindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
@@ -80,9 +87,9 @@ func (cr *AuthHandler) UserLogin(c *gin.Context) {
 	fmt.Println(user)
 	users, _ := cr.authUseCase.FindUser(user.Email)
 
-	token := cr.jwtService.GenerateToken(uint(user.User_Id), user.First_Name, user.Email)
+	token := cr.jwtService.GenerateToken(uint(users.ID), users.First_Name, user.Email)
 
-	fmt.Println(user.First_Name, token)
+	fmt.Println(users.First_Name, token)
 	fmt.Printf("\n\ntockenygbhuy : %v\n\n", token)
 	users.Password = ""
 	users.Token = token
@@ -92,6 +99,14 @@ func (cr *AuthHandler) UserLogin(c *gin.Context) {
 }
 
 // ----------------------------------adminRegister-----------------------------------
+// @Summary Register for Admin
+// @ID AdminRegister for Admin
+// @Tags Admin
+// @Produce json
+// @Param AdminRegister body domain.Admins{} true "AdminRegister"
+// @Success 200 {object} response.Response{}
+// @Failure 401 {object} response.Response{}
+// @Router /admin/register [post]
 func (cr *AuthHandler) AdminRegister(c *gin.Context) {
 	var admin domain.Admins
 	if err := c.BindJSON(&admin); err != nil {
@@ -114,16 +129,26 @@ func (cr *AuthHandler) AdminRegister(c *gin.Context) {
 	c.JSON(http.StatusOK, respons)
 
 }
+
+// @Summary Admin Login for Admin
+// @ID AdminLogin for Admin
+// @Tags Admin
+// @Produce json
+// @Param AdminLogin body domain.Admins{} true "AdminLogin"
+// @Success 200 {object} response.Response{}
+// @Failure 401 {object} response.Response{}
+// @Router /admin/login [post]
 func (cr *AuthHandler) AdminLogin(c *gin.Context) {
 	var admin domain.Admins
-	
+
 	if err := c.BindJSON(&admin); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
+	fmt.Println(admin.UserName)
 	err := cr.authUseCase.VerifyAdmin(admin.UserName, admin.Password)
 	if err != nil {
-		respons := response.ErrorResponse("failes to login", err.Error(), nil)
+		respons := response.ErrorResponse("failes to login", err.Error(), admin)
 		c.Writer.Header().Set("Content-Type", "application/json")
 		c.Writer.WriteHeader(http.StatusUnauthorized)
 		utils.ResponseJSON(c, respons)

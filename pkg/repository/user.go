@@ -6,6 +6,7 @@ import (
 	interfaces "clean/pkg/repository/interfaces"
 	"errors"
 	"fmt"
+	"time"
 
 	"database/sql"
 	//"gorm.io/gorm"
@@ -72,8 +73,8 @@ func (c *userDatabase) ListCart(User_id uint) ([]domain.Cart, error) {
 	defer rows.Close()
 	for rows.Next() {
 		var cart domain.Cart
-		err = rows.Scan(&cart.Cart_id,
-			&cart.ProductID)
+		err = rows.Scan(&cart.Cart_Id,
+			&cart.Product_Id)
 
 		if err != nil {
 			return nil, errors.New("error while scaning in database")
@@ -92,18 +93,21 @@ func (c *userDatabase) QuantityCart(product_id, user_id uint) (domain.Cart, erro
 }
 func (c *userDatabase) UpdateCart(totalprice float32, quantity, product_id, user_id uint) error {
 	var cart domain.Cart
-	query := `UPDATE carts SET quantity=$1,total_price=$2 WHERE product_id=$3 and user_id=$4;`
+	var time = time.Now()
+	query := `UPDATE carts SET  quantity=$1,total_price=$2 ,updated_at=$3 WHERE product_id=$4 and user_id=$5 ;`
 
-	err := c.DB.QueryRow(query, quantity, totalprice, product_id, user_id).Scan(&cart.Quantity,
+	err := c.DB.QueryRow(query, quantity, totalprice, time, product_id, user_id).Scan(&cart.Quantity,
 		&cart.Total_Price)
+	fmt.Println(err)
 	return err
 
 }
 
 func (c *userDatabase) CreateCart(cart domain.Cart) error {
-	query := `INSERT INTO carts(user_id,product_id,quantity,total_price)
-	values($1,$2,$3,$4);`
-	err := c.DB.QueryRow(query, cart.User_Id, cart.ProductID, cart.Quantity, cart.Total_Price).Err()
+	var time = time.Now()
+	query := `INSERT INTO carts(created_at,user_id,product_id,quantity,total_price)
+	values($1,$2,$3,$4,$5);`
+	err := c.DB.QueryRow(query, time, cart.User_Id, cart.Product_Id, cart.Quantity, cart.Total_Price).Err()
 	return err
 }
 
@@ -150,8 +154,6 @@ func (c *userDatabase) TotalCartPrice(user_id uint) (float32, error) {
 		return value, errors.New("errror in total casrtsprice repo ")
 	}
 	//defer rows.Close()
-
-	
 
 	return value, nil
 }
