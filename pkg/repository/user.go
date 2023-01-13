@@ -6,6 +6,7 @@ import (
 	interfaces "clean/pkg/repository/interfaces"
 	"errors"
 	"fmt"
+	"time"
 
 	"database/sql"
 	//"gorm.io/gorm"
@@ -66,17 +67,17 @@ func (c *userDatabase) ListCart(User_id uint) ([]domain.Cart, error) {
 
 	rows, err := c.DB.Query(query, User_id)
 	if err != nil {
-		return carts, errors.New("error in query")
+		return nil, errors.New("error in query")
 
 	}
 	defer rows.Close()
 	for rows.Next() {
 		var cart domain.Cart
-		err = rows.Scan(&cart.Cart_id,
-			&cart.ProductID)
+		err = rows.Scan(&cart.Cart_Id,
+			&cart.Product_Id)
 
 		if err != nil {
-			return carts, errors.New("error while scaning in database")
+			return nil, errors.New("error while scaning in database")
 		}
 		carts = append(carts, cart)
 
@@ -92,19 +93,67 @@ func (c *userDatabase) QuantityCart(product_id, user_id uint) (domain.Cart, erro
 }
 func (c *userDatabase) UpdateCart(totalprice float32, quantity, product_id, user_id uint) error {
 	var cart domain.Cart
-	query := `UPDATE carts SET quantity=$1,total_price=$2 WHERE product_id=$3 and user_id=$4;`
+	var time = time.Now()
+	query := `UPDATE carts SET  quantity=$1,total_price=$2 ,updated_at=$3 WHERE product_id=$4 and user_id=$5 ;`
 
-	err := c.DB.QueryRow(query, quantity, totalprice, product_id, user_id).Scan(&cart.Quantity,
+	err := c.DB.QueryRow(query, quantity, totalprice, time, product_id, user_id).Scan(&cart.Quantity,
 		&cart.Total_Price)
+	fmt.Println(err)
 	return err
 
 }
 
 func (c *userDatabase) CreateCart(cart domain.Cart) error {
-	query := `INSERT INTO carts(user_id,product_id,quantity,total_price)
-	values($1,$2,$3,$4);`
-	err := c.DB.QueryRow(query, cart.User_Id, cart.ProductID, cart.Quantity, cart.Total_Price).Err()
+	var time = time.Now()
+	query := `INSERT INTO carts(created_at,user_id,product_id,quantity,total_price)
+	values($1,$2,$3,$4,$5);`
+	err := c.DB.QueryRow(query, time, cart.User_Id, cart.Product_Id, cart.Quantity, cart.Total_Price).Err()
 	return err
 }
 
 // i.DB.Raw("update carts set quantity=?,total_price=? where product_id=? and user_id=? ", prodqua+cart.Quantity, totl, prodid, user.ID).Scan(&Cart)
+
+func (c *userDatabase) ViewCart(user_id uint) ([]domain.CartListResponse, error) {
+	var carts []domain.CartListResponse
+
+	query := `SELECT C.quantity,C.total_price,P.description,P.image_path,P.product_name
+	FROM products AS P
+	INNER JOIN carts AS C
+	ON C.cart_id=P.product_id
+	WHERE C.user_id=$1;`
+	rows, err := c.DB.Query(query, user_id)
+	fmt.Println(err, "error in repo")
+
+	if err != nil {
+		return nil, errors.New("error is happend in viewcart while query")
+	}
+	defer rows.Close()
+	var cart domain.CartListResponse
+	for rows.Next() {
+
+		err := rows.Scan(&cart.Quantity,
+			&cart.Total_Price,
+			&cart.Description,
+			&cart.Image_Path,
+			&cart.Product_Name,
+		)
+		if err != nil {
+			return nil, errors.New("errors while returning  values to cart response")
+		}
+		carts = append(carts, cart)
+
+	}
+	return carts, nil
+}
+func (c *userDatabase) TotalCartPrice(user_id uint) (float32, error) {
+	query := `SELECT sum(total_price) from carts
+	WHERE user_id=$1;`
+	var value float32
+	err := c.DB.QueryRow(query, user_id).Scan(&value)
+	if err != nil {
+		return value, errors.New("errror in total casrtsprice repo ")
+	}
+	//defer rows.Close()
+
+	return value, nil
+}

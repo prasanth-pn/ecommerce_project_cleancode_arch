@@ -54,6 +54,6 @@ func (cr *middleware) AuthorizeJWT(c *gin.Context) {
 	}
 	user_email := fmt.Sprint(claims.Email)
 	id := fmt.Sprint(claims.User_Id)
+	c.Writer.Header().Set("id", id)
 	c.Writer.Header().Set("email", user_email)
-	c.Writer.Header().Set(" id", id)
 }

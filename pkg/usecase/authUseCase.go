@@ -57,13 +57,9 @@ func (c *authUseCase) VerifyUser(email, password string) error {
 
 // ---------------------------------find user-----------------
 func (c *authUseCase) FindUser(email string) (domain.UserResponse, error) {
-	var user domain.UserResponse
 	user, err := c.authRepo.FindUser(email)
-	if err != nil {
-		return user, err
-	}
 
-	return user, nil
+	return user, err
 }
 
 // --------------------------veryfypassword-------------------------------------------------------------
@@ -73,13 +69,14 @@ func VerifyPassword(password, dbpassword string) bool {
 
 // ------------------------------------------AdminRegister-----------------------------------
 func (c *authUseCase) AdminRegister(ctx context.Context, admin domain.Admins) (domain.Admins, error) {
-	c.authRepo.AdminRegister(ctx, admin)
+	err:=c.authRepo.AdminRegister(ctx, admin)
 
-	return admin, nil
+	return admin, err
 }
 func (c *authUseCase) VerifyAdmin(username, password string) error {
 	//fmt.Println(username, "ifsdkohgndsiujkhgbdjkbhjfvbdhjffdgbauthcase")
 	admin, err := c.authRepo.FindAdmin(username)
+	fmt.Println(err, admin.UserName, "test user name")
 	if err != nil {
 		return errors.New("username is incorrect")
 	}

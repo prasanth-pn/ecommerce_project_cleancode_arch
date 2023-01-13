@@ -6,6 +6,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"time"
 	//"errors"
 	//"fmt"
 )
@@ -23,14 +24,14 @@ func NewAuthRepository(DB *sql.DB) interfaces.AuthRepository {
 // ------------------register------------------------------------------------------------------
 func (c *authDatabase) Register(ctx context.Context, user domain.Users) (int, error) {
 	var User_id int
+	user.Created_At = time.Now()
 	query := `INSERT INTO users(
                   first_name,
                   last_name,
                   email,
                   gender,
                   phone,
-                  password,
-				status)
+                  password,created_at)
     VALUES($1,$2,$3,$4,$5,$6,$7)
 RETURNING user_id;`
 	err := c.DB.QueryRow(query,
@@ -40,7 +41,7 @@ RETURNING user_id;`
 		user.Gender,
 		user.Phone,
 		user.Password,
-		user.Status).Scan(&User_id)
+		user.Created_At).Scan(&User_id)
 	return User_id, err
 
 }
@@ -68,6 +69,7 @@ WHERE email=$1;`
 		&user.Password,
 		&user.Phone,
 	)
+
 	fmt.Println(err, email, "usdderreopooooooooojjjjj")
 	return user, err
 }

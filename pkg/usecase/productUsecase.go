@@ -32,3 +32,12 @@ func (c *userUseCase) CreateCart(cart domain.Cart) error {
 	return err
 
 }
+
+func (c *userUseCase)ViewCart(user_id uint)([]domain.CartListResponse,error){
+	cart,err:=c.userRepo.ViewCart(user_id)
+	return cart, err
+}
+func (c *userUseCase)TotalCartPrice(user_id uint)(float32,error){
+sum,err:=c.userRepo.TotalCartPrice(user_id)
+return sum,err
+}
