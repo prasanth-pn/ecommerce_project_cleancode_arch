@@ -13,6 +13,7 @@ type AuthUseCase interface{
 	FindUser(email string)(domain.UserResponse,error)
 	VerifyAdmin(username,password string)(error)
 	FindAdmin(username string)(*domain.AdminResponse,error)
+	SendVerificationEmail(email string)error
 
 
 }

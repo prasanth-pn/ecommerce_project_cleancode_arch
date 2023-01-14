@@ -10,6 +10,12 @@ type Login struct {
 	Email    string `json:"email" validate:"required,min=3,max=50" gorm:"not null;unique"`
 	Password string `json:"password" validate:"required,min=6,max=12" gorm:"not null" valid:"length(5/12)"`
 }
+type Verification struct {
+	Creat_At time.Time
+	Exp_At   time.Time
+	Email    string `json:"email" gorm:"not null;unique"`
+	Code     int    `json:"code" gorm:"not null"`
+}
 
 type Users struct {
 	User_Id      uint   `gorm:"primaryKey;autoIncrement:true;unique"`

@@ -11,4 +11,5 @@ type AuthRepository interface{
 	FindAdmin(username string)(domain.AdminResponse,error)
 	// FindAll(ctx context.Context)([]domain.Users,error)
      FindUser(email string)(domain.UserResponse,error)
+	 StoreVerificationDetails(email string ,code int )error
 }

@@ -99,3 +99,11 @@ FROM admins WHERE user_name=$1;`
 	return admin, err
 
 }
+func (c *authDatabase)StoreVerificationDetails(email string,code int)error{
+	var time=time.Now()
+	query:=`INSERT INTO verifications(creat_at,email,code)
+	VALUES($1,$2,$3);`
+	err:=c.DB.QueryRow(query,time,email,code).Err()
+
+	return err
+}

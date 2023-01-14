@@ -7,6 +7,7 @@ import (
 	utils "clean/pkg/utils"
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -163,5 +164,40 @@ func (cr *AuthHandler) AdminLogin(c *gin.Context) {
 	respons := response.SuccessResponse(true, "login successful", user.Token)
 	copier.Copy(&respons, respons.Data)
 	c.JSON(http.StatusOK, respons)
+
+}
+func (cr *AuthHandler) SendUserMail(c *gin.Context) {
+	email := c.Query("email")
+	user, err := cr.authUseCase.FindUser(email)
+	if err != nil {
+		return
+	}
+
+	err = cr.authUseCase.SendVerificationEmail(email)
+
+	if err != nil {
+		respons := response.ErrorResponse("Error whilw sending verification email", err.Error(), nil)
+		c.Writer.WriteHeader(http.StatusUnprocessableEntity)
+		utils.ResponseJSON(c, respons)
+		return
+	}
+	user.Password = ""
+	response := response.SuccessResponse(true, "SUCCESS", user)
+	c.Writer.Header().Set("Content-Type", "application/json")
+	c.Writer.WriteHeader(http.StatusOK)
+	utils.ResponseJSON(c, response)
+
+}
+func (cr *AuthHandler) VerifyUserOtp(c *gin.Context) {
+	email := c.Query("email")
+	code, _ := strconv.Atoi(c.Query("code"))
+	err := cr.authUseCase.VerifyUserOtp(email, code)
+	if err!=nil{
+		res:=response.ErrorResponse("user not valid otp incorrect",err.Error(),nil)
+		c.Writer.WriteHeader(401)
+		utils.ResponseJSON(c,res)
+		return 
+
+	}
 
 }
