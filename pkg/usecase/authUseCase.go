@@ -3,21 +3,28 @@ package usecase
 import (
 	//"clean/pkg/common/response"
 
+	"clean/pkg/config"
 	domain "clean/pkg/domain"
 	interfaces "clean/pkg/repository/interfaces"
 	services "clean/pkg/usecase/interfaces"
 	"context"
 	"errors"
 	"fmt"
+	"math/rand"
+	"time"
 )
 
 type authUseCase struct {
-	authRepo interfaces.AuthRepository
+	authRepo   interfaces.AuthRepository
+	mailConfig config.MailConfig
+	config     config.Config
 }
 
-func NewAuthUseCase(repo interfaces.AuthRepository) services.AuthUseCase {
+func NewAuthUseCase(repo interfaces.AuthRepository, mailConfig config.MailConfig, config config.Config) services.AuthUseCase {
 	return &authUseCase{
-		authRepo: repo,
+		authRepo:   repo,
+		mailConfig: mailConfig,
+		config:     config,
 	}
 }
 
@@ -39,6 +46,39 @@ func (c *authUseCase) Register(ctx context.Context, user domain.Users) (domain.U
 
 	//fmt.Printf("\n\n %v ")
 	return user, err
+}
+
+// ---------------------------------send mail-------------------
+func (c *authUseCase) SendVerificationEmail(email string) error {
+	rand.Seed(time.Now().UnixNano())
+	max := 9999
+	min := 1000
+	code := rand.Intn((max - min) + min)
+	message := fmt.Sprintf("\n the verification code is \n \n %d \n\n use to verify \n your account.\n have good shoping experience", code)
+	// send random code to user's email
+	err := c.mailConfig.SendMail(c.config, email, message)
+	if err != nil {
+
+		return err
+
+	}
+
+	err = c.authRepo.StoreVerificationDetails(email, code)
+	fmt.Println(err, "repositoryS")
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// -------------------------------------------user otp check-------------------
+func (c *authUseCase) VerifyUserOtp(email string, code int) error {
+	err := c.authRepo.VerifyOtp(email, code)
+	return err
+}
+func (c *authUseCase) UpdateUserStatus(email string) error {
+	err := c.authRepo.UpdateUserStatus(email)
+	return err
 }
 
 // -----------------------------------------verifyUser-----------------------------
@@ -69,7 +109,7 @@ func VerifyPassword(password, dbpassword string) bool {
 
 // ------------------------------------------AdminRegister-----------------------------------
 func (c *authUseCase) AdminRegister(ctx context.Context, admin domain.Admins) (domain.Admins, error) {
-	err:=c.authRepo.AdminRegister(ctx, admin)
+	err := c.authRepo.AdminRegister(ctx, admin)
 
 	return admin, err
 }

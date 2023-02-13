@@ -36,6 +36,8 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 		userapi.POST("/register", AuthHandler.Register)
 		userapi.GET("/list/products", UserHandler.ListProducts)
 		userapi.POST("/login", AuthHandler.UserLogin)
+		userapi.POST("/send/verificationmail", AuthHandler.SendUserMail)
+		userapi.GET("verify/otp", AuthHandler.VerifyUserOtp)
 	}
 
 	//------------------------------------user middleware-------------
@@ -44,7 +46,7 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	userapi.GET("/list/cart", UserHandler.ListCart)
 	//userapi.POST("/add/",UserHandler.Checkout)
 	userapi.POST("/checkout/add/address", UserHandler.AddAddress)
-	userapi.GET("/checkout/list/address",UserHandler.ListAddress)
+	userapi.GET("/checkout/list/address", UserHandler.ListAddress)
 
 	//------------------------------admin----------------
 	adminapi := engine.Group("admin")

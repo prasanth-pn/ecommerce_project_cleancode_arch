@@ -11,6 +11,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary AddAddress for user
+// @ID AddAddress for user
+// @Security BearerAuth
+// @Tags User
+// @Produce json
+// @Param Address body domain.Address{} true "Address"
+// @Success 200 {object} response.Response{}
+// @Failure 401 {object} response.Response{}
+// @Router /user/checkout/add/address [post]
 func (cr *UserHandler) AddAddress(c *gin.Context) {
 	email := c.Writer.Header().Get("email")
 	fmt.Println(email)

@@ -5,6 +5,7 @@ import (
 	interfaces "clean/pkg/repository/interfaces"
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"time"
 	//"errors"
@@ -98,4 +99,32 @@ FROM admins WHERE user_name=$1;`
 		&admin.Password)
 	return admin, err
 
+}
+func (c *authDatabase) StoreVerificationDetails(email string, code int) error {
+	var time = time.Now()
+	query := `INSERT INTO verifications(creat_at,email,code)
+	VALUES($1,$2,$3);`
+	err := c.DB.QueryRow(query, time, email, code).Err()
+
+	return err
+}
+func (c *authDatabase) VerifyOtp(email string, code int) error {
+	var vr domain.Verification
+	query := `SELECT email,code FROM verifications WHERE email=$1 and code=$2;`
+	err := c.DB.QueryRow(query, email, code).Scan(&vr.Email, &vr.Code)
+	fmt.Println(err, "sellelnkfjkfkljrrofon")
+	if err != nil {
+		return errors.New("email or otp incorrect")
+	}
+	return nil
+
+}
+func (c *authDatabase) UpdateUserStatus(email string) error {
+	var user domain.Users
+	query := `UPDATE users SET verification=$1 WHERE email=$2;`
+	err := c.DB.QueryRow(query, false).Scan(&user.Verification)
+	if err != nil {
+		return err
+	}
+	return nil
 }

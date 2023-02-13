@@ -20,6 +20,7 @@ func InitializeEvent(cfg config.Config) (*http.ServerHTTP, error) {
 	wire.Build(db.ConnectDB,
 		 repository.NewUserRepository,
 		 repository.NewAdminRepository,
+		 config.NewMailConfig,
 		  usecase.NewUserUseCase,
 		  usecase.NewAdminUseCase,
 		  usecase.NewAuthUseCase,

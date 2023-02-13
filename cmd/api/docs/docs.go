@@ -213,6 +213,48 @@ const docTemplate = `{
                 }
             }
         },
+        "/user/checkout/add/address": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "AddAddress for user",
+                "operationId": "AddAddress for user",
+                "parameters": [
+                    {
+                        "description": "Address",
+                        "name": "Address",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Address"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/user/login": {
             "post": {
                 "produces": [
@@ -286,9 +328,121 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/user/send/verificationmail": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Send EmailOtp for User",
+                "operationId": "SendUserMail",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/verify/otp": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "VerifyUserOtp for User",
+                "operationId": "VerifyUserOtp for authentication",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "code",
+                        "name": "code",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "domain.Address": {
+            "type": "object",
+            "properties": {
+                "address_id": {
+                    "type": "integer"
+                },
+                "area": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "fname": {
+                    "type": "string"
+                },
+                "house": {
+                    "type": "string"
+                },
+                "landmark": {
+                    "type": "string"
+                },
+                "lname": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "integer"
+                },
+                "pincode": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "domain.Admins": {
             "type": "object",
             "properties": {
@@ -303,34 +457,19 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.Cart": {
+        "domain.Brand": {
             "type": "object",
             "properties": {
-                "cart_id": {
-                    "type": "integer"
-                },
-                "createdAt": {
+                "brand_description": {
                     "type": "string"
                 },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "id": {
+                "brand_id": {
                     "type": "integer"
                 },
-                "product_id": {
-                    "type": "integer"
-                },
-                "quantity": {
-                    "type": "integer"
-                },
-                "total_price": {
-                    "type": "number"
-                },
-                "updatedAt": {
+                "brand_name": {
                     "type": "string"
                 },
-                "user_id": {
+                "discount": {
                     "type": "integer"
                 }
             }
@@ -338,7 +477,7 @@ const docTemplate = `{
         "domain.Category": {
             "type": "object",
             "properties": {
-                "category_id": {
+                "category_Id": {
                     "type": "integer"
                 },
                 "category_name": {
@@ -377,11 +516,17 @@ const docTemplate = `{
                 "available": {
                     "type": "boolean"
                 },
-                "cart": {
-                    "$ref": "#/definitions/domain.Cart"
+                "brand": {
+                    "$ref": "#/definitions/domain.Brand"
+                },
+                "brand_id": {
+                    "type": "integer"
                 },
                 "cart_id": {
                     "type": "integer"
+                },
+                "category": {
+                    "$ref": "#/definitions/domain.Category"
                 },
                 "category_id": {
                     "type": "integer"
@@ -394,6 +539,9 @@ const docTemplate = `{
                 },
                 "image_path": {
                     "type": "string"
+                },
+                "model_id": {
+                    "type": "integer"
                 },
                 "price": {
                     "type": "number"
@@ -411,7 +559,6 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "wishListID": {
-                    "description": "Category    Category\nWishList    WishList",
                     "type": "integer"
                 }
             }
@@ -427,19 +574,25 @@ const docTemplate = `{
                 "phone"
             ],
             "properties": {
-                "address_id": {
+                "address_Id": {
                     "type": "integer"
                 },
-                "applied_CouponsID": {
+                "block_Status": {
+                    "type": "boolean"
+                },
+                "cart_Id": {
                     "type": "integer"
                 },
-                "cart_id": {
+                "category_Id": {
                     "type": "integer"
                 },
                 "city": {
                     "type": "string"
                 },
                 "country": {
+                    "type": "string"
+                },
+                "created_At": {
                     "type": "string"
                 },
                 "email": {
@@ -463,6 +616,7 @@ const docTemplate = `{
                     "minLength": 1
                 },
                 "orders_ID": {
+                    "description": "Orders            Orders",
                     "type": "integer"
                 },
                 "password": {
@@ -478,6 +632,9 @@ const docTemplate = `{
                 "status": {
                     "type": "boolean"
                 },
+                "updated_At": {
+                    "type": "string"
+                },
                 "user_Id": {
                     "type": "integer"
                 },
@@ -485,19 +642,8 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "wishListID": {
+                    "description": "WishList          WishList",
                     "type": "integer"
-                }
-            }
-        },
-        "gorm.DeletedAt": {
-            "type": "object",
-            "properties": {
-                "time": {
-                    "type": "string"
-                },
-                "valid": {
-                    "description": "Valid is true if Time is not NULL",
-                    "type": "boolean"
                 }
             }
         },
