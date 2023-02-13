@@ -12,4 +12,6 @@ type AuthRepository interface{
 	// FindAll(ctx context.Context)([]domain.Users,error)
      FindUser(email string)(domain.UserResponse,error)
 	 StoreVerificationDetails(email string ,code int )error
+	 VerifyOtp(email string,code int)error
+	 UpdateUserStatus(email string)error
 }

@@ -166,6 +166,15 @@ func (cr *AuthHandler) AdminLogin(c *gin.Context) {
 	c.JSON(http.StatusOK, respons)
 
 }
+
+// @Summary Send EmailOtp for User
+// @ID SendUserMail
+// @Tags User
+// @Produce json
+// @Param  email query  string true "email"
+// @Success 200 {object} response.Response{}
+// @Failure 401 {object} response.Response{}
+// @Router /user/send/verificationmail [post]
 func (cr *AuthHandler) SendUserMail(c *gin.Context) {
 	email := c.Query("email")
 	user, err := cr.authUseCase.FindUser(email)
@@ -182,22 +191,37 @@ func (cr *AuthHandler) SendUserMail(c *gin.Context) {
 		return
 	}
 	user.Password = ""
-	response := response.SuccessResponse(true, "SUCCESS", user)
-	c.Writer.Header().Set("Content-Type", "application/json")
+	response := response.SuccessResponse(true, "SUCCESS", "otp  successfully send")
 	c.Writer.WriteHeader(http.StatusOK)
 	utils.ResponseJSON(c, response)
 
 }
+
+// @Summary VerifyUserOtp for User
+// @ID VerifyUserOtp for authentication
+// @Tags User
+// @Produce json
+// @Param  email query  string true "email"
+// @Param  code  query  int true "code"
+// @Success 200 {object} response.Response{}
+// @Failure 401 {object} response.Response{}
+// @Router /user/verify/otp [get]
 func (cr *AuthHandler) VerifyUserOtp(c *gin.Context) {
 	email := c.Query("email")
 	code, _ := strconv.Atoi(c.Query("code"))
 	err := cr.authUseCase.VerifyUserOtp(email, code)
-	if err!=nil{
-		res:=response.ErrorResponse("user not valid otp incorrect",err.Error(),nil)
+	if err != nil {
+		res := response.ErrorResponse("user not valid otp incorrect", err.Error(), nil)
 		c.Writer.WriteHeader(401)
-		utils.ResponseJSON(c,res)
-		return 
+		utils.ResponseJSON(c, res)
+		return
 
 	}
+	err = cr.authUseCase.UpdateUserStatus(email)
+	respo := response.SuccessResponse(true, "user verified successfully", nil)
+	c.Writer.WriteHeader(http.StatusOK)
+	utils.ResponseJSON(c, respo)
+	fmt.Println(err)
+	fmt.Println("otp is verify successfully")
 
 }

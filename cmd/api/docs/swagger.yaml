@@ -1,4 +1,27 @@
 definitions:
+  domain.Address:
+    properties:
+      address_id:
+        type: integer
+      area:
+        type: string
+      city:
+        type: string
+      fname:
+        type: string
+      house:
+        type: string
+      landmark:
+        type: string
+      lname:
+        type: string
+      phone_number:
+        type: integer
+      pincode:
+        type: integer
+      user_id:
+        type: integer
+    type: object
   domain.Admins:
     properties:
       id:
@@ -8,30 +31,20 @@ definitions:
       username:
         type: string
     type: object
-  domain.Cart:
+  domain.Brand:
     properties:
-      cart_id:
-        type: integer
-      createdAt:
+      brand_description:
         type: string
-      deletedAt:
-        $ref: '#/definitions/gorm.DeletedAt'
-      id:
+      brand_id:
         type: integer
-      product_id:
-        type: integer
-      quantity:
-        type: integer
-      total_price:
-        type: number
-      updatedAt:
+      brand_name:
         type: string
-      user_id:
+      discount:
         type: integer
     type: object
   domain.Category:
     properties:
-      category_id:
+      category_Id:
         type: integer
       category_name:
         type: string
@@ -58,10 +71,14 @@ definitions:
     properties:
       available:
         type: boolean
-      cart:
-        $ref: '#/definitions/domain.Cart'
+      brand:
+        $ref: '#/definitions/domain.Brand'
+      brand_id:
+        type: integer
       cart_id:
         type: integer
+      category:
+        $ref: '#/definitions/domain.Category'
       category_id:
         type: integer
       color:
@@ -70,6 +87,8 @@ definitions:
         type: string
       image_path:
         type: string
+      model_id:
+        type: integer
       price:
         type: number
       product_Id:
@@ -81,22 +100,23 @@ definitions:
       trending:
         type: boolean
       wishListID:
-        description: |-
-          Category    Category
-          WishList    WishList
         type: integer
     type: object
   domain.Users:
     properties:
-      address_id:
+      address_Id:
         type: integer
-      applied_CouponsID:
+      block_Status:
+        type: boolean
+      cart_Id:
         type: integer
-      cart_id:
+      category_Id:
         type: integer
       city:
         type: string
       country:
+        type: string
+      created_At:
         type: string
       email:
         maxLength: 50
@@ -115,6 +135,7 @@ definitions:
         minLength: 1
         type: string
       orders_ID:
+        description: Orders            Orders
         type: integer
       password:
         maxLength: 12
@@ -126,11 +147,14 @@ definitions:
         type: string
       status:
         type: boolean
+      updated_At:
+        type: string
       user_Id:
         type: integer
       verification:
         type: boolean
       wishListID:
+        description: WishList          WishList
         type: integer
     required:
     - email
@@ -139,14 +163,6 @@ definitions:
     - last_name
     - password
     - phone
-    type: object
-  gorm.DeletedAt:
-    properties:
-      time:
-        type: string
-      valid:
-        description: Valid is true if Time is not NULL
-        type: boolean
     type: object
   response.Response:
     properties:
@@ -289,6 +305,32 @@ paths:
       summary: Register for Admin
       tags:
       - Admin
+  /user/checkout/add/address:
+    post:
+      operationId: AddAddress for user
+      parameters:
+      - description: Address
+        in: body
+        name: Address
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Address'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: AddAddress for user
+      tags:
+      - User
   /user/login:
     post:
       operationId: user login authentication
@@ -335,6 +377,57 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       summary: Register for user
+      tags:
+      - User
+  /user/send/verificationmail:
+    post:
+      operationId: SendUserMail
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Send EmailOtp for User
+      tags:
+      - User
+  /user/verify/otp:
+    get:
+      operationId: VerifyUserOtp for authentication
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: code
+        in: query
+        name: code
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: VerifyUserOtp for User
       tags:
       - User
 securityDefinitions:

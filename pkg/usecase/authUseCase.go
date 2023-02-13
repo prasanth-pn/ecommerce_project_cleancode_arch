@@ -71,6 +71,15 @@ func (c *authUseCase) SendVerificationEmail(email string) error {
 	return nil
 }
 
+// -------------------------------------------user otp check-------------------
+func (c *authUseCase) VerifyUserOtp(email string, code int) error {
+	err := c.authRepo.VerifyOtp(email, code)
+	return err
+}
+func (c *authUseCase) UpdateUserStatus(email string) error {
+	err := c.authRepo.UpdateUserStatus(email)
+	return err
+}
 
 // -----------------------------------------verifyUser-----------------------------
 func (c *authUseCase) VerifyUser(email, password string) error {
