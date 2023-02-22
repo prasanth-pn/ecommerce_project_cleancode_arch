@@ -4,6 +4,7 @@ import (
 	"clean/pkg/domain"
 	interfaces "clean/pkg/repository/interfaces"
 	services "clean/pkg/usecase/interfaces"
+	"clean/pkg/utils"
 	"context"
 )
 
@@ -16,11 +17,12 @@ func NewAdminUseCase(adminRepo interfaces.AdminRepository) services.AdminUseCase
 		adminRepo: adminRepo,
 	}
 }
-func (c *adminUseCase) ListUsers() ([]domain.UserResponse, error) {
+func (c *adminUseCase) ListUsers(pagenation utils.Filter) (*[]domain.UserResponse, *utils.Metadata, error) {
 	//var user domain.UserResponse
-	user, err := c.adminRepo.ListUsers()
+	user, metadata, err := c.adminRepo.ListUsers(pagenation)
+	//fmt.Println(&metadata, "metadata", &user)
 
-	return user, err
+	return &user, &metadata, err
 
 }
 func (c *adminUseCase) AddProducts(ctx context.Context, product domain.Product) error {
@@ -34,12 +36,12 @@ func (c *adminUseCase) AddCategory(ctx context.Context, category domain.Category
 	return err
 }
 
-func (c *adminUseCase)AddBrand(ctx context.Context, brand domain.Brand)error  {
+func (c *adminUseCase) AddBrand(ctx context.Context, brand domain.Brand) error {
 
-	err:=c.adminRepo.AddBrand(brand)
+	err := c.adminRepo.AddBrand(brand)
 	return err
 }
-func ( c *adminUseCase)AddModel(ctx context.Context,model domain.Model)error{
-	err:=c.adminRepo.AddModel(model)
+func (c *adminUseCase) AddModel(ctx context.Context, model domain.Model) error {
+	err := c.adminRepo.AddModel(model)
 	return err
 }

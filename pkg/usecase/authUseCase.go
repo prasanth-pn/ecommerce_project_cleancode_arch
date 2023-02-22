@@ -31,14 +31,15 @@ func NewAuthUseCase(repo interfaces.AuthRepository, mailConfig config.MailConfig
 // ------------------------------------------register-------------------------
 func (c *authUseCase) Register(ctx context.Context, user domain.Users) (domain.Users, error) {
 	retun, _ := c.FindUser(user.Email)
-	fmt.Println(user.Email, retun.Email)
-	//fmt.Println(retun.Email, user.Email)
+	//fmt.Println(user.Email, retun.Email)
+	fmt.Println(retun.Email, user.Email)
 	if retun.Email == user.Email {
 		return user, errors.New("user already exists ")
 
 	}
 
 	_, err := c.authRepo.Register(ctx, user)
+	fmt.Println(err)
 	if err != nil {
 		return user, errors.New("email id already exists")
 	}

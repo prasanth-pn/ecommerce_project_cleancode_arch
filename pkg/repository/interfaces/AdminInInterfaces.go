@@ -1,9 +1,12 @@
 package interfaces
 
-import "clean/pkg/domain"
+import (
+	"clean/pkg/domain"
+	"clean/pkg/utils"
+)
 
 type AdminRepository interface{
-	ListUsers()([]domain.UserResponse,error)
+	ListUsers(pagenation utils.Filter)([]domain.UserResponse,utils.Metadata,error)
 	AddProducts(product domain.Product)(error)
 	AddCategory(category domain.Category)(error)
 	AddBrand(brand domain.Brand)error

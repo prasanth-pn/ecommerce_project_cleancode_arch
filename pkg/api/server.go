@@ -42,6 +42,9 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 
 	//------------------------------------user middleware-------------
 	userapi.Use(middleware.AuthorizeJWT)
+	userapi.POST("/add/wishlist",UserHandler.AddWishList)
+	userapi.GET("/view/wishlist",UserHandler.ViewWishList)
+	userapi.DELETE("/delete/wishlist",UserHandler.RemoveFromWishlist)
 	userapi.POST("/add/cart", UserHandler.AddToCart)
 	userapi.GET("/list/cart", UserHandler.ListCart)
 	//userapi.POST("/add/",UserHandler.Checkout)

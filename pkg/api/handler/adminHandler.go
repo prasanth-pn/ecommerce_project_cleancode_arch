@@ -5,7 +5,9 @@ import (
 	"clean/pkg/domain"
 	services "clean/pkg/usecase/interfaces"
 	"clean/pkg/utils"
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -31,7 +33,18 @@ func NewAdminHandler(usecase services.AdminUseCase, jwtService services.JWTServi
 // @Failure 422 {object} response.Response{}
 // @Router /admin/list/users [get]
 func (cr *AdminHandler) ListUsers(c *gin.Context) {
-	users, err := cr.adminService.ListUsers()
+	page, _ := strconv.Atoi(c.Query("page"))
+	fmt.Println(page)
+	pageSize, _ := strconv.Atoi(c.Query("pageSize"))
+	fmt.Println(page, pageSize, "handler")
+	pagenation := utils.Filter{
+		Page:     page,
+		PageSize: pageSize,
+	}
+	//fmt.Println(pagenation, "pagenation")
+	users, metadata, err := cr.adminService.ListUsers(pagenation)
+	fmt.Println(metadata, "metadata")
+
 	if err != nil {
 		respons := response.ErrorResponse("cannot show users", err.Error(), nil)
 		c.Writer.Header().Set("Content-Type", "application/json")
@@ -39,7 +52,14 @@ func (cr *AdminHandler) ListUsers(c *gin.Context) {
 		utils.ResponseJSON(c, respons)
 		return
 	}
-	respons := response.SuccessResponse(true, "SUCCESS", users)
+	result := struct {
+		Users *[]domain.UserResponse
+		Meta  *utils.Metadata
+	}{
+		Users: users,
+		Meta:  metadata,
+	}
+	respons := response.SuccessResponse(true, "SUCCESS", result)
 	c.Writer.Header().Set("Content-Type", "application/json")
 	c.Writer.WriteHeader(http.StatusOK)
 	utils.ResponseJSON(c, respons)

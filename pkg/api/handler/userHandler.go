@@ -41,3 +41,5 @@ func (cr *UserHandler) ListProducts(c *gin.Context) {
 	utils.ResponseJSON(c, respons)
 
 }
+
+

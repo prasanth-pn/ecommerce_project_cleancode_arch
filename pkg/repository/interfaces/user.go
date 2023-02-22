@@ -13,5 +13,9 @@ type UserRepository interface {
 	TotalCartPrice(user_id uint)(float32,error)
 	AddAddress(address domain.Address)error
 	ListAddress(user_id uint)([]domain.Address,error)
+	Count_WishListed_Product(user_id,product_id uint)int
+	AddTo_WishList(wishlist domain.WishList)error
+	ViewWishList(user_id uint)[]domain.WishListResponse
+	RemoveFromWishlist(user_id,product_id int)
 	
 }

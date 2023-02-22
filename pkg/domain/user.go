@@ -18,7 +18,7 @@ type Verification struct {
 }
 
 type Users struct {
-	User_Id      uint   `gorm:"primaryKey;autoIncrement:true;unique"`
+	User_Id      uint   `gorm:"serial primaryKey;autoIncrement:true;unique"`
 	First_Name   string `json:"first_name" validate:"required,min=3,max=12" gorm:"not null"`
 	Last_Name    string `json:"last_name" validate:"required,min=1,max=12" gorm:"not null"`
 	Email        string `json:"email" validate:"required,min=3,max=50" gorm:"not null;unique"`
@@ -44,7 +44,7 @@ type Cart struct {
 	Created_At  time.Time
 	Deleted_At  time.Time
 	Updated_At  time.Time
-	Cart_Id     uint    ` gorm:"primaryKey;autoIncrement:true;unique"`
+	Cart_Id     uint    ` gorm:" serial primaryKey;autoIncrement:true;unique"`
 	User_Id     uint    `json:"user_id"   `
 	Product_Id  uint    `json:"product_id" `
 	Quantity    uint    `json:"quantity"`
@@ -107,3 +107,4 @@ type WishList struct {
 	UserID     uint
 	Product_Id uint
 }
+

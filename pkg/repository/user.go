@@ -4,11 +4,10 @@ import (
 	//domain "clean/pkg/domain"
 	"clean/pkg/domain"
 	interfaces "clean/pkg/repository/interfaces"
+	"database/sql"
 	"errors"
 	"fmt"
 	"time"
-
-	"database/sql"
 	//"gorm.io/gorm"
 )
 
@@ -47,6 +46,7 @@ ON P.product_id=C.category_id;`
 			fmt.Println(err)
 			return nil, errors.New("error while scan database")
 		}
+		fmt.Println(product)
 		products = append(products, product)
 
 	}
@@ -151,9 +151,57 @@ func (c *userDatabase) TotalCartPrice(user_id uint) (float32, error) {
 	var value float32
 	err := c.DB.QueryRow(query, user_id).Scan(&value)
 	if err != nil {
-		return value, errors.New("errror in total casrtsprice repo ")
+		return value, errors.New("errror in total casrtsprice repo")
 	}
 	//defer rows.Close()
-
 	return value, nil
+}
+func (c *userDatabase) Count_WishListed_Product(user_id, product_id uint) int {
+	var count int
+
+	query := `SELECT COUNT(*) FROM wish_lists WHERE user_id=$1 AND product_id=$2;`
+
+	err := c.DB.QueryRow(query, user_id, product_id).Scan(&count)
+	if err != nil {
+		fmt.Println("error in query")
+		return 0
+	}
+	return count
+}
+func (c *userDatabase) AddTo_WishList(wishlist domain.WishList) error {
+	query := `INSERT INTO wish_lists(user_id , product_id)VALUES($1,$2);`
+	err := c.DB.QueryRow(query, wishlist.UserID, wishlist.Product_Id).Err()
+	if err != nil {
+		return err
+	}
+	fmt.Println(err)
+
+	return nil
+}
+func (c *userDatabase) ViewWishList(user_id uint) []domain.WishListResponse {
+	var wish []domain.WishListResponse
+	query := `select users.user_id,products.product_id,products.product_name ,products.price from wish_lists join products 
+	on wish_lists.product_id=products.product_id 
+	join users on wish_lists.user_id=users.user_id where users.user_id=$1;`
+	var wishe domain.WishListResponse
+	rows, err := c.DB.Query(query, user_id)
+	fmt.Println(err)
+
+	defer rows.Close()
+	for rows.Next() {
+		rows.Scan(&wishe.Product_id,
+			&wishe.User_id,
+			&wishe.Product_name,
+			&wishe.Price)
+		wish = append(wish, wishe)
+	}
+	return wish
+}
+func (c *userDatabase) RemoveFromWishlist(user_id, product_id int) {
+	query := `DELETE FROM wish_lists 	WHERE user_id=$1 AND product_id=$2;`
+	err := c.DB.QueryRow(query, user_id, product_id)
+	if err != nil {
+		fmt.Println(" this is not deletd", err)
+	}
+
 }

@@ -3,7 +3,9 @@ package repository
 import (
 	"clean/pkg/domain"
 	interfaces "clean/pkg/repository/interfaces"
+	"clean/pkg/utils"
 	"database/sql"
+	"fmt"
 )
 
 type adminDatabase struct {
@@ -13,27 +15,29 @@ type adminDatabase struct {
 func NewAdminRepository(DB *sql.DB) interfaces.AdminRepository {
 	return &adminDatabase{DB}
 }
-func (c *adminDatabase) ListUsers() ([]domain.UserResponse, error) {
+func (c *adminDatabase) ListUsers(pagenation utils.Filter) ([]domain.UserResponse, utils.Metadata, error) {
 	var users []domain.UserResponse
-
-	query := `SELECT user_id,first_name,
+	//	fmt.Println("reached int repository", pagenation.Page, pagenation.PageSize)
+	query := `SELECT COUNT(*) OVER(),user_id,first_name,
 last_name,
 email,
 gender,
 phone
-FROM users;`
-	rows, err := c.DB.Query(query)
+FROM users
+LIMIT $1 OFFSET $2;`
+	rows, err := c.DB.Query(query, pagenation.Limit(), pagenation.Offset())
 
 	if err != nil {
-		return nil, err
+		return nil, utils.Metadata{}, err
 	}
-
+	var totalRecords int
 	defer rows.Close()
 
 	for rows.Next() {
 		var user domain.UserResponse
 
 		err = rows.Scan(
+			&totalRecords,
 			&user.ID,
 			&user.First_Name,
 			&user.Last_Name,
@@ -43,13 +47,23 @@ FROM users;`
 		)
 
 		if err != nil {
-			return users, err
+			fmt.Println("count 1")
+
+			return users, utils.ComputeMetadata(&totalRecords, &pagenation.Page, &pagenation.PageSize), err
 		}
 
 		users = append(users, user)
 	}
+	if err := rows.Err(); err != nil {
+		fmt.Println("count 2")
+		return users, utils.ComputeMetadata(&totalRecords, &pagenation.Page, &pagenation.PageSize), err
 
-	return users, nil
+	}
+	fmt.Println("count 3")
+	//log.Println(users, "log")
+	//log.Println(utils.ComputeMetadata(totalRecords, pagenation.Page, pagenation.PageSize))
+	fmt.Println(utils.ComputeMetadata(&totalRecords, &pagenation.Page, &pagenation.PageSize), ";l;a;a;a;a;a;a;lalalalalalalalalalalall")
+	return users, utils.ComputeMetadata(&totalRecords, &pagenation.Page, &pagenation.PageSize), err
 
 }
 func (c *adminDatabase) AddProducts(product domain.Product) error {

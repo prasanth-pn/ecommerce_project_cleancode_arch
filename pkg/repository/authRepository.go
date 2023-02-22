@@ -70,8 +70,10 @@ WHERE email=$1;`
 		&user.Password,
 		&user.Phone,
 	)
+	if user.Email==""{
+		return user,nil
+	}
 
-	fmt.Println(err, email, "usdderreopooooooooojjjjj")
 	return user, err
 }
 

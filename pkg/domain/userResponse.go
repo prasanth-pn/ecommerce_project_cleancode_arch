@@ -3,6 +3,7 @@ package domain
 import "github.com/golang-jwt/jwt/v4"
 
 type UserResponse struct {
+	TotalRecords int
 	ID           uint   `json:"id"`
 	First_Name   string `json:"first_name"`
 	Last_Name    string `json:"last_name" `
@@ -49,4 +50,11 @@ type CartListResponse struct {
 	Quantity     uint
 	Total_Amount float32
 	Total_Price  float32
+}
+
+type WishListResponse struct {
+	Product_id uint
+	User_id uint
+	Product_name string
+	Price string
 }

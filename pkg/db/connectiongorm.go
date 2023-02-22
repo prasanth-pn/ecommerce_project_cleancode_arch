@@ -27,6 +27,7 @@ func ConnectGormDB(cfg config.Config) (*gorm.DB, error) {
 	db.AutoMigrate(&domain.Teacher{})
 	db.AutoMigrate(&domain.Student{})
 	db.AutoMigrate(&domain.Address{})
+	db.AutoMigrate(&domain.WishList{})
 
 	return db, dbErr
 }
