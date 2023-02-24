@@ -17,7 +17,7 @@ func (c *userDatabase) AddAddress(address domain.Address) error {
 
 func (c *userDatabase) ListAddress(user_id uint) ([]domain.Address, error) {
 	var address []domain.Address
-	query := `SELECT f_name,l_name,phone_number,pincode,house,area,landmark,city
+	query := `SELECT address_id,user_id,f_name,l_name,phone_number,pincode,house,area,landmark,city
 	FROM addresses
 	where user_id=$1;`
 
@@ -30,7 +30,9 @@ func (c *userDatabase) ListAddress(user_id uint) ([]domain.Address, error) {
 	defer row.Close()
 	for row.Next() {
 		var addres domain.Address
-		err = row.Scan(&addres.FName,
+		err = row.Scan(&addres.Address_id,
+			&addres.User_Id,
+			&addres.FName,
 			&addres.LName,
 			&addres.Phone_Number,
 			&addres.Pincode,

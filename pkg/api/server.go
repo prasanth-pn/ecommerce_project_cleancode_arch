@@ -45,11 +45,14 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	userapi.POST("/add/wishlist",UserHandler.AddWishList)
 	userapi.GET("/view/wishlist",UserHandler.ViewWishList)
 	userapi.DELETE("/delete/wishlist",UserHandler.RemoveFromWishlist)
+	userapi.POST("/add/wishlist_tocart",UserHandler.WishListTo_Cart)
 	userapi.POST("/add/cart", UserHandler.AddToCart)
 	userapi.GET("/list/cart", UserHandler.ListCart)
-	//userapi.POST("/add/",UserHandler.Checkout)
-	userapi.POST("/checkout/add/address", UserHandler.AddAddress)
-	userapi.GET("/checkout/list/address", UserHandler.ListAddress)
+	//userapi.POST("/cart/checkout",UserHandler.Checkout)
+	userapi.POST("/add/address", UserHandler.AddAddress)
+	userapi.GET("/list/address", UserHandler.ListAddress)
+	userapi.GET("/edit/address",UserHandler.GetAddressToEdit)
+	userapi.PATCH("/update/address",UserHandler.UpdateAddress)
 
 	//------------------------------admin----------------
 	adminapi := engine.Group("admin")

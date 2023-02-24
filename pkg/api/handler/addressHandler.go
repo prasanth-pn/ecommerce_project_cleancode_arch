@@ -61,3 +61,24 @@ func (cr *UserHandler) ListAddress(c *gin.Context) {
 	utils.ResponseJSON(c, respo)
 
 }
+func (cr *UserHandler) GetAddressToEdit(c *gin.Context) {
+	email := c.Writer.Header().Get("email")
+	address_id, _ := strconv.Atoi(c.Query("address_id"))
+	user, _ := cr.AuthService.FindUser(email)
+	address, err := cr.UserService.FindAddress(user.ID, uint(address_id))
+	fmt.Println(address, err)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"message": address,
+		})
+	}
+	fmt.Println(email, address_id)
+
+}
+
+func (cr *UserHandler) UpdateAddress(c *gin.Context) {
+	email := c.Writer.Header().Get("email")
+
+	fmt.Println(email)
+
+}

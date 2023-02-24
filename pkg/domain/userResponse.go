@@ -53,8 +53,12 @@ type CartListResponse struct {
 }
 
 type WishListResponse struct {
-	Product_id uint
-	User_id uint
+	Product_id   uint
+	User_id      uint
 	Product_name string
-	Price string
+	Price        string
+}
+type CartResponse struct {
+	Total_Price int
+	Quantity    uint
 }

@@ -42,6 +42,15 @@ func (c *userUseCase) ViewWishList(user_id uint) []domain.WishListResponse {
 	return wishlist
 
 }
-func (c *userUseCase)RemoveFromWishlist(user_id,product_id int){
-	c.userRepo.RemoveFromWishlist(user_id,product_id)
+func (c *userUseCase) RemoveFromWishlist(user_id, product_id int) {
+	c.userRepo.RemoveFromWishlist(user_id, product_id)
+}
+func (c *userUseCase) FindCart(user_id, product_id uint) (domain.CartResponse, error) {
+	cart, error := c.userRepo.FindCart(user_id, product_id)
+	return cart, error
+}
+func (c userUseCase)FindAddress(user_id,address_id uint)(domain.Address,error){
+	address,err:=c.userRepo.FindAddress(user_id,address_id)
+	return address,err
+
 }

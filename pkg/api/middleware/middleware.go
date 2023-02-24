@@ -26,16 +26,15 @@ func NewUserMiddleware(jwtUseCase services.JWTService) Middleware {
 }
 func (cr *middleware) AuthorizeJWT(c *gin.Context) {
 	authHeader := c.Request.Header["Authorization"]
-	//fmt.Println(len(authHeader), "authHeader")1
+	//fmt.Println(len(authHeader), authHeader)
 	auth := strings.Join(authHeader, " ")
-	//fmt.Println(len(auth), "auth") 194
+	//fmt.Println(len(auth), auth) 
 	bearerToken := strings.Split(auth, " ")
-	//fmt.Println(len(bearerToken), "bearer token") 2
+	//fmt.Println(len(bearerToken), bearerToken)
 
 	if len(bearerToken) != 2 {
 		err := errors.New("request does not contain an access token")
 		respons := response.ErrorResponse("failed to create user", err.Error(), nil)
-		c.Writer.Header().Set("Content-Type", "application/json")
 		c.Writer.WriteHeader(http.StatusUnauthorized)
 		utils.ResponseJSON(c, respons)
 		c.Abort()

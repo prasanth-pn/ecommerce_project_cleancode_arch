@@ -205,3 +205,33 @@ func (c *userDatabase) RemoveFromWishlist(user_id, product_id int) {
 	}
 
 }
+func (c *userDatabase) FindCart(user_id, product_id uint) (domain.CartResponse, error) {
+	var cart domain.CartResponse
+
+	query := `SELECT quantity,total_price FROM carts WHERE user_id=$1 AND product_id=$2;`
+	err := c.DB.QueryRow(query, user_id, product_id).Scan(&cart.Quantity,
+		&cart.Total_Price,
+	)
+	fmt.Println(err, "this is the error")
+	return cart, err
+
+}
+
+
+func(c *userDatabase)FindAddress(user_id,address_id uint)(domain.Address,error){
+	var address domain.Address
+
+	query :=`SELECT * FROM 	addresses WHERE user_id=$1 AND address_id=$2;`
+
+	err:=c.DB.QueryRow(query,user_id,address_id).Scan(&address.Address_id,
+	&address.Area,
+&address.City,
+&address.FName,
+&address.House,
+&address.LName,
+address.Landmark,
+&address.Pincode)
+
+return address,err
+
+}

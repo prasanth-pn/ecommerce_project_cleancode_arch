@@ -65,5 +65,32 @@ func (cr *UserHandler) RemoveFromWishlist(c *gin.Context) {
 	product_id, _ := strconv.Atoi(c.Query("product_id"))
 	user, _ := cr.AuthService.FindUser(email)
 	fmt.Println(product_id, user.ID, "product id")
-	cr.UserService.RemoveFromWishlist(int(user.ID),product_id)
+	cr.UserService.RemoveFromWishlist(int(user.ID), product_id)
+}
+func (cr *UserHandler) WishListTo_Cart(c *gin.Context) {
+	email := c.Writer.Header().Get("email")
+	product_id, _ := strconv.Atoi(c.Query("product_id"))
+	user, _ := cr.AuthService.FindUser(email)
+	product, _ := cr.UserService.FindProduct(uint(product_id))
+	cart, _ := cr.UserService.FindCart(user.ID, uint(product_id))
+	if cart.Quantity != 0 {
+		c.JSON(400, gin.H{
+			"msg": "the product already exists",
+		})
+
+	} else {
+		cart := domain.Cart{
+			Product_Id:  uint(product_id),
+			Quantity:    1,
+			User_Id:     user.ID,
+			Total_Price: product.Price,
+		}
+		cr.UserService.CreateCart(cart)
+		cr.UserService.RemoveFromWishlist(int(user.ID), product_id)
+
+		c.JSON(200, gin.H{
+			"msg": "Item added to cart ",
+		})
+	}
+
 }
