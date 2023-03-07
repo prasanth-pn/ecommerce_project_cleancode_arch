@@ -5,7 +5,6 @@ import (
 	interfaces "clean/pkg/repository/interfaces"
 	"clean/pkg/utils"
 	"database/sql"
-	"fmt"
 )
 
 type adminDatabase struct {
@@ -35,7 +34,6 @@ LIMIT $1 OFFSET $2;`
 
 	for rows.Next() {
 		var user domain.UserResponse
-
 		err = rows.Scan(
 			&totalRecords,
 			&user.ID,
@@ -45,25 +43,39 @@ LIMIT $1 OFFSET $2;`
 			&user.Gender,
 			&user.Phone,
 		)
-
 		if err != nil {
-			fmt.Println("count 1")
-
-			return users, utils.ComputeMetadata(&totalRecords, &pagenation.Page, &pagenation.PageSize), err
+			return nil, utils.ComputeMetadata(&totalRecords, &pagenation.Page, &pagenation.PageSize), err
 		}
-
 		users = append(users, user)
 	}
 	if err := rows.Err(); err != nil {
-		fmt.Println("count 2")
 		return users, utils.ComputeMetadata(&totalRecords, &pagenation.Page, &pagenation.PageSize), err
-
 	}
-	fmt.Println("count 3")
-	//log.Println(users, "log")
-	//log.Println(utils.ComputeMetadata(totalRecords, pagenation.Page, pagenation.PageSize))
-	fmt.Println(utils.ComputeMetadata(&totalRecords, &pagenation.Page, &pagenation.PageSize), ";l;a;a;a;a;a;a;lalalalalalalalalalalall")
 	return users, utils.ComputeMetadata(&totalRecords, &pagenation.Page, &pagenation.PageSize), err
+
+}
+func (c *adminDatabase) ListBlockedUsers(pagenation utils.Filter) ([]domain.Users, utils.Metadata, error) {
+	var users []domain.Users
+	query := `SELECT COUNT(*) OVER(), user_id,first_name,last_name,email,gender,phone  FROM users WHERE block_status=true LIMIT $1 OFFSET $2;`
+
+	rows, err := c.DB.Query(query, pagenation.Limit(), pagenation.Offset())
+	if err != nil {
+		return nil, utils.Metadata{}, err
+	}
+	var totalrecords int
+	defer rows.Close()
+	for rows.Next() {
+		var user domain.Users
+		err = rows.Scan(&totalrecords, &user.User_Id, &user.First_Name, &user.Last_Name, &user.Email, &user.Gender, &user.Phone)
+		if err != nil {
+			return nil, utils.Metadata{}, err
+		}
+		users = append(users, user)
+		if err := rows.Err(); err != nil {
+			return users, utils.ComputeMetadata(&totalrecords, &pagenation.Page, &pagenation.PageSize), err
+		}
+	}
+	return users, utils.ComputeMetadata(&totalrecords, &pagenation.Page, &pagenation.PageSize), err
 
 }
 func (c *adminDatabase) AddProducts(product domain.Product) error {

@@ -66,19 +66,46 @@ func (cr *UserHandler) GetAddressToEdit(c *gin.Context) {
 	address_id, _ := strconv.Atoi(c.Query("address_id"))
 	user, _ := cr.AuthService.FindUser(email)
 	address, err := cr.UserService.FindAddress(user.ID, uint(address_id))
-	fmt.Println(address, err)
 	if err != nil {
-		c.JSON(200, gin.H{
-			"message": address,
+		c.JSON(300, gin.H{
+			"message": "failed to fetch the data ",
 		})
+	} else {
+		respo := response.SuccessResponse(true, "success fully fetched the data", address)
+		c.Writer.WriteHeader(200)
+		utils.ResponseJSON(c, respo)
+		return
 	}
-	fmt.Println(email, address_id)
 
 }
 
 func (cr *UserHandler) UpdateAddress(c *gin.Context) {
 	email := c.Writer.Header().Get("email")
-
-	fmt.Println(email)
+	user, _ := cr.AuthService.FindUser(email)
+	address_id, _ := strconv.Atoi(c.Query("address_id"))
+	var add domain.Address
+	err := c.BindJSON(&add)
+	if add.Area == "" || add.House == "" || add.City == "" || add.FName == "" || add.Phone_Number == 0 || add.Landmark == "" || add.Pincode == 0 {
+		c.JSON(300, gin.H{
+			"message": "please enter the values in empty fields",
+		})
+	}
+	if err != nil {
+		c.JSON(400, gin.H{
+			"errror": "not getting the data from user side",
+		})
+	}
+	fmt.Println(user.ID, address_id)
+	err = cr.UserService.UpdateAddress(add, (user.ID), uint(address_id))
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "the address is not updated",
+		})
+	} else {
+		res := response.SuccessResponse(true, "succefully updated", nil)
+		c.Writer.WriteHeader(200)
+		utils.ResponseJSON(c, res)
+		return
+	}
 
 }

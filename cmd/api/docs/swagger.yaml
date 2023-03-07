@@ -1,19 +1,399 @@
+definitions:
+  domain.Address:
+    properties:
+      address_id:
+        type: integer
+      area:
+        type: string
+      city:
+        type: string
+      fname:
+        type: string
+      house:
+        type: string
+      landmark:
+        type: string
+      lname:
+        type: string
+      phone_number:
+        type: integer
+      pincode:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  domain.Admins:
+    properties:
+      id:
+        type: integer
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  domain.Category:
+    properties:
+      category_Id:
+        type: integer
+      category_name:
+        type: string
+      description:
+        type: string
+      image:
+        type: string
+    type: object
+  domain.Login:
+    properties:
+      email:
+        maxLength: 50
+        minLength: 3
+        type: string
+      password:
+        maxLength: 12
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  domain.Product:
+    properties:
+      available:
+        type: boolean
+      brand_id:
+        type: integer
+      cart_id:
+        type: integer
+      category_id:
+        type: integer
+      color:
+        type: string
+      description:
+        type: string
+      image_path:
+        type: string
+      model_id:
+        type: integer
+      price:
+        type: number
+      product_Id:
+        type: integer
+      product_name:
+        type: string
+      quantity:
+        type: integer
+      trending:
+        type: boolean
+      wishListID:
+        description: |-
+          Brand        Brand
+          Category     Category
+        type: integer
+    type: object
+  domain.Users:
+    properties:
+      block_Status:
+        type: boolean
+      city:
+        type: string
+      country:
+        type: string
+      created_At:
+        description: Orders_ID uint
+        type: string
+      email:
+        maxLength: 50
+        minLength: 3
+        type: string
+      first_name:
+        maxLength: 12
+        minLength: 3
+        type: string
+      gender:
+        maxLength: 8
+        minLength: 4
+        type: string
+      last_name:
+        maxLength: 12
+        minLength: 1
+        type: string
+      password:
+        maxLength: 12
+        minLength: 6
+        type: string
+      phone:
+        maxLength: 12
+        minLength: 3
+        type: string
+      updated_At:
+        type: string
+      user_Id:
+        type: integer
+      verification:
+        description: Status       bool
+        type: boolean
+    required:
+    - email
+    - first_name
+    - gender
+    - last_name
+    - password
+    - phone
+    type: object
+  response.Response:
+    properties:
+      data: {}
+      errors: {}
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
 info:
-  contact:
-    email: support@swagger.io
-    name: API Support
-    url: http://www.swagger.io/support
-  description: This is a sample server  server. You can visit the GitHub repository
-    at https://github.com/prasanth-pn/clean-code-architecture-ecommerce
-  license:
-    name: MIT
-    url: https://opensource.org/licenses/MIT
-  title: Go + Gin ecommerce API
-  version: "1.0"
-paths: {}
-securityDefinitions:
-  BearerAuth:
-    in: header
-    name: Authorization
-    type: apiKey
+  contact: {}
+paths:
+  /admin/add/category:
+    post:
+      operationId: AddCategory by admin
+      parameters:
+      - description: AdminAddCategory
+        in: body
+        name: AdminAddCategory
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Category'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: List user for admin
+      tags:
+      - Admin
+  /admin/add/products:
+    post:
+      operationId: AdminAddProducts
+      parameters:
+      - description: AdminAddProduct
+        in: body
+        name: AdminAddProducts
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: List user for admin
+      tags:
+      - Admin
+  /admin/list/users:
+    get:
+      operationId: ListUsers by admin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: List user for admin
+      tags:
+      - Admin
+  /admin/login:
+    post:
+      operationId: AdminLogin for Admin
+      parameters:
+      - description: AdminLogin
+        in: body
+        name: AdminLogin
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Admins'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Admin Login for Admin
+      tags:
+      - Admin
+  /admin/register:
+    post:
+      operationId: AdminRegister for Admin
+      parameters:
+      - description: AdminRegister
+        in: body
+        name: AdminRegister
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Admins'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Register for Admin
+      tags:
+      - Admin
+  /user/checkout/add/address:
+    post:
+      operationId: AddAddress for user
+      parameters:
+      - description: Address
+        in: body
+        name: Address
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Address'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: AddAddress for user
+      tags:
+      - User
+  /user/login:
+    post:
+      operationId: user login authentication
+      parameters:
+      - description: userLogin
+        in: body
+        name: userLogin
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Login for user
+      tags:
+      - User
+  /user/register:
+    post:
+      operationId: Register for user
+      parameters:
+      - description: Register
+        in: body
+        name: Register
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Users'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Register for user
+      tags:
+      - User
+  /user/send/verificationmail:
+    post:
+      operationId: SendUserMail
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Send EmailOtp for User
+      tags:
+      - User
+  /user/verify/otp:
+    get:
+      operationId: VerifyUserOtp for authentication
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: code
+        in: query
+        name: code
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: VerifyUserOtp for User
+      tags:
+      - User
 swagger: "2.0"

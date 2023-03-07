@@ -25,6 +25,11 @@ func (c *adminUseCase) ListUsers(pagenation utils.Filter) (*[]domain.UserRespons
 	return &user, &metadata, err
 
 }
+func (c *adminUseCase)ListBlockedUsers(pagenation utils.Filter)(*[]domain.Users,*utils.Metadata,error){
+	user,metadata,err:=c.adminRepo.ListBlockedUsers(pagenation)
+	return &user,&metadata,err
+
+}
 func (c *adminUseCase) AddProducts(ctx context.Context, product domain.Product) error {
 	err := c.adminRepo.AddProducts(product)
 	return err

@@ -183,6 +183,7 @@ func (cr *AuthHandler) SendUserMail(c *gin.Context) {
 	}
 
 	err = cr.authUseCase.SendVerificationEmail(email)
+	fmt.Println(err, "errot in handler find the error please find it ")
 
 	if err != nil {
 		respons := response.ErrorResponse("Error whilw sending verification email", err.Error(), nil)
@@ -191,9 +192,9 @@ func (cr *AuthHandler) SendUserMail(c *gin.Context) {
 		return
 	}
 	user.Password = ""
-	response := response.SuccessResponse(true, "SUCCESS", "otp  successfully send")
+	respons := response.SuccessResponse(true, "SUCCESS", "otp  successfully send")
 	c.Writer.WriteHeader(http.StatusOK)
-	utils.ResponseJSON(c, response)
+	utils.ResponseJSON(c, respons)
 
 }
 
@@ -218,10 +219,10 @@ func (cr *AuthHandler) VerifyUserOtp(c *gin.Context) {
 
 	}
 	err = cr.authUseCase.UpdateUserStatus(email)
-	respo := response.SuccessResponse(true, "user verified successfully", nil)
+	if err!=nil{
+	respo := response.SuccessResponse(true, "user verified successfully", " login the page using username and password ")
 	c.Writer.WriteHeader(http.StatusOK)
 	utils.ResponseJSON(c, respo)
-	fmt.Println(err)
-	fmt.Println("otp is verify successfully")
+	}
 
 }

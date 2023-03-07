@@ -7,9 +7,10 @@ import (
 )
 
 type AdminUseCase interface {
-	ListUsers(pagenation utils.Filter) (*[]domain.UserResponse,*utils.Metadata, error)
+	ListUsers(pagenation utils.Filter) (*[]domain.UserResponse, *utils.Metadata, error)
+	ListBlockedUsers(pagenation utils.Filter) (*[]domain.Users, *utils.Metadata, error)
 	AddProducts(ctx context.Context, product domain.Product) error
 	AddCategory(ctx context.Context, category domain.Category) error
 	AddBrand(ctx context.Context, brand domain.Brand) error
-	AddModel(ctx context.Context,model domain.Model)error
+	AddModel(ctx context.Context, model domain.Model) error
 }

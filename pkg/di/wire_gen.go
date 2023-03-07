@@ -30,7 +30,7 @@ func InitializeEvent(cfg config.Config) (*http.ServerHTTP, error) {
 	authHandler := handler.NewAuthHandler(authUseCase, jwtService)
 	adminRepository := repository.NewAdminRepository(sqlDB)
 	adminUseCase := usecase.NewAdminUseCase(adminRepository)
-	adminHandler := handler.NewAdminHandler(adminUseCase, jwtService)
+	adminHandler := handler.NewAdminHandler(adminUseCase, jwtService, authUseCase)
 	middlewareMiddleware := middleware.NewUserMiddleware(jwtService)
 	serverHTTP := http.NewServerHTTP(userHandler, authHandler, adminHandler, middlewareMiddleware)
 	return serverHTTP, nil

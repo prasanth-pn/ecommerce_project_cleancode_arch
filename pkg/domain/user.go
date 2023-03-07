@@ -18,25 +18,19 @@ type Verification struct {
 }
 
 type Users struct {
-	User_Id      uint   `gorm:"serial primaryKey;autoIncrement:true;unique"`
-	First_Name   string `json:"first_name" validate:"required,min=3,max=12" gorm:"not null"`
-	Last_Name    string `json:"last_name" validate:"required,min=1,max=12" gorm:"not null"`
-	Email        string `json:"email" validate:"required,min=3,max=50" gorm:"not null;unique"`
-	Gender       string `json:"gender" validate:"required,min=4,max=8" `
-	Phone        string `json:"phone" validate:"required,min=3,max=12" gorm:"not null;unique"`
-	Password     string `json:"password" validate:"required,min=6,max=12" gorm:"not null" valid:"length(5/12)"`
-	Status       bool
+	User_Id    uint   `gorm:"serial primaryKey;autoIncrement:true;unique"`
+	First_Name string `json:"first_name" validate:"required,min=3,max=12" gorm:"not null"`
+	Last_Name  string `json:"last_name" validate:"required,min=1,max=12" gorm:"not null"`
+	Email      string `json:"email" validate:"required,min=3,max=50" gorm:"not null;unique"`
+	Gender     string `json:"gender" validate:"required,min=4,max=8" `
+	Phone      string `json:"phone" validate:"required,min=3,max=12" gorm:"not null;unique"`
+	Password   string `json:"password" validate:"required,min=6,max=12" gorm:"not null" valid:"length(5/12)"`
+	//	Status       bool
 	Verification bool
 	Country      string `json:"country "`
 	City         string `json:"city " `
 	Block_Status bool
-	Cart_Id      uint
-	Address_Id   uint
-	Category_Id  uint
-	//	Orders            Orders
-	Orders_ID uint
-	//WishList          WishList
-	WishListID uint
+	//Orders_ID uint
 	Created_At time.Time
 	Updated_At time.Time
 }
@@ -62,7 +56,7 @@ type Cartsinfo struct {
 }
 
 type Address struct {
-	Address_id   uint   `json:"address_id" gorm:"primaryKey;unique"  `
+	Address_id   uint   ` gorm:" serial primaryKey;autoIncrement:true;unique"`
 	User_Id      uint   `json:"user_id"  gorm:"not null" `
 	FName        string `json:"fname"  gorm:"not null" `
 	LName        string `json:"lname" gorm:"not null"`
@@ -77,34 +71,50 @@ type PaymentMethod struct {
 	COD bool
 }
 type Orders struct {
-	gorm.Model
+	Created_at      time.Time
+	Canceled_at     time.Time
 	User_Id         uint   `json:"user_id"  gorm:"not null" `
 	Order_Id        string `json:"order_id"  gorm:"not null" `
 	Total_Amount    uint   `json:"total_amount"  gorm:"not null" `
 	Applied_Coupons string `json:"applied_coupons"  `
-	Discount        uint   `json:"discount"   `
+	Discount        uint   `json:"discount"`
 	PaymentMethod   string `json:"paymentmethod"  gorm:"not null" `
 	Payment_Status  string `json:"payment_status"   `
-	Order_Status    string `json:"order_status"   `
-	//Address         Address
-	Address_Id uint `json:"address_id"  `
+	Payment_Id      string `json:payment_id`
+	Order_Status    string `json:"order_status"`
+	Address        Address
+	Address_Id uint `json:"address_id" `
 }
 type Orderd_Items struct {
-	gorm.Model
-	User_Id         uint `json:"user_id"  gorm:"not null" `
-	Product_id      uint `json:"product_id"`
-	Order_Id        string
-	Product_Name    string
-	Price           string
-	Order_Status    string
-	Payment_Status  string
-	PaymentMethod   string
-	Applied_Coupons string
-	Total_Amount    uint
+	Product_id   uint   `json:"product_id"`
+	Order_Id     string `json:"order_id"`
+	Product_Name string
+	Image_Path   string
+	Price        int
+	Quantity     uint
 }
+
 type WishList struct {
 	gorm.Model
 	UserID     uint
 	Product_Id uint
+}
+type ListOrder struct{
+	Created_At time.Time
+	Order_id  string
+	Total_amount int
+	Applied_Coupons string
+	Discount uint
+	Payment_Method string
+	Payment_Status string
+	Payment_id string
+	Order_Status string
+	Address_Id uint
+	Product_Id uint
+	Product_Name string
+	Image_Path string 
+	Price int
+	Quantity uint
+
 }
 

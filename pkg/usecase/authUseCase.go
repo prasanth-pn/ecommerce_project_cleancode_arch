@@ -55,9 +55,13 @@ func (c *authUseCase) SendVerificationEmail(email string) error {
 	max := 9999
 	min := 1000
 	code := rand.Intn((max - min) + min)
-	message := fmt.Sprintf("\n the verification code is \n \n %d \n\n use to verify \n your account.\n have good shoping experience", code)
+	message := fmt.Sprintf("\n the verification code is \n \n %d \n\n use to verify \n your account.\n have good shoping experience", 1234)
+
+	//messag = []byte(message)
+	fmt.Println(message, "this is the message to send to email")
 	// send random code to user's email
-	err := c.mailConfig.SendMail(c.config, email, message)
+	err := c.mailConfig.SendMail(c.config, email, []byte(message))
+	fmt.Println(err, " it is a  big error in the program verifiction")
 	if err != nil {
 
 		return err
@@ -132,4 +136,13 @@ func (c *authUseCase) VerifyAdmin(username, password string) error {
 func (c *authUseCase) FindAdmin(username string) (*domain.AdminResponse, error) {
 	user, err := c.authRepo.FindAdmin(username)
 	return &user, err
+}
+func (c *authUseCase) FindUserById(user_id uint) (domain.Users, error) {
+	user, err := c.authRepo.FindUserById(user_id)
+	return user, err
+
+}
+func (c *authUseCase) BlockUnblockUser(user_id uint, val bool) error {
+	err := c.authRepo.BlockUnblockUser(user_id, val)
+	return err
 }

@@ -62,3 +62,6 @@ type CartResponse struct {
 	Total_Price int
 	Quantity    uint
 }
+type AddressResponse struct {
+	Address_id uint
+}

@@ -15,12 +15,14 @@ import (
 type AdminHandler struct {
 	adminService services.AdminUseCase
 	jwtService   services.JWTService
+	authService  services.AuthUseCase
 }
 
-func NewAdminHandler(usecase services.AdminUseCase, jwtService services.JWTService) *AdminHandler {
+func NewAdminHandler(usecase services.AdminUseCase, jwtService services.JWTService, authusecase services.AuthUseCase) *AdminHandler {
 	return &AdminHandler{
 		adminService: usecase,
 		jwtService:   jwtService,
+		authService:  authusecase,
 	}
 }
 
@@ -34,20 +36,14 @@ func NewAdminHandler(usecase services.AdminUseCase, jwtService services.JWTServi
 // @Router /admin/list/users [get]
 func (cr *AdminHandler) ListUsers(c *gin.Context) {
 	page, _ := strconv.Atoi(c.Query("page"))
-	fmt.Println(page)
 	pageSize, _ := strconv.Atoi(c.Query("pageSize"))
-	fmt.Println(page, pageSize, "handler")
 	pagenation := utils.Filter{
 		Page:     page,
 		PageSize: pageSize,
 	}
-	//fmt.Println(pagenation, "pagenation")
 	users, metadata, err := cr.adminService.ListUsers(pagenation)
-	fmt.Println(metadata, "metadata")
-
 	if err != nil {
 		respons := response.ErrorResponse("cannot show users", err.Error(), nil)
-		c.Writer.Header().Set("Content-Type", "application/json")
 		c.Writer.WriteHeader(http.StatusUnauthorized)
 		utils.ResponseJSON(c, respons)
 		return
@@ -60,9 +56,85 @@ func (cr *AdminHandler) ListUsers(c *gin.Context) {
 		Meta:  metadata,
 	}
 	respons := response.SuccessResponse(true, "SUCCESS", result)
-	c.Writer.Header().Set("Content-Type", "application/json")
 	c.Writer.WriteHeader(http.StatusOK)
 	utils.ResponseJSON(c, respons)
+
+}
+func (cr *AdminHandler) ListBlockedUsers(c *gin.Context) {
+	page, _ := strconv.Atoi(c.Query("page"))
+	pagesize, _ := strconv.Atoi(c.Query("pagesize"))
+
+	pagenation := utils.Filter{
+		Page:     page,
+		PageSize: pagesize,
+	}
+
+	users, metadata, err := cr.adminService.ListBlockedUsers(pagenation)
+	result := struct {
+		Users []domain.Users
+		Meta  *utils.Metadata
+	}{
+		Users: *users,
+		Meta:  metadata,
+	}
+	if err != nil {
+
+		res := response.ErrorResponse("blocked users are not listed", err.Error(), "wait a minute")
+		c.Writer.WriteHeader(400)
+		utils.ResponseJSON(c, res)
+		return
+	} else {
+		res := response.SuccessResponse(true, "succesfully listed blocked users", result)
+		c.Writer.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(c, res)
+	}
+
+}
+func (cr *AdminHandler) BlockUser(c *gin.Context) {
+	user_id, _ := strconv.Atoi(c.Query("user_id"))
+	user, _ := cr.authService.FindUserById(uint(user_id))
+	fmt.Println(user, "\n\n\n\n ")
+	fmt.Println(user.Block_Status)
+
+	if user.Block_Status {
+		c.JSON(200, gin.H{
+			"message ": "the user is blocked",
+		})
+		c.Abort()
+		return
+	}
+	err := cr.authService.BlockUnblockUser(uint(user_id), true)
+	if err != nil {
+		resp := response.ErrorResponse("error is happend from block user", err.Error(), nil)
+		c.Writer.WriteHeader(400)
+		utils.ResponseJSON(c, resp)
+	}
+	//fmt.Println(err)
+
+	resp := response.SuccessResponse(true, "user is bllocked successfully", "blocked successsfully")
+	c.Writer.WriteHeader(200)
+	utils.ResponseJSON(c, resp)
+
+}
+func (cr *AdminHandler) UnblockUser(c *gin.Context) {
+	user_id, _ := strconv.Atoi(c.Query("user_id"))
+	user, _ := cr.authService.FindUserById(uint(user_id))
+
+	if !user.Block_Status {
+		c.JSON(300, gin.H{
+			"message": "user is already unblocked",
+		})
+		c.Abort()
+		return
+	} else {
+		err := cr.authService.BlockUnblockUser(uint(user_id), false)
+		if err == nil {
+			res := response.SuccessResponse(true, "successfully unblocked", user.First_Name)
+			c.Writer.WriteHeader(200)
+			utils.ResponseJSON(c, res)
+			return
+		}
+	}
 
 }
 

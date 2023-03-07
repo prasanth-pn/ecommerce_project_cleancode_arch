@@ -25,6 +25,7 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	//engine logger from gin
 
 	engine.Use(gin.Logger())
+	engine.LoadHTMLGlob("templates/*.html")
 
 	//swagger docs
 	//engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
@@ -35,24 +36,31 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	{
 		userapi.POST("/register", AuthHandler.Register)
 		userapi.GET("/list/products", UserHandler.ListProducts)
+		userapi.GET("/list/categories", UserHandler.ListCategories)
+		userapi.GET("/list/products_bycategories", UserHandler.ListProductsByCategories)
 		userapi.POST("/login", AuthHandler.UserLogin)
 		userapi.POST("/send/verificationmail", AuthHandler.SendUserMail)
 		userapi.GET("verify/otp", AuthHandler.VerifyUserOtp)
+		userapi.GET("/order/razorpay", UserHandler.RazorPay)
+		userapi.GET("/payment-success",UserHandler.Payment_Success)
+
 	}
 
 	//------------------------------------user middleware-------------
 	userapi.Use(middleware.AuthorizeJWT)
-	userapi.POST("/add/wishlist",UserHandler.AddWishList)
-	userapi.GET("/view/wishlist",UserHandler.ViewWishList)
-	userapi.DELETE("/delete/wishlist",UserHandler.RemoveFromWishlist)
-	userapi.POST("/add/wishlist_tocart",UserHandler.WishListTo_Cart)
+	userapi.POST("/add/wishlist", UserHandler.AddWishList)
+	userapi.GET("/view/wishlist", UserHandler.ViewWishList)
+	userapi.DELETE("/delete/wishlist", UserHandler.RemoveFromWishlist)
+	userapi.POST("/add/wishlist_tocart", UserHandler.WishListTo_Cart)
 	userapi.POST("/add/cart", UserHandler.AddToCart)
 	userapi.GET("/list/cart", UserHandler.ListCart)
-	//userapi.POST("/cart/checkout",UserHandler.Checkout)
+	userapi.PATCH("/update/cart", UserHandler.UpdateCart)
+	userapi.POST("/cart/checkout", UserHandler.Checkout)
 	userapi.POST("/add/address", UserHandler.AddAddress)
 	userapi.GET("/list/address", UserHandler.ListAddress)
-	userapi.GET("/edit/address",UserHandler.GetAddressToEdit)
-	userapi.PATCH("/update/address",UserHandler.UpdateAddress)
+	userapi.GET("/edit/address", UserHandler.GetAddressToEdit)
+	userapi.PATCH("/update/address", UserHandler.UpdateAddress)
+	userapi.GET("/list-order",UserHandler.ListOrder)
 
 	//------------------------------admin----------------
 	adminapi := engine.Group("admin")
@@ -61,6 +69,9 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 
 	//---------------------------middleware checking------------------
 	adminapi.Use(middleware.AuthorizeJWT)
+	adminapi.PATCH("user/block", AdminHandler.BlockUser)
+	adminapi.PATCH("/user/unblock", AdminHandler.UnblockUser)
+	adminapi.GET("list/blockedusers", AdminHandler.ListBlockedUsers)
 	adminapi.GET("/list/users", AdminHandler.ListUsers)
 	adminapi.POST("add/category", AdminHandler.AddCategory)
 	adminapi.POST("add/brands", AdminHandler.AddBrand)

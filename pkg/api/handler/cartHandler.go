@@ -29,6 +29,7 @@ func (cr *UserHandler) AddToCart(c *gin.Context) {
 	}
 
 	products, err := cr.UserService.FindProduct(ProductDetails.Product_id)
+
 	if err != nil {
 		respons := response.ErrorResponse("error finding ", err.Error(), nil)
 		c.Writer.WriteHeader(http.StatusBadRequest)
@@ -38,7 +39,6 @@ func (cr *UserHandler) AddToCart(c *gin.Context) {
 	fmt.Println(products.Price, products.Quantity)
 	//total price of products
 	total := products.Price * float32(ProductDetails.Quantity)
-	fmt.Println(total)
 	product_id := ProductDetails.Product_id     // value from above struct
 	product_quantity := ProductDetails.Quantity //value from above struct
 	cart := domain.Cart{
@@ -49,32 +49,36 @@ func (cr *UserHandler) AddToCart(c *gin.Context) {
 		Total_Price: total,
 	}
 	Cart, err := cr.UserService.ListCart(user_id)
-	fmt.Println(err)
+	if err != nil {
+		res := response.ErrorResponse("error in the list cart", err.Error(), nil)
+		c.Writer.WriteHeader(400)
+		utils.ResponseJSON(c, res)
+	}
 	for _, l := range Cart {
-		fmt.Println(l.Product_Id, "productid new", product_id)
 		if l.Product_Id == product_id {
 			quantity, err := cr.UserService.QuantityCart(product_id, user_id)
-			if err!=nil{
-				res:=response.ErrorResponse("failed to check quantity ",err.Error(),nil)
+			if err != nil {
+				res := response.ErrorResponse("failed to check quantity ", err.Error(), nil)
 				c.Writer.WriteHeader(http.StatusBadRequest)
-				utils.ResponseJSON(c,res)
+				utils.ResponseJSON(c, res)
 				return
 			}
 			totalprice := float32(product_quantity+quantity.Quantity) * products.Price
-			fmt.Println(quantity, err, "atlast found", total)
 			product_quantity += quantity.Quantity
 			err = cr.UserService.UpdateCart(totalprice, product_quantity, product_id, user_id)
 
 			if err != nil {
-				res:=response.ErrorResponse("failed to update cart cart update",err.Error(),nil)
+				res := response.ErrorResponse("failed to update cart cart update", err.Error(), nil)
 				c.Writer.WriteHeader(http.StatusBadRequest)
-				utils.ResponseJSON(c,res)
+				utils.ResponseJSON(c, res)
 				return
 			}
 			c.JSON(200, gin.H{
 				"msg": "quantity updated",
 			})
-	
+			c.Abort()
+			return
+
 		}
 	}
 	err = cr.UserService.CreateCart(cart)
@@ -92,10 +96,6 @@ func (cr *UserHandler) AddToCart(c *gin.Context) {
 //--------------------------------------------------------listCart-------------------------
 
 func (cr *UserHandler) ListCart(c *gin.Context) {
-	// var products domain.Product
-	// var userid domain.Users
-	//var cart []domain.CartListResponse
-
 	email := c.Writer.Header().Get("email")
 	user, err := cr.AuthService.FindUser(email)
 	if err != nil {
@@ -127,5 +127,47 @@ func (cr *UserHandler) ListCart(c *gin.Context) {
 	utils.ResponseJSON(c, respons)
 
 	//cart:=cr.UserService.ListCart(user.ID)
+
+}
+func (cr *UserHandler) UpdateCart(c *gin.Context) {
+	user_id, _ := strconv.Atoi(c.Writer.Header().Get("id"))
+	product_id, _ := strconv.Atoi(c.Query("product_id"))
+	quantity, _ := strconv.Atoi(c.Query("quantity"))
+	product, err := cr.UserService.FindProduct(uint(product_id))
+	if err != nil {
+		return
+	}
+	totalprice := (quantity) * int(product.Price)
+	fmt.Println(totalprice, "totalprice")
+
+	fmt.Println(user_id, "   ", product_id)
+	//err = cr.UserService.UpdateCart(totalprice, product_quantity, product_id, user_id)
+	err = cr.UserService.UpdateCart(float32(totalprice), uint(quantity), uint(product_id), uint(user_id))
+	if err != nil {
+		res := response.ErrorResponse("it is not updated something error ", err.Error(), nil)
+		c.Writer.WriteHeader(422)
+		utils.ResponseJSON(c, res)
+		return
+	} else {
+		res := response.SuccessResponse(true, "succefully updated the cart", "success wish you a happy shopping")
+		c.Writer.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(c, res)
+		return
+	}
+
+}
+func (cr *UserHandler) Checkout(c *gin.Context) {
+	// email := c.Writer.Header().Get("email")
+	// address_id, _ := strconv.Atoi(c.Query("address_id"))
+
+	// user, _ := cr.AuthService.FindUser(email)
+	// cart, _ := cr.UserService.ViewCart(uint(user.ID))
+	// payment_method := c.Query("payment_method")
+	// //fmt.Println(cart)
+	// for _, l := range cart {
+	// 	err := cr.UserService.CreateOrder(l, payment_method, address_id, int(user.ID))
+	// 	fmt.Println(err)
+
+	// }
 
 }

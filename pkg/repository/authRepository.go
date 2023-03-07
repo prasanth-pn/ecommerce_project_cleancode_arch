@@ -70,8 +70,8 @@ WHERE email=$1;`
 		&user.Password,
 		&user.Phone,
 	)
-	if user.Email==""{
-		return user,nil
+	if user.Email == "" {
+		return user, nil
 	}
 
 	return user, err
@@ -114,7 +114,7 @@ func (c *authDatabase) VerifyOtp(email string, code int) error {
 	var vr domain.Verification
 	query := `SELECT email,code FROM verifications WHERE email=$1 and code=$2;`
 	err := c.DB.QueryRow(query, email, code).Scan(&vr.Email, &vr.Code)
-	fmt.Println(err, "sellelnkfjkfkljrrofon")
+	//fmt.Println(err, "sellelnkfjkfkljrrofon")
 	if err != nil {
 		return errors.New("email or otp incorrect")
 	}
@@ -124,9 +124,27 @@ func (c *authDatabase) VerifyOtp(email string, code int) error {
 func (c *authDatabase) UpdateUserStatus(email string) error {
 	var user domain.Users
 	query := `UPDATE users SET verification=$1 WHERE email=$2;`
-	err := c.DB.QueryRow(query, false).Scan(&user.Verification)
+	err := c.DB.QueryRow(query, true, email).Scan(&user.Verification)
 	if err != nil {
 		return err
 	}
 	return nil
+}
+func (c *authDatabase) FindUserById(user_id uint) (domain.Users, error) {
+	var user domain.Users
+
+	query := `SELECT first_name,last_name,email,gender,phone,password,verification,country,
+	city,block_status FROM users WHERE user_id=$1;`
+	err := c.DB.QueryRow(query, user_id).Scan(&user.First_Name,
+		&user.Last_Name,
+		&user.Email,
+		&user.Gender, &user.Phone, &user.Password, &user.Verification, &user.Country, &user.City, &user.Block_Status)
+
+	fmt.Println(err)
+	return user, err
+}
+func (c *authDatabase) BlockUnblockUser(user_id uint, val bool) error {
+	query := `UPDATE users SET block_status=$1 WHERE user_id=$2;`
+	err := c.DB.QueryRow(query, val, user_id).Err()
+	return err
 }

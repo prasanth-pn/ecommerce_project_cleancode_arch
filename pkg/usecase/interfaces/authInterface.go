@@ -14,5 +14,7 @@ type AuthUseCase interface {
 	FindAdmin(username string) (*domain.AdminResponse, error)
 	SendVerificationEmail(email string) error
 	VerifyUserOtp(email string, code int) error
-	UpdateUserStatus(email string )error
+	UpdateUserStatus(email string) error
+	FindUserById(user_id uint) (domain.Users, error)
+	BlockUnblockUser(user_id uint, val bool) error
 }

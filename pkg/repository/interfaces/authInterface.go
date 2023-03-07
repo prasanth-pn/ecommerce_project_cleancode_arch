@@ -14,4 +14,6 @@ type AuthRepository interface{
 	 StoreVerificationDetails(email string ,code int )error
 	 VerifyOtp(email string,code int)error
 	 UpdateUserStatus(email string)error
+	 FindUserById(user_id uint)(domain.Users,error)
+	 BlockUnblockUser(user_id uint,val bool)error
 }
