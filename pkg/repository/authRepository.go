@@ -3,7 +3,6 @@ package repository
 import (
 	domain "clean/pkg/domain"
 	interfaces "clean/pkg/repository/interfaces"
-	"context"
 	"database/sql"
 	"errors"
 	"fmt"
@@ -23,7 +22,7 @@ func NewAuthRepository(DB *sql.DB) interfaces.AuthRepository {
 }
 
 // ------------------register------------------------------------------------------------------
-func (c *authDatabase) Register(ctx context.Context, user domain.Users) (int, error) {
+func (c *authDatabase) Register(user domain.Users) (int, error) {
 	var User_id int
 	user.Created_At = time.Now()
 	query := `INSERT INTO users(
@@ -78,7 +77,7 @@ WHERE email=$1;`
 }
 
 // --------------------------adminRegister---------------------------------
-func (c *authDatabase) AdminRegister(ctx context.Context, admin domain.Admins) error {
+func (c *authDatabase) AdminRegister(admin domain.Admins) error {
 	query := `INSERT INTO 
 admins (user_name,password)
 VALUES ($1,$2);`

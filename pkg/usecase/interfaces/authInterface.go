@@ -2,12 +2,11 @@ package interfaces
 
 import (
 	domain "clean/pkg/domain"
-	"context"
 )
 
 type AuthUseCase interface {
-	Register(ctx context.Context, user domain.Users) (domain.Users, error)
-	AdminRegister(ctx context.Context, admin domain.Admins) (domain.Admins, error)
+	Register(user domain.Users) (domain.Users, error)
+	AdminRegister(admin domain.Admins) (domain.Admins, error)
 	VerifyUser(email, password string) error
 	FindUser(email string) (domain.UserResponse, error)
 	VerifyAdmin(username, password string) error

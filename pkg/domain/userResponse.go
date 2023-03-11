@@ -32,11 +32,13 @@ type ProductResponse struct {
 	Product_Id    int
 	Product_Name  string
 	Description   string
-	Image         string
+	Image         []string
 	Price         float32
 	Color         string
 	Available     bool
 	Trending      bool
+	Brand_Name    string
+	Model_Name    string
 	Category_Name string
 }
 type CartListResponse struct {

@@ -38,14 +38,16 @@ func NewAuthHandler(usecase services.AuthUseCase, jwtUseCase services.JWTService
 func (cr *AuthHandler) Register(c *gin.Context) {
 	var user domain.Users
 	if err := c.BindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		res := response.ErrorResponse("errror while getting the data from user side", err.Error(), "error while fetching data")
+		c.Writer.WriteHeader(401)
+		utils.ResponseJSON(c, res)
 		return
 	}
-	user, err := cr.authUseCase.Register(c.Request.Context(), user)
+	user, err := cr.authUseCase.Register(user)
 	reply := "welcome  " + user.First_Name
 
 	if err != nil {
-		respons := response.ErrorResponse("failed register", err.Error(), nil)
+		respons := response.ErrorResponse("failed register", err.Error(), "register failed")
 		c.Writer.WriteHeader(http.StatusUnauthorized)
 		utils.ResponseJSON(c, respons)
 		return
@@ -116,7 +118,7 @@ func (cr *AuthHandler) AdminRegister(c *gin.Context) {
 		})
 		return
 	}
-	admin, err := cr.authUseCase.AdminRegister(c.Request.Context(), admin)
+	admin, err := cr.authUseCase.AdminRegister(admin)
 	if err != nil {
 		respons := response.ErrorResponse("failed to register", err.Error(), nil)
 		c.Writer.Header().Set("Content-Type", "application/json")
@@ -219,10 +221,10 @@ func (cr *AuthHandler) VerifyUserOtp(c *gin.Context) {
 
 	}
 	err = cr.authUseCase.UpdateUserStatus(email)
-	if err!=nil{
-	respo := response.SuccessResponse(true, "user verified successfully", " login the page using username and password ")
-	c.Writer.WriteHeader(http.StatusOK)
-	utils.ResponseJSON(c, respo)
+	if err != nil {
+		respo := response.SuccessResponse(true, "user verified successfully", " login the page using username and password ")
+		c.Writer.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(c, respo)
 	}
 
 }

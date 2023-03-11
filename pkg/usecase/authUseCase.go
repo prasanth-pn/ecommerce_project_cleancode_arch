@@ -7,7 +7,6 @@ import (
 	domain "clean/pkg/domain"
 	interfaces "clean/pkg/repository/interfaces"
 	services "clean/pkg/usecase/interfaces"
-	"context"
 	"errors"
 	"fmt"
 	"math/rand"
@@ -29,7 +28,7 @@ func NewAuthUseCase(repo interfaces.AuthRepository, mailConfig config.MailConfig
 }
 
 // ------------------------------------------register-------------------------
-func (c *authUseCase) Register(ctx context.Context, user domain.Users) (domain.Users, error) {
+func (c *authUseCase) Register(user domain.Users) (domain.Users, error) {
 	retun, _ := c.FindUser(user.Email)
 	//fmt.Println(user.Email, retun.Email)
 	fmt.Println(retun.Email, user.Email)
@@ -38,7 +37,7 @@ func (c *authUseCase) Register(ctx context.Context, user domain.Users) (domain.U
 
 	}
 
-	_, err := c.authRepo.Register(ctx, user)
+	_, err := c.authRepo.Register(user)
 	fmt.Println(err)
 	if err != nil {
 		return user, errors.New("email id already exists")
@@ -113,8 +112,8 @@ func VerifyPassword(password, dbpassword string) bool {
 }
 
 // ------------------------------------------AdminRegister-----------------------------------
-func (c *authUseCase) AdminRegister(ctx context.Context, admin domain.Admins) (domain.Admins, error) {
-	err := c.authRepo.AdminRegister(ctx, admin)
+func (c *authUseCase) AdminRegister(admin domain.Admins) (domain.Admins, error) {
+	err := c.authRepo.AdminRegister(admin)
 
 	return admin, err
 }

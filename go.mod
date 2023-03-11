@@ -6,9 +6,11 @@ require (
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-playground/validator/v10 v10.11.2
 	github.com/golang-jwt/jwt/v4 v4.5.0
+	github.com/google/uuid v1.1.2
 	github.com/google/wire v0.5.0
 	github.com/jinzhu/copier v0.3.5
 	github.com/joho/godotenv v1.5.1
+	github.com/kr/text v0.2.0
 	github.com/lib/pq v1.10.7
 	github.com/razorpay/razorpay-go v0.0.0-20230215135222-7e85dffcb7f0
 	github.com/spf13/viper v1.15.0

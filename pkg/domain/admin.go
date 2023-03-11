@@ -14,10 +14,9 @@ type Category struct {
 
 type Product struct {
 	Product_Id   int     `gorm:"serial primaryKey;autoIncrement:true;unique"`
-	Product_Name string  `json:"product_name" gorm:"not null"`
+	Product_Name string  `json:"product_name" gorm:"not null;unique"`
 	Description  string  `json:"description" gorm:"not null"`
 	Quantity     uint16  `json:"quantity" gorm:"not null"`
-	Image_Path   string  `json:"image_path" gorm:"not null"`
 	Price        float32 `json:"price" gorm:"not null"`
 	Color        string  `json:"color"`
 	Available    bool    `json:"available" gorm:"not null"`
@@ -25,10 +24,6 @@ type Product struct {
 	Category_Id  uint    `json:"category_id"`
 	Brand_Id     uint    `json:"brand_id"`
 	Model_Id     uint    `json:"model_id"`
-	Cart_Id      uint    `json:"cart_id"`
-	//Brand        Brand
-	//Category     Category
-	WishListID uint
 }
 type Brand struct {
 	Brand_Id          uint   `gorm:"serial primaryKey;autoIncrement:true;unique"`

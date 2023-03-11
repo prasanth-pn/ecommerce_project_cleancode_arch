@@ -43,8 +43,7 @@ func main() {
 	}
 	//connect database
 	gorm, _ := db.ConnectGormDB(config)
-	fmt.Printf("\n\n%v", gorm)
-
+	fmt.Println(gorm)
 	server, diErr := di.InitializeEvent(config)
 
 	if diErr != nil {

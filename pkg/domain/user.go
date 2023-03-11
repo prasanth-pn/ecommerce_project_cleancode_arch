@@ -82,8 +82,7 @@ type Orders struct {
 	Payment_Status  string `json:"payment_status"   `
 	Payment_Id      string `json:payment_id`
 	Order_Status    string `json:"order_status"`
-	Address        Address
-	Address_Id uint `json:"address_id" `
+	Address_Id      uint   `json:"address_id" `
 }
 type Orderd_Items struct {
 	Product_id   uint   `json:"product_id"`
@@ -99,22 +98,20 @@ type WishList struct {
 	UserID     uint
 	Product_Id uint
 }
-type ListOrder struct{
-	Created_At time.Time
-	Order_id  string
-	Total_amount int
+type ListOrder struct {
+	Created_At      time.Time
+	Order_id        string
+	Total_amount    int
 	Applied_Coupons string
-	Discount uint
-	Payment_Method string
-	Payment_Status string
-	Payment_id string
-	Order_Status string
-	Address_Id uint
-	Product_Id uint
-	Product_Name string
-	Image_Path string 
-	Price int
-	Quantity uint
-
+	Discount        uint
+	Payment_Method  string
+	Payment_Status  string
+	Payment_id      string
+	Order_Status    string
+	Address_Id      uint
+	Product_Id      uint
+	Product_Name    string
+	Image_Path      string
+	Price           int
+	Quantity        uint
 }
-

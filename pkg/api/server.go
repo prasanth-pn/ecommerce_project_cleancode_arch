@@ -42,7 +42,7 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 		userapi.POST("/send/verificationmail", AuthHandler.SendUserMail)
 		userapi.GET("verify/otp", AuthHandler.VerifyUserOtp)
 		userapi.GET("/order/razorpay", UserHandler.RazorPay)
-		userapi.GET("/payment-success",UserHandler.Payment_Success)
+		userapi.GET("/payment-success", UserHandler.Payment_Success)
 
 	}
 
@@ -60,12 +60,13 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	userapi.GET("/list/address", UserHandler.ListAddress)
 	userapi.GET("/edit/address", UserHandler.GetAddressToEdit)
 	userapi.PATCH("/update/address", UserHandler.UpdateAddress)
-	userapi.GET("/list-order",UserHandler.ListOrder)
+	userapi.GET("/list-order", UserHandler.ListOrder)
 
 	//------------------------------admin----------------
 	adminapi := engine.Group("admin")
 	adminapi.POST("/register", AuthHandler.AdminRegister)
 	adminapi.POST("/login", AuthHandler.AdminLogin)
+	//adminapi.POST("/image",AdminHandler.AddProductImages)
 
 	//---------------------------middleware checking------------------
 	adminapi.Use(middleware.AuthorizeJWT)
@@ -73,10 +74,15 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	adminapi.PATCH("/user/unblock", AdminHandler.UnblockUser)
 	adminapi.GET("list/blockedusers", AdminHandler.ListBlockedUsers)
 	adminapi.GET("/list/users", AdminHandler.ListUsers)
-	adminapi.POST("add/category", AdminHandler.AddCategory)
+	adminapi.POST("/add/category", AdminHandler.AddCategory)
+	adminapi.GET("/list/category", AdminHandler.ListCategories)
 	adminapi.POST("add/brands", AdminHandler.AddBrand)
 	adminapi.POST("add/models", AdminHandler.AddModel)
 	adminapi.POST("/add/products", AdminHandler.AddProducts)
+	adminapi.DELETE("/product/delete", AdminHandler.DeleteProduct)
+	adminapi.GET("/list/productby-categories",AdminHandler.ListProductsByCategories)
+	adminapi.PATCH("/update/product",AdminHandler.UpdateProduct)
+	adminapi.POST("/update/image",AdminHandler.ImageUpload)
 
 	return &ServerHTTP{engine: engine}
 

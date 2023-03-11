@@ -138,39 +138,6 @@ func (cr *AdminHandler) UnblockUser(c *gin.Context) {
 
 }
 
-// @Summary List user for admin
-// @ID AdminAddProducts
-// @Tags Admin
-// @Produce json
-// @Security BearerAuth
-// @Param AdminAddProducts body domain.Product{} true "AdminAddProduct"
-// @Success 200 {object} response.Response{}
-// @Failure 422 {object} response.Response{}
-// @Router /admin/add/products [post]
-func (cr *AdminHandler) AddProducts(c *gin.Context) {
-	var products domain.Product
-	if err := c.BindJSON(&products); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
-		return
-	}
-
-	err := cr.adminService.AddProducts(c.Request.Context(), products)
-	if err != nil {
-		respons := response.ErrorResponse("oops products not added", err.Error(), nil)
-		c.Writer.Header().Set("Content-Type", "application/json")
-		c.Writer.WriteHeader(http.StatusUnauthorized)
-		utils.ResponseJSON(c, respons)
-		return
-	}
-	respons := response.SuccessResponse(true, "SUCCESS", nil)
-	c.Writer.Header().Set("Content-Type", "application/json")
-	c.Writer.WriteHeader(http.StatusOK)
-	utils.ResponseJSON(c, respons)
-
-}
-
 // --------------------add category-----------------------------------------------------
 // @Summary List user for admin
 // @ID AddCategory by admin
@@ -187,7 +154,7 @@ func (cr *AdminHandler) AddCategory(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
-	err := cr.adminService.AddCategory(c.Request.Context(), category)
+	err := cr.adminService.AddCategory(category)
 	if err != nil {
 		respon := response.ErrorResponse("oops products not added ", err.Error(), nil)
 		c.Writer.WriteHeader(http.StatusUnauthorized)

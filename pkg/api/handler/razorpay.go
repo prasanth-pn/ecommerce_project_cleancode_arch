@@ -29,9 +29,10 @@ func (cr *UserHandler) RazorPay(c *gin.Context) {
 
 	sum, err := cr.UserService.FindTheSumOfCart(int(user.ID))
 	if err != nil {
-		c.JSON(422, gin.H{
-			"message": "we can't find the sum of total cart",
-		})
+		res := response.ErrorResponse("error in find the sum of cart ", err.Error(), "error in findinsumCArt")
+		c.Writer.WriteHeader(422)
+		utils.ResponseJSON(c, res)
+		return
 	}
 	client := razorpay.NewClient("rzp_test_0h8oXuKI0kORyw", "McmgVREukL239BhjpTuS4j3t")
 	razorpaytotal := sum * 100
@@ -41,14 +42,12 @@ func (cr *UserHandler) RazorPay(c *gin.Context) {
 	}
 	body, err := client.Order.Create(data, nil)
 	if err != nil {
-		c.JSON(404, gin.H{
-			"fail": "error creating order",
-		})
-		c.Abort()
+		res := response.ErrorResponse("erro in crearte datat in  client order", err.Error(), "order.create")
+		c.Writer.WriteHeader(422)
+		utils.ResponseJSON(c, res)
 		return
 	}
 	value := fmt.Sprint(body["id"])
-	fmt.Println("\n oderder_id", value, "\n\n ")
 	user_id := fmt.Sprint(user.ID)
 	Home := Home{
 		userid:      user_id,
@@ -103,15 +102,25 @@ func (cr *UserHandler) Payment_Success(c *gin.Context) {
 		return
 	}
 	for _, list := range cart {
-
 		err = cr.UserService.Insert_To_My_Order(list, orderid)
-		fmt.Println(err)
-
+		if err != nil {
+			res := response.ErrorResponse("error in insert into order", err.Error(), "insert into myorder")
+			c.Writer.WriteHeader(422)
+			utils.ResponseJSON(c, res)
+			return
+		}
 	}
 	//clear the cart
 	err = cr.UserService.ClearCart(order.User_Id)
-	fmt.Println(err)
-	//fmt.Println(cart)
+	if err != nil {
+		res := response.ErrorResponse("error in clearCArt", err.Error(), "error in clear cart")
+		c.Writer.WriteHeader(422)
+		utils.ResponseJSON(c, res)
+		return
+	}
+	//c.HTML(200, "success.html", "success")
+	res := response.SuccessResponse(true, "payment success", "payment success")
+	c.Writer.WriteHeader(200)
+	utils.ResponseJSON(c, res)
 
-	c.HTML(200, "success.html", nil)
 }
