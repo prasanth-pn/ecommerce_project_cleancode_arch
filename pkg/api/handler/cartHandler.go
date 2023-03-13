@@ -104,8 +104,8 @@ func (cr *UserHandler) AddToCart(c *gin.Context) {
 
 func (cr *UserHandler) ListCart(c *gin.Context) {
 	email := c.Writer.Header().Get("email")
+	fmt.Println(email)
 	user, err := cr.AuthService.FindUser(email)
-	fmt.Println(user.First_Name)
 	page, _ := strconv.Atoi(c.Query("page"))
 	pagesize, _ := strconv.Atoi(c.Query("pagesize"))
 	pagenation := utils.Filter{
@@ -118,7 +118,7 @@ func (cr *UserHandler) ListCart(c *gin.Context) {
 		utils.ResponseJSON(c, respons)
 		return
 	}
-	var cart []domain.CartListResponse
+	//var cart []domain.CartListResponse
 
 	cart, metadata, err := cr.UserService.ListCart(pagenation, user.ID)
 	if err != nil {

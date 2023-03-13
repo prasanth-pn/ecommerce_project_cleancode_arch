@@ -236,7 +236,7 @@ func (c *userDatabase) AddTo_WishList(wishlist domain.WishList) error {
 }
 func (c *userDatabase) ViewWishList(user_id uint) []domain.WishListResponse {
 	var wish []domain.WishListResponse
-	query := `select users.user_id,products.product_id,products.product_name ,products.price from wish_lists join products 
+	query := `select wish_lists.id,users.user_id,products.product_id,products.product_name ,products.price,products.image from wish_lists join products 
 	on wish_lists.product_id=products.product_id 
 	join users on wish_lists.user_id=users.user_id where users.user_id=$1;`
 	var wishe domain.WishListResponse
@@ -244,10 +244,10 @@ func (c *userDatabase) ViewWishList(user_id uint) []domain.WishListResponse {
 	fmt.Println(err)
 	defer rows.Close()
 	for rows.Next() {
-		rows.Scan(&wishe.Product_id,
-			&wishe.User_id,
+		rows.Scan(&wishe.WishList_Id, &wishe.User_id,
+			&wishe.Product_id,
 			&wishe.Product_name,
-			&wishe.Price)
+			&wishe.Price, &wishe.Image)
 		wish = append(wish, wishe)
 	}
 	return wish
