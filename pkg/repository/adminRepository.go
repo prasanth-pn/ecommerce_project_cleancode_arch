@@ -220,10 +220,11 @@ func (c *adminDatabase) ListProductByCategories(pagenation utils.Filter, cate_id
 	return products, utils.ComputeMetadata(&totalrecords, &pagenation.Page, &pagenation.PageSize), err
 }
 func (c *adminDatabase) UpdateProduct(product domain.Product) error {
+	fmt.Println(product, "in repository")
 	query := `UPDATE products SET product_name=$1,description=$2,quantity=$3,price=$4,color=$5,available=$6,trending=$7, category_id=$8,
-	brand_id=$9 WHERE product_id=$10,image=$11;`
+	brand_id=$9,image=$10 WHERE product_id=$11;`
 	err := c.DB.QueryRow(query, product.Product_Name, product.Description, product.Quantity, product.Price, product.Color, product.Available, product.Trending,
-		product.Category_Id, product.Brand_Id, product.Product_Id, product.Image)
+		product.Category_Id, product.Brand_Id, product.Image, product.Product_Id)
 	return err.Err()
 }
 func (c *adminDatabase) AddBrand(brand domain.Brand) error {

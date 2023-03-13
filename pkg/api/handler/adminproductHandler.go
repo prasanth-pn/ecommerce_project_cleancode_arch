@@ -6,9 +6,11 @@ import (
 	"clean/pkg/utils"
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"net/http"
 	"path/filepath"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -115,7 +117,39 @@ func (cr *AdminHandler) DeleteImage(c *gin.Context) {
 
 }
 func (cr *AdminHandler) GenerateCoupon(c *gin.Context) {
+	coupon := c.Query("coupon")
+	quantity, _ := strconv.Atoi(c.Query("quantity"))
+	validity, _ := strconv.Atoi(c.Query("validity"))
+	discount, _ := strconv.Atoi(c.Query("discount"))
+	expirationTime := time.Now().AddDate(0, 0, validity).Unix()
 
+	if coupon == "" {
+		length := 8
+		source := rand.NewSource(time.Now().Unix())
+		r := rand.New(source)
+		charset := "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+		code := make([]byte, length)
+		for i := range code {
+			code[i] = charset[r.Intn(len(charset))]
+		}
+		coupon = string(code)
+	}
+	COUPON := domain.Coupon{
+		Coupon:   coupon,
+		Quantity: quantity,
+		Validity: expirationTime,
+		Discount: discount,
+	}
+	err := cr.adminService.GenerateCoupon(COUPON)
+	if err != nil {
+		res := response.ErrorResponse("failed to genereate coupon ", err.Error(), "failed to genarate coupon")
+		c.Writer.WriteHeader(422)
+		utils.ResponseJSON(c, res)
+		return
+	}
+	res := response.SuccessResponse(true, "coupon generated succefully", COUPON)
+	c.Writer.WriteHeader(200)
+	utils.ResponseJSON(c, res)
 }
 func (cr *AdminHandler) ListCategories(c *gin.Context) {
 	page, _ := strconv.Atoi(c.Query("page"))
@@ -157,27 +191,36 @@ func (cr *AdminHandler) ListProductsByCategories(c *gin.Context) {
 }
 func (cr *AdminHandler) UpdateProduct(c *gin.Context) {
 	product_id, _ := strconv.Atoi(c.Query("product_id"))
-	fmt.Println(product_id)
-	file, _ := c.FormFile("image")
+	updateproduct := c.PostForm("updateproduct")
+	file, err := c.FormFile("image")
+	if err != nil {
+		res := response.ErrorResponse("please select a image file ", err.Error(), "select a image file to upload")
+		c.Writer.WriteHeader(300)
+		utils.ResponseJSON(c, res)
+	}
+	//json.Unmarshal([]byte(updateproduct), &product)
 	extention := filepath.Ext(file.Filename)
 	image := "product" + uuid.New().String() + extention
-	c.SaveUploadedFile(file, "./public/"+image)
+	fmt.Println(image)
 	var product domain.Product
-	if err := c.BindJSON(&product); err != nil {
+	if err := json.Unmarshal([]byte(updateproduct), &product); err != nil {
 		res := response.ErrorResponse("error while fetching data", err.Error(), "error while fetchign data in updateproduct")
 		c.Writer.WriteHeader(401)
 		utils.ResponseJSON(c, res)
 		return
 	}
+	fmt.Println(product.Image)
 	product.Image = image
 	product.Product_Id = product_id
-	err := cr.adminService.UpdateProduct(product)
+	fmt.Println(product)
+	err = cr.adminService.UpdateProduct(product)
 	if err != nil {
 		res := response.ErrorResponse("error while update product", err.Error(), product)
 		c.Writer.WriteHeader(401)
 		utils.ResponseJSON(c, res)
 		return
 	}
+	c.SaveUploadedFile(file, "./public/"+image)
 	res := response.SuccessResponse(true, "succefully updated", product)
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, res)
