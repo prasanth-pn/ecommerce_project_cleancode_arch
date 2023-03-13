@@ -30,6 +30,8 @@ func ConnectGormDB(cfg config.Config) (*gorm.DB, error) {
 	db.AutoMigrate(&domain.WishList{})
 	db.AutoMigrate(&domain.Orders{})
 	db.AutoMigrate(&domain.Orderd_Items{})
+	db.AutoMigrate(&domain.Coupon{})
+	db.AutoMigrate(&domain.Applied_Coupons{})
 
 	return db, dbErr
 }

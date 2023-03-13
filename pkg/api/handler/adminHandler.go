@@ -5,11 +5,14 @@ import (
 	"clean/pkg/domain"
 	services "clean/pkg/usecase/interfaces"
 	"clean/pkg/utils"
+	"encoding/json"
 	"fmt"
 	"net/http"
+	"path/filepath"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type AdminHandler struct {
@@ -149,18 +152,33 @@ func (cr *AdminHandler) UnblockUser(c *gin.Context) {
 // @Failure 422 {object} response.Response{}
 // @Router /admin/add/category [post]
 func (cr *AdminHandler) AddCategory(c *gin.Context) {
-	var category domain.Category
-	if err := c.BindJSON(&category); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+	files, err := c.FormFile("image")
+	if err != nil {
+		res := response.ErrorResponse("please select the image to upload ", err.Error(), "no image is selected")
+		c.Writer.WriteHeader(422)
+		utils.ResponseJSON(c, res)
 		return
 	}
-	err := cr.adminService.AddCategory(category)
+	extention := filepath.Ext(files.Filename)
+	image := "category" + uuid.New().String() + extention
+	var category domain.Category
+	file := c.PostForm("category")
+	err = json.Unmarshal([]byte(file), &category)
+	if err != nil {
+		res := response.ErrorResponse("error when unmarshal the jason file ", err.Error(), "error from parsing data")
+		c.Writer.WriteHeader(422)
+		utils.ResponseJSON(c, res)
+		return
+	}
+	category.Image = image
+	err = cr.adminService.AddCategory(category)
 	if err != nil {
 		respon := response.ErrorResponse("oops products not added ", err.Error(), nil)
 		c.Writer.WriteHeader(http.StatusUnauthorized)
 		utils.ResponseJSON(c, respon)
 		return
 	}
+	c.SaveUploadedFile(files, "./public/"+image)
 	respons := response.SuccessResponse(true, "SUCCESS", nil)
 	c.Writer.WriteHeader(http.StatusOK)
 	utils.ResponseJSON(c, respons)

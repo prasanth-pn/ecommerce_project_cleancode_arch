@@ -30,7 +30,7 @@ func (c *adminUseCase) ListBlockedUsers(pagenation utils.Filter) (*[]domain.User
 	return &user, &metadata, err
 
 }
-func (c *adminUseCase) AddProducts(ctx context.Context, product domain.Product) (int, error) {
+func (c *adminUseCase) AddProducts(product domain.Product) (int, error) {
 	product_id, err := c.adminRepo.AddProducts(product)
 	return product_id, err
 }
@@ -73,4 +73,16 @@ func (c *adminUseCase) AddModel(ctx context.Context, model domain.Model) error {
 func (c *adminUseCase) ImageUpload(image []string, product_id int) error {
 	err := c.adminRepo.ImageUpload(image, product_id)
 	return err
+}
+func (c *adminUseCase) DeleteImage(product_id int, imagename string) error {
+	err := c.adminRepo.DeleteImage(product_id, imagename)
+	return err
+}
+func (c *adminUseCase) GenerateCoupon(coupon domain.Coupon) error {
+	err := c.adminRepo.GenerateCoupon(coupon)
+	return err
+}
+func (c *adminUseCase) FindCoupon(coupon string) (domain.Coupon, error) {
+	cpn, err := c.adminRepo.FindCoupon(coupon)
+	return cpn, err
 }

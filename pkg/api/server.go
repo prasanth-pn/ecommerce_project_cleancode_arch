@@ -61,6 +61,8 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	userapi.GET("/edit/address", UserHandler.GetAddressToEdit)
 	userapi.PATCH("/update/address", UserHandler.UpdateAddress)
 	userapi.GET("/list-order", UserHandler.ListOrder)
+	userapi.GET("/apply-coupon", UserHandler.Apply_Coupon)
+	userapi.POST("/checkout", UserHandler.Checkout)
 
 	//------------------------------admin----------------
 	adminapi := engine.Group("admin")
@@ -80,9 +82,11 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	adminapi.POST("add/models", AdminHandler.AddModel)
 	adminapi.POST("/add/products", AdminHandler.AddProducts)
 	adminapi.DELETE("/product/delete", AdminHandler.DeleteProduct)
-	adminapi.GET("/list/productby-categories",AdminHandler.ListProductsByCategories)
-	adminapi.PATCH("/update/product",AdminHandler.UpdateProduct)
-	adminapi.POST("/update/image",AdminHandler.ImageUpload)
+	adminapi.GET("/list/productby-categories", AdminHandler.ListProductsByCategories)
+	adminapi.PATCH("/update/product", AdminHandler.UpdateProduct)
+	adminapi.POST("/update/image", AdminHandler.ImageUpload)
+	adminapi.DELETE("/delete/image", AdminHandler.DeleteImage)
+	adminapi.POST("/generate-coupon", AdminHandler.GenerateCoupon)
 
 	return &ServerHTTP{engine: engine}
 

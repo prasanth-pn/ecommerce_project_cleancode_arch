@@ -29,4 +29,3 @@ func ErrorResponse(message string, err string, data interface{}) Response {
 	}
 	return res
 }
-

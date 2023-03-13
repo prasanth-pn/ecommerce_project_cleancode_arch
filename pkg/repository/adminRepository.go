@@ -7,6 +7,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"time"
 )
 
 type adminDatabase struct {
@@ -83,6 +84,7 @@ func (c *adminDatabase) ListBlockedUsers(pagenation utils.Filter) ([]domain.User
 func (c *adminDatabase) AddProducts(product domain.Product) (int, error) {
 	query := `INSERT INTO 
 	products (product_name,
+			  image,
 			  description,
 			  quantity,
 			  price,
@@ -90,9 +92,9 @@ func (c *adminDatabase) AddProducts(product domain.Product) (int, error) {
 			  available,
 			  trending,
 			  category_id,brand_id)
-	VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)RETURNING product_id;`
+	VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)RETURNING product_id;`
 	var product_id int
-	err := c.DB.QueryRow(query, product.Product_Name,
+	err := c.DB.QueryRow(query, product.Product_Name, product.Image,
 		product.Description,
 		product.Quantity,
 		product.Price,
@@ -181,7 +183,7 @@ func (c *adminDatabase) ListProductByCategories(pagenation utils.Filter, cate_id
 	var products []domain.ProductResponse
 	var totalrecords int
 	var images []string
-	query := `SELECT COUNT(*) OVER() ,P.product_id,P.product_name,P.description,P.price,P.color,P.available,P.trending,C.category_name,B.brand_name
+	query := `SELECT COUNT(*) OVER() ,P.product_id,P.product_name,P.description,P.image,P.price,P.color,P.available,P.trending,C.category_name,B.brand_name
 	FROM products AS P INNER JOIN categories AS C ON P.category_id=C.category_id INNER JOIN brands AS B ON P.brand_id=B.brand_id WHERE C.category_id=$1 LIMIT $2 OFFSET $3;`
 	img := `SELECT image FROM images WHERE product_id=$1;`
 	rows, err := c.DB.Query(query, cate_id, pagenation.Limit(), pagenation.Offset())
@@ -192,7 +194,7 @@ func (c *adminDatabase) ListProductByCategories(pagenation utils.Filter, cate_id
 	for rows.Next() {
 		var image string
 		var product domain.ProductResponse
-		err = rows.Scan(&totalrecords, &product.Product_Id, &product.Product_Name, &product.Description, &product.Price, &product.Color, &product.Available, &product.Trending, &product.Category_Name,
+		err = rows.Scan(&totalrecords, &product.Product_Id, &product.Product_Name, &product.Description, &product.MainPic, &product.Price, &product.Color, &product.Available, &product.Trending, &product.Category_Name,
 			&product.Brand_Name)
 		if err != nil {
 			return products, utils.Metadata{}, err
@@ -210,9 +212,8 @@ func (c *adminDatabase) ListProductByCategories(pagenation utils.Filter, cate_id
 			images = append(images, image)
 		}
 		product.Image = images
-		//images=nil
-
 		products = append(products, product)
+		images = nil
 
 	}
 	fmt.Println(images)
@@ -220,9 +221,9 @@ func (c *adminDatabase) ListProductByCategories(pagenation utils.Filter, cate_id
 }
 func (c *adminDatabase) UpdateProduct(product domain.Product) error {
 	query := `UPDATE products SET product_name=$1,description=$2,quantity=$3,price=$4,color=$5,available=$6,trending=$7, category_id=$8,
-	brand_id=$9,model_id=$10 WHERE product_id=$11;`
+	brand_id=$9 WHERE product_id=$10,image=$11;`
 	err := c.DB.QueryRow(query, product.Product_Name, product.Description, product.Quantity, product.Price, product.Color, product.Available, product.Trending,
-		product.Category_Id, product.Brand_Id, product.Model_Id, product.Product_Id)
+		product.Category_Id, product.Brand_Id, product.Product_Id, product.Image)
 	return err.Err()
 }
 func (c *adminDatabase) AddBrand(brand domain.Brand) error {
@@ -231,7 +232,6 @@ func (c *adminDatabase) AddBrand(brand domain.Brand) error {
 	err := c.DB.QueryRow(query, brand.Brand_Name, brand.Brand_Description, brand.Discount).Err()
 	return err
 }
-
 func (c *adminDatabase) AddModel(model domain.Model) error {
 	query := `INSERT INTO models(model_name)VALUES($1);`
 	err := c.DB.QueryRow(query, model.Model_Name).Err()
@@ -268,4 +268,21 @@ func (c *adminDatabase) ImageUpload(image []string, product_id int) error {
 	// _, err = c.DB.Exec("UPDATE images SET image = ARRAY(SELECT * FROM unnest(image) WHERE unnest != $1) WHERE id = $2", imageValue, 1)
 	fmt.Println("Data inserted successfully!")
 	return nil
+}
+func (c *adminDatabase) DeleteImage(product_id int, imagename string) error {
+	query := `DELETE from images where product_id=$1 AND image=$2;`
+	err := c.DB.QueryRow(query, product_id, imagename)
+	return err.Err()
+}
+func (c *adminDatabase) GenerateCoupon(coupon domain.Coupon) error {
+	var time = time.Now()
+	query := `INSERT INTO coupons (created_at,coupon,discount,quantity,validity)VALUES($1,$2,$3,$4,$5);`
+	err := c.DB.QueryRow(query, time, coupon.Coupon, coupon.Discount, coupon.Quantity, coupon.Validity)
+	return err.Err()
+}
+func (c *adminDatabase) FindCoupon(coupon string) (domain.Coupon, error) {
+	var cpn domain.Coupon
+	query := `SELECT * FROM coupons where coupon=$1;`
+	err := c.DB.QueryRow(query, coupon).Scan(&cpn.Created_At, &cpn.Coupon_Id, &cpn.Coupon, &cpn.Discount, cpn.Quantity, cpn.Validity)
+	return cpn, err
 }

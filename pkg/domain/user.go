@@ -16,7 +16,6 @@ type Verification struct {
 	Email    string `json:"email" gorm:"not null;unique"`
 	Code     int    `json:"code" gorm:"not null"`
 }
-
 type Users struct {
 	User_Id    uint   `gorm:"serial primaryKey;autoIncrement:true;unique"`
 	First_Name string `json:"first_name" validate:"required,min=3,max=12" gorm:"not null"`
@@ -25,20 +24,18 @@ type Users struct {
 	Gender     string `json:"gender" validate:"required,min=4,max=8" `
 	Phone      string `json:"phone" validate:"required,min=3,max=12" gorm:"not null;unique"`
 	Password   string `json:"password" validate:"required,min=6,max=12" gorm:"not null" valid:"length(5/12)"`
-	//	Status       bool
 	Verification bool
 	Country      string `json:"country "`
 	City         string `json:"city " `
 	Block_Status bool
-	//Orders_ID uint
 	Created_At time.Time
 	Updated_At time.Time
 }
 type Cart struct {
 	Created_At  time.Time
-	Deleted_At  time.Time
 	Updated_At  time.Time
-	Cart_Id     uint    ` gorm:" serial primaryKey;autoIncrement:true;unique"`
+	Cart_Id     uint ` gorm:" serial primaryKey;autoIncrement:true;unique"`
+	Image       string
 	User_Id     uint    `json:"user_id"   `
 	Product_Id  uint    `json:"product_id" `
 	Quantity    uint    `json:"quantity"`
@@ -114,4 +111,9 @@ type ListOrder struct {
 	Image_Path      string
 	Price           int
 	Quantity        uint
+}
+type Applied_Coupons struct {
+	Created_At  time.Time
+	UserID      uint
+	Coupon_Code string `json:"coupon_code"`
 }

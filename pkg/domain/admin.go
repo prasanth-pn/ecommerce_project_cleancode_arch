@@ -1,9 +1,19 @@
 package domain
 
+import "time"
+
 type Admins struct {
 	ID       uint   `gorm:"primaryKey;autoIncrement:true;unique"`
 	UserName string `json:"username" gorm:"not null"`
 	Password string `json:"password" gorm:"not null"`
+}
+type Coupon struct {
+	Created_At time.Time
+	Coupon_Id  uint   `gorm:"serial primaryKey;autoIncrement:true;unique"`
+	Coupon     string `json:"coupon"`
+	Discount   int    `json:"discount"`
+	Quantity   int    `json:"quantity"`
+	Validity   int64  `json:"validity"`
 }
 type Category struct {
 	Category_Id   int    `gorm:"serial primaryKey;autoIncrement:true;unique"`
@@ -13,8 +23,9 @@ type Category struct {
 }
 
 type Product struct {
-	Product_Id   int     `gorm:"serial primaryKey;autoIncrement:true;unique"`
-	Product_Name string  `json:"product_name" gorm:"not null;unique"`
+	Product_Id   int    `gorm:"serial primaryKey;autoIncrement:true;unique"`
+	Product_Name string `json:"product_name" gorm:"not null;unique"`
+	Image        string
 	Description  string  `json:"description" gorm:"not null"`
 	Quantity     uint16  `json:"quantity" gorm:"not null"`
 	Price        float32 `json:"price" gorm:"not null"`
@@ -23,7 +34,6 @@ type Product struct {
 	Trending     bool    `json:"trending" gorm:"not null"`
 	Category_Id  uint    `json:"category_id"`
 	Brand_Id     uint    `json:"brand_id"`
-	Model_Id     uint    `json:"model_id"`
 }
 type Brand struct {
 	Brand_Id          uint   `gorm:"serial primaryKey;autoIncrement:true;unique"`

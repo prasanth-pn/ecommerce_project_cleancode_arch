@@ -29,6 +29,10 @@ func (cr *AdminHandler) AddProducts(c *gin.Context) {
 	//adding product details
 	var products domain.Product
 	file := c.PostForm("products")
+	img, _ := c.FormFile("homepic")
+	extention := filepath.Ext(img.Filename)
+	imgf := "product" + uuid.New().String() + extention
+	c.SaveUploadedFile(img, "./public/"+imgf)
 	err := json.Unmarshal([]byte(file), &products)
 	if err != nil {
 		res := response.ErrorResponse("errror while json unmarshal", err.Error(), "error in addproduct")
@@ -36,14 +40,14 @@ func (cr *AdminHandler) AddProducts(c *gin.Context) {
 		utils.ResponseJSON(c, res)
 		return
 	}
-	p(products.Description)
+	products.Image = imgf
 	if err != nil {
 		res := response.ErrorResponse("error when binding products", err.Error(), "error in addproduct")
 		c.Writer.WriteHeader(422)
 		utils.ResponseJSON(c, res)
 		return
 	}
-	product_id, err := cr.adminService.AddProducts(c.Request.Context(), products)
+	product_id, err := cr.adminService.AddProducts(products)
 	products.Product_Id = product_id
 	if err != nil {
 		res := response.ErrorResponse("oops products not added", err.Error(), "proucts not added in add products some error")
@@ -107,6 +111,12 @@ func (cr AdminHandler) DeleteProduct(c *gin.Context) {
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, res)
 }
+func (cr *AdminHandler) DeleteImage(c *gin.Context) {
+
+}
+func (cr *AdminHandler) GenerateCoupon(c *gin.Context) {
+
+}
 func (cr *AdminHandler) ListCategories(c *gin.Context) {
 	page, _ := strconv.Atoi(c.Query("page"))
 	pagesize, _ := strconv.Atoi(c.Query("pagesize"))
@@ -148,6 +158,10 @@ func (cr *AdminHandler) ListProductsByCategories(c *gin.Context) {
 func (cr *AdminHandler) UpdateProduct(c *gin.Context) {
 	product_id, _ := strconv.Atoi(c.Query("product_id"))
 	fmt.Println(product_id)
+	file, _ := c.FormFile("image")
+	extention := filepath.Ext(file.Filename)
+	image := "product" + uuid.New().String() + extention
+	c.SaveUploadedFile(file, "./public/"+image)
 	var product domain.Product
 	if err := c.BindJSON(&product); err != nil {
 		res := response.ErrorResponse("error while fetching data", err.Error(), "error while fetchign data in updateproduct")
@@ -155,6 +169,7 @@ func (cr *AdminHandler) UpdateProduct(c *gin.Context) {
 		utils.ResponseJSON(c, res)
 		return
 	}
+	product.Image = image
 	product.Product_Id = product_id
 	err := cr.adminService.UpdateProduct(product)
 	if err != nil {
@@ -164,7 +179,7 @@ func (cr *AdminHandler) UpdateProduct(c *gin.Context) {
 		return
 	}
 	res := response.SuccessResponse(true, "succefully updated", product)
-	c.Writer.WriteHeader(401)
+	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, res)
 }
 func (cr *AdminHandler) ImageUpload(c *gin.Context) {

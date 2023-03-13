@@ -1,6 +1,10 @@
 package domain
 
-import "github.com/golang-jwt/jwt/v4"
+import (
+	"time"
+
+	"github.com/golang-jwt/jwt/v4"
+)
 
 type UserResponse struct {
 	TotalRecords int
@@ -32,26 +36,25 @@ type ProductResponse struct {
 	Product_Id    int
 	Product_Name  string
 	Description   string
+	MainPic       string
 	Image         []string
 	Price         float32
 	Color         string
 	Available     bool
 	Trending      bool
 	Brand_Name    string
-	Model_Name    string
 	Category_Name string
 }
 type CartListResponse struct {
+	Created_At   time.Time
 	User_id      uint
 	Product_id   uint
 	Product_Name string
 	Description  string
 	Image_Path   string
 	Price        float32
-	Email        string
 	Quantity     uint
 	Total_Amount float32
-	Total_Price  float32
 }
 
 type WishListResponse struct {

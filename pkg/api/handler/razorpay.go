@@ -95,7 +95,7 @@ func (cr *UserHandler) Payment_Success(c *gin.Context) {
 		c.Writer.WriteHeader(422)
 		utils.ResponseJSON(c, res)
 	}
-	cart, err := cr.UserService.ViewCart(order.User_Id)
+	cart, err := cr.UserService.ListViewCart(order.User_Id)
 	if err != nil {
 		res := response.ErrorResponse("error in list cart", err.Error(), "update orders listcart")
 		utils.ResponseJSON(c, res)

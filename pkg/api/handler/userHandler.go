@@ -94,8 +94,6 @@ func (cr *UserHandler) ListProductsByCategories(c *gin.Context) {
 		PageSize: pagesize,
 	}
 	product, metadata, err := cr.UserService.ListProductsByCategories(category_id, pagenation)
-	fmt.Println(product)
-
 	result := struct {
 		Product []domain.ProductResponse
 		Meta    utils.Metadata
