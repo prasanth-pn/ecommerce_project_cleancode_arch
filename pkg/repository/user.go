@@ -345,3 +345,9 @@ func (c *userDatabase) FindCoupon(coupon string) (domain.Coupon, error) {
 	err := c.DB.QueryRow(query, coupon).Scan(&Coupon.Created_At, &Coupon.Coupon_Id, &Coupon.Coupon, &Coupon.Discount, &Coupon.Quantity, &Coupon.Validity)
 	return Coupon, err
 }
+func (c *userDatabase) UpdateUser(user domain.Users) (domain.Users, error) {
+	//var User domain.Users
+	query := `UPDATE users SET first_name=$1,last_name=$2,gender=$3,country=$4,city=$5 ,profile_pic=$6 WHERE user_id=$7;`
+	err := c.DB.QueryRow(query, user.First_Name, user.Last_Name, user.Gender, user.Country, user.City, user.Profile_Pic, user.User_Id)
+	return user, err.Err()
+}

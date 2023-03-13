@@ -7,11 +7,14 @@ import (
 	"clean/pkg/domain"
 	services "clean/pkg/usecase/interfaces"
 	"clean/pkg/utils"
+	"encoding/json"
 	"fmt"
 	"net/http"
+	"path/filepath"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	// 	response "clean/pkg/common/response"
 	// 	"github.com/gin-gonic/gin"
 	// 	"github.com/jinzhu/copier"
@@ -111,4 +114,33 @@ func (cr *UserHandler) ListProductsByCategories(c *gin.Context) {
 		c.Writer.WriteHeader(200)
 		utils.ResponseJSON(c, res)
 	}
+}
+
+func (cr *UserHandler) UserEdit(c *gin.Context) {
+	user_id, _ := strconv.Atoi(c.Writer.Header().Get("id"))
+	profile, _ := c.FormFile("profile")
+	file := c.PostForm("user")
+	var user domain.Users
+	if err := json.Unmarshal([]byte(file), &user); err != nil {
+		res := response.ErrorResponse("data is not fetched ", err.Error(), "data is not fetched from bindjson user")
+		c.Writer.WriteHeader(422)
+		utils.ResponseJSON(c, res)
+		return
+	}
+	extention := filepath.Ext(profile.Filename)
+	profimage := "profile" + uuid.New().String() + extention
+	user.Password = ""
+	user.User_Id = uint(user_id)
+	user.Profile_Pic = profimage
+	userResponse, err := cr.UserService.UpdateUser(user)
+	if err != nil {
+		res := response.ErrorResponse("failed update your profile update later", err.Error(), "try again later")
+		c.Writer.WriteHeader(422)
+		utils.ResponseJSON(c, res)
+		return
+	}
+	c.SaveUploadedFile(profile, "./public/"+profimage)
+	res := response.SuccessResponse(true, "success", userResponse)
+	c.Writer.WriteHeader(200)
+	utils.ResponseJSON(c, res)
 }

@@ -59,6 +59,7 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	userapi.POST("/add/address", UserHandler.AddAddress)
 	userapi.GET("/list/address", UserHandler.ListAddress)
 	userapi.GET("/edit/address", UserHandler.GetAddressToEdit)
+	userapi.PATCH("/profile-edit",UserHandler.UserEdit)
 	userapi.PATCH("/update/address", UserHandler.UpdateAddress)
 	userapi.GET("/list-order", UserHandler.ListOrder)
 	userapi.GET("/apply-coupon", UserHandler.Apply_Coupon)

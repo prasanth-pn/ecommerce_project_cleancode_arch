@@ -107,3 +107,7 @@ func (c *userUseCase) FindCoupon(coupon string) (domain.Coupon, error) {
 	Coupon, err := c.userRepo.FindCoupon(coupon)
 	return Coupon, err
 }
+func (c *userUseCase) UpdateUser(user domain.Users) (domain.Users, error) {
+	User, err := c.userRepo.UpdateUser(user)
+	return User, err
+}

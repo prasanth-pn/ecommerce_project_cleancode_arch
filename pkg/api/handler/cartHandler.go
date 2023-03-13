@@ -154,12 +154,15 @@ func (cr *UserHandler) UpdateCart(c *gin.Context) {
 	quantity, _ := strconv.Atoi(c.Query("quantity"))
 	product, err := cr.UserService.FindProduct(uint(product_id))
 	if err != nil {
+		res:=response.ErrorResponse("failed to find the product",err.Error(),"product is not available")
+		c.Writer.WriteHeader(422)
+		utils.ResponseJSON(c,res)
 		return
 	}
 	totalprice := (quantity) * int(product.Price)
 	fmt.Println(totalprice, "totalprice")
 
-	fmt.Println(user_id, "   ", product_id)
+	
 	//err = cr.UserService.UpdateCart(totalprice, product_quantity, product_id, user_id)
 	ResponseCart, err := cr.UserService.UpdateCart(float32(totalprice), uint(quantity), uint(product_id), uint(user_id))
 	if err != nil {
@@ -167,12 +170,10 @@ func (cr *UserHandler) UpdateCart(c *gin.Context) {
 		c.Writer.WriteHeader(422)
 		utils.ResponseJSON(c, res)
 		return
-	} else {
+	} 
 		res := response.SuccessResponse(true, "succefully updated the cart", ResponseCart)
 		c.Writer.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(c, res)
-		return
-	}
 }
 func (cr *UserHandler) Apply_Coupon(c *gin.Context) {
 	var cpn string
@@ -242,5 +243,4 @@ func (cr *UserHandler) Checkout(c *gin.Context) {
 	payment_method := c.Query("payment_method")
 	fmt.Println(cart)
 	fmt.Println(payment_method, "  address_id", address_id)
-
 }

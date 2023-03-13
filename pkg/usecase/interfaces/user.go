@@ -33,4 +33,5 @@ type UserUseCase interface {
 	ClearCart(user_id uint) error
 	ListOrder(user_id uint) ([]domain.ListOrder, uint, error)
 	FindCoupon(coupon string) (domain.Coupon, error)
+	UpdateUser(user domain.Users)(domain.Users,error)
 }

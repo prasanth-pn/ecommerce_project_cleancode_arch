@@ -33,4 +33,5 @@ type UserRepository interface {
 	ListOrder(user_id uint) ([]domain.ListOrder, uint, error)
 	ClearCart(user_id uint) error
 	FindCoupon(coupon string) (domain.Coupon, error)
+	UpdateUser(user domain.Users)(domain.Users,error)
 }

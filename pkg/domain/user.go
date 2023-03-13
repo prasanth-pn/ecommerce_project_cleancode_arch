@@ -17,19 +17,20 @@ type Verification struct {
 	Code     int    `json:"code" gorm:"not null"`
 }
 type Users struct {
-	User_Id    uint   `gorm:"serial primaryKey;autoIncrement:true;unique"`
-	First_Name string `json:"first_name" validate:"required,min=3,max=12" gorm:"not null"`
-	Last_Name  string `json:"last_name" validate:"required,min=1,max=12" gorm:"not null"`
-	Email      string `json:"email" validate:"required,min=3,max=50" gorm:"not null;unique"`
-	Gender     string `json:"gender" validate:"required,min=4,max=8" `
-	Phone      string `json:"phone" validate:"required,min=3,max=12" gorm:"not null;unique"`
-	Password   string `json:"password" validate:"required,min=6,max=12" gorm:"not null" valid:"length(5/12)"`
+	User_Id      uint   `gorm:"serial primaryKey;autoIncrement:true;unique"`
+	First_Name   string `json:"first_name" validate:"required,min=3,max=12" gorm:"not null"`
+	Last_Name    string `json:"last_name" validate:"required,min=1,max=12" gorm:"not null"`
+	Email        string `json:"email" validate:"required,min=3,max=50" gorm:"not null;unique"`
+	Gender       string `json:"gender" validate:"required,min=4,max=8" `
+	Phone        string `json:"phone" validate:"required,min=3,max=12" gorm:"not null;unique"`
+	Password     string `json:"password" validate:"required,min=6,max=12" gorm:"not null" valid:"length(5/12)"`
 	Verification bool
 	Country      string `json:"country "`
 	City         string `json:"city " `
 	Block_Status bool
-	Created_At time.Time
-	Updated_At time.Time
+	Created_At   time.Time
+	Updated_At   time.Time
+	Profile_Pic  string
 }
 type Cart struct {
 	Created_At  time.Time

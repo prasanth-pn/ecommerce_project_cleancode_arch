@@ -25,11 +25,10 @@ func (cr *UserHandler) AddAddress(c *gin.Context) {
 	fmt.Println(email)
 	user, _ := cr.AuthService.FindUser(email)
 	var address domain.Address
-
 	if err := c.BindJSON(&address); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		res := response.ErrorResponse("failed to get the data from front end", err.Error(), "failed to fetch data")
+		c.Writer.WriteHeader(422)
+		utils.ResponseJSON(c, res)
 		return
 	}
 	address.User_Id = user.ID
@@ -40,7 +39,7 @@ func (cr *UserHandler) AddAddress(c *gin.Context) {
 		utils.ResponseJSON(c, resp)
 		return
 	}
-	resp := response.SuccessResponse(true, "successfully added the address", nil)
+	resp := response.SuccessResponse(true, "successfully added the address", address)
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, resp)
 }
@@ -67,16 +66,14 @@ func (cr *UserHandler) GetAddressToEdit(c *gin.Context) {
 	user, _ := cr.AuthService.FindUser(email)
 	address, err := cr.UserService.FindAddress(user.ID, uint(address_id))
 	if err != nil {
-		c.JSON(300, gin.H{
-			"message": "failed to fetch the data ",
-		})
-	} else {
-		respo := response.SuccessResponse(true, "success fully fetched the data", address)
-		c.Writer.WriteHeader(200)
-		utils.ResponseJSON(c, respo)
+		res := response.ErrorResponse("failed find the address", err.Error(), "failed to fetch data from server")
+		c.Writer.WriteHeader(422)
+		utils.ResponseJSON(c, res)
 		return
 	}
-
+	respo := response.SuccessResponse(true, "success fully fetched the data", address)
+	c.Writer.WriteHeader(200)
+	utils.ResponseJSON(c, respo)
 }
 
 func (cr *UserHandler) UpdateAddress(c *gin.Context) {
@@ -85,27 +82,29 @@ func (cr *UserHandler) UpdateAddress(c *gin.Context) {
 	address_id, _ := strconv.Atoi(c.Query("address_id"))
 	var add domain.Address
 	err := c.BindJSON(&add)
-	if add.Area == "" || add.House == "" || add.City == "" || add.FName == "" || add.Phone_Number == 0 || add.Landmark == "" || add.Pincode == 0 {
-		c.JSON(300, gin.H{
-			"message": "please enter the values in empty fields",
-		})
-	}
 	if err != nil {
-		c.JSON(400, gin.H{
-			"errror": "not getting the data from user side",
-		})
-	}
-	fmt.Println(user.ID, address_id)
-	err = cr.UserService.UpdateAddress(add, (user.ID), uint(address_id))
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "the address is not updated",
-		})
-	} else {
-		res := response.SuccessResponse(true, "succefully updated", nil)
-		c.Writer.WriteHeader(200)
+		res := response.ErrorResponse("failed to getting data from front end", err.Error(), "failed to fetch data from front end")
+		c.Writer.WriteHeader(400)
 		utils.ResponseJSON(c, res)
 		return
 	}
-
+	if add.Area == "" || add.House == "" || add.City == "" || add.FName == "" || add.Phone_Number == 0 || add.Landmark == "" || add.Pincode == 0 {
+		res := response.ErrorResponse("please enter the data to all fields", "the fields are empty", "please enter the data to all fields")
+		c.Writer.WriteHeader(400)
+		utils.ResponseJSON(c, res)
+		return
+	}
+	err = cr.UserService.UpdateAddress(add, (user.ID), uint(address_id))
+	add.Address_id = uint(address_id)
+	add.User_Id = user.ID
+	fmt.Println(err)
+	if err != nil {
+		res := response.ErrorResponse("failed to update uddress", err.Error(), "failed to update address")
+		c.Writer.WriteHeader(400)
+		utils.ResponseJSON(c, res)
+		return
+	}
+	res := response.SuccessResponse(true, "succefully updated", add)
+	c.Writer.WriteHeader(200)
+	utils.ResponseJSON(c, res)
 }
