@@ -16,6 +16,7 @@ type UserUseCase interface {
 	QuantityCart(product_id, user_id uint) (domain.Cart, error)
 	UpdateCart(totalprice float32, quantity, product_id, user_id uint) (domain.Cart, error)
 	CreateCart(cart domain.Cart) (domain.Cart, error)
+	DeleteCart(product_id, user_id int)error
 	FindTheSumOfCart(user_id int) (int, error)
 	TotalCartPrice(user_id uint) (float32, error)
 	AddAddress(address domain.Address) error
@@ -23,7 +24,7 @@ type UserUseCase interface {
 	Count_WishListed_Product(user_id, product_id uint) int
 	AddTo_WishList(domain.WishList) error
 	ViewWishList(user_id uint) []domain.WishListResponse
-	RemoveFromWishlist(user_id, product_id int)(error)
+	RemoveFromWishlist(user_id, product_id int) error
 	FindAddress(user_id, address_id uint) (domain.Address, error)
 	UpdateAddress(add domain.Address, user_id, address_id uint) error
 	CreateOrder(order domain.Orders) error
@@ -33,5 +34,5 @@ type UserUseCase interface {
 	ClearCart(user_id uint) error
 	ListOrder(user_id uint) ([]domain.ListOrder, uint, error)
 	FindCoupon(coupon string) (domain.Coupon, error)
-	UpdateUser(user domain.Users)(domain.Users,error)
+	UpdateUser(user domain.Users) (domain.Users, error)
 }

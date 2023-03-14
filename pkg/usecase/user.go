@@ -60,6 +60,10 @@ func (c *userUseCase) FindCart(user_id, product_id uint) (domain.CartResponse, e
 	cart, error := c.userRepo.FindCart(user_id, product_id)
 	return cart, error
 }
+func (c *userUseCase) DeleteCart(product_id, user_id int) error {
+	err := c.userRepo.DeleteCart(product_id, user_id)
+	return err
+}
 func (c userUseCase) FindAddress(user_id, address_id uint) (domain.Address, error) {
 	address, err := c.userRepo.FindAddress(user_id, address_id)
 	return address, err

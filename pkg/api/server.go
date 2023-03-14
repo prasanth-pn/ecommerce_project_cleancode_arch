@@ -55,6 +55,7 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	userapi.POST("/add/cart", UserHandler.AddToCart)
 	userapi.GET("/list/cart", UserHandler.ListCart)
 	userapi.PATCH("/update/cart", UserHandler.UpdateCart)
+	userapi.DELETE("/delete-cart",UserHandler.DeleteCart)
 	userapi.POST("/cart/checkout", UserHandler.Checkout)
 	userapi.POST("/add/address", UserHandler.AddAddress)
 	userapi.GET("/list/address", UserHandler.ListAddress)
