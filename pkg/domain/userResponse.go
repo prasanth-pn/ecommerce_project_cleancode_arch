@@ -72,3 +72,19 @@ type CartResponse struct {
 type AddressResponse struct {
 	Address_id uint
 }
+type OrderResponse struct {
+	Created_At     time.Time
+	Product_Id     int
+	Product_Name   string
+	Description    string
+	Price          int
+	Image          string
+	Quantity       int
+	Total_Amount   string
+	PaymentMethod  string
+	Order_id       string
+	Order_Status   string
+	Payment_Status string
+	Payment_Id     string
+	Address        Address
+}

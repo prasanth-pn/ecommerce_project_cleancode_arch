@@ -86,3 +86,7 @@ func (c *adminUseCase) FindCoupon(coupon string) (domain.Coupon, error) {
 	cpn, err := c.adminRepo.FindCoupon(coupon)
 	return cpn, err
 }
+func (c adminUseCase) SearchUserByName(pagenation utils.Filter, name string) ([]domain.Users, utils.Metadata, error) {
+	users, metadata, err := c.adminRepo.SearchUserByName(pagenation, name)
+	return users, metadata, err
+}

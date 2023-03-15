@@ -15,6 +15,7 @@ type UserRepository interface {
 	QuantityCart(product_id, user_id uint) (domain.Cart, error)
 	UpdateCart(totalprice float32, quantity, product_id, user_id uint) (domain.Cart, error)
 	CreateCart(cart domain.Cart) (domain.Cart, error)
+	DeleteCart(product_id, user_id int) error
 	ListViewCart(User_id uint) ([]domain.CartListResponse, error)
 	FindTheSumOfCart(user_id int) (int, error)
 	TotalCartPrice(user_id uint) (float32, error)
@@ -23,15 +24,15 @@ type UserRepository interface {
 	Count_WishListed_Product(user_id, product_id uint) int
 	AddTo_WishList(wishlist domain.WishList) error
 	ViewWishList(user_id uint) []domain.WishListResponse
-	RemoveFromWishlist(user_id, product_id int) (error)
+	RemoveFromWishlist(user_id, product_id int) error
 	FindAddress(user_id, address_id uint) (domain.Address, error)
 	UpdateAddress(add domain.Address, user_id, address_id uint) error
 	CreateOrder(order domain.Orders) error
 	SearchOrder(order_id string) (domain.Orders, error)
 	UpdateOrders(payment_id, order_id string) error
 	Insert_To_My_Order(carts domain.CartListResponse, order_id string) error
-	ListOrder(user_id uint) ([]domain.ListOrder, uint, error)
+	ListOrder(user_id uint) ([]domain.OrderResponse, error)
 	ClearCart(user_id uint) error
 	FindCoupon(coupon string) (domain.Coupon, error)
-	UpdateUser(user domain.Users)(domain.Users,error)
+	UpdateUser(user domain.Users) (domain.Users, error)
 }

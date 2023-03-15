@@ -49,7 +49,6 @@ RETURNING user_id;`
 // --------------------------------find user-----------------------------------------------------
 func (c *authDatabase) FindUser(email string) (domain.UserResponse, error) {
 	var user domain.UserResponse
-
 	query := `SELECT
     user_id,
 first_name,

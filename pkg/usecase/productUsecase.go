@@ -11,7 +11,6 @@ func (c *userUseCase) FindProduct(product_id uint) (domain.Product, error) {
 	return Products, err
 }
 func (c *userUseCase) ListCart(pagenation utils.Filter, User_ID uint) ([]domain.CartListResponse, utils.Metadata, error) {
-	var cart []domain.CartListResponse
 	cart, metadata, err := c.userRepo.ListCart(pagenation, User_ID)
 	return cart, metadata, err
 }

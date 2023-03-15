@@ -88,13 +88,16 @@ func (c *authUseCase) UpdateUserStatus(email string) error {
 // -----------------------------------------verifyUser-----------------------------
 func (c *authUseCase) VerifyUser(email, password string) error {
 	user, err := c.FindUser(email)
-	fmt.Println(err, user, "kijsdfghbjdbjekhsafbnfjhnjknb")
+
 	if err != nil {
-		return errors.New("username or password is incorrect")
+		return errors.New("username is incorrect")
+	}
+	if user.First_Name == "" {
+		return errors.New("the user not registered")
 	}
 	IsValidPassword := VerifyPassword(password, user.Password)
 	if !IsValidPassword {
-		return errors.New(" not valid passwoerd")
+		return errors.New(" password is incorrect")
 	}
 	return nil
 }
@@ -102,7 +105,6 @@ func (c *authUseCase) VerifyUser(email, password string) error {
 // ---------------------------------find user-----------------
 func (c *authUseCase) FindUser(email string) (domain.UserResponse, error) {
 	user, err := c.authRepo.FindUser(email)
-
 	return user, err
 }
 
@@ -114,19 +116,18 @@ func VerifyPassword(password, dbpassword string) bool {
 // ------------------------------------------AdminRegister-----------------------------------
 func (c *authUseCase) AdminRegister(admin domain.Admins) (domain.Admins, error) {
 	err := c.authRepo.AdminRegister(admin)
-
 	return admin, err
 }
 func (c *authUseCase) VerifyAdmin(username, password string) error {
 	//fmt.Println(username, "ifsdkohgndsiujkhgbdjkbhjfvbdhjffdgbauthcase")
 	admin, err := c.authRepo.FindAdmin(username)
-	fmt.Println(err, admin.UserName, "test user name")
+	if admin.UserName == "" {
+		return errors.New("the admin not registered")
+	}
 	if err != nil {
 		return errors.New("username is incorrect")
 	}
-	fmt.Println("\n\n\n", admin.Password, password, "admin,password auth usecase")
 	IsValidPassword := VerifyPassword(password, admin.Password)
-
 	if !IsValidPassword {
 		return errors.New("password is not valid ")
 	}

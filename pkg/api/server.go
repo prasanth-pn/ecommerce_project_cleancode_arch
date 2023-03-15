@@ -55,12 +55,13 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	userapi.POST("/add/cart", UserHandler.AddToCart)
 	userapi.GET("/list/cart", UserHandler.ListCart)
 	userapi.PATCH("/update/cart", UserHandler.UpdateCart)
-	userapi.DELETE("/delete-cart",UserHandler.DeleteCart)
+	userapi.DELETE("/delete-cart", UserHandler.DeleteCart)
 	userapi.POST("/cart/checkout", UserHandler.Checkout)
 	userapi.POST("/add/address", UserHandler.AddAddress)
 	userapi.GET("/list/address", UserHandler.ListAddress)
 	userapi.GET("/edit/address", UserHandler.GetAddressToEdit)
-	userapi.PATCH("/profile-edit",UserHandler.UserEdit)
+	userapi.GET("/profile", UserHandler.Profile)
+	userapi.PATCH("/profile-edit", UserHandler.UserEdit)
 	userapi.PATCH("/update/address", UserHandler.UpdateAddress)
 	userapi.GET("/list-order", UserHandler.ListOrder)
 	userapi.GET("/apply-coupon", UserHandler.Apply_Coupon)
@@ -74,10 +75,11 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 
 	//---------------------------middleware checking------------------
 	adminapi.Use(middleware.AuthorizeJWT)
-	adminapi.PATCH("user/block", AdminHandler.BlockUser)
+	adminapi.PATCH("/user/block", AdminHandler.BlockUser)
 	adminapi.PATCH("/user/unblock", AdminHandler.UnblockUser)
-	adminapi.GET("list/blockedusers", AdminHandler.ListBlockedUsers)
+	adminapi.GET("/list-blockedusers", AdminHandler.ListBlockedUsers)
 	adminapi.GET("/list/users", AdminHandler.ListUsers)
+	adminapi.GET("/search-user/name", AdminHandler.SearchUserByName)
 	adminapi.POST("/add/category", AdminHandler.AddCategory)
 	adminapi.GET("/list/category", AdminHandler.ListCategories)
 	adminapi.POST("add/brands", AdminHandler.AddBrand)
@@ -91,7 +93,6 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	adminapi.POST("/generate-coupon", AdminHandler.GenerateCoupon)
 
 	return &ServerHTTP{engine: engine}
-
 }
 
 func (sh *ServerHTTP) Start() {

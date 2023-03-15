@@ -119,9 +119,9 @@ func (cr *AdminHandler) DeleteImage(c *gin.Context) {
 func (cr *AdminHandler) GenerateCoupon(c *gin.Context) {
 	coupon := c.Query("coupon")
 	quantity, _ := strconv.Atoi(c.Query("quantity"))
-	validity, _ := strconv.Atoi(c.Query("validity"))
+	//validity, _ := strconv.Atoi(c.Query("validity"))
 	discount, _ := strconv.Atoi(c.Query("discount"))
-	expirationTime := time.Now().AddDate(0, 0, validity).Unix()
+	expirationTime := time.Now().Add(2 * time.Minute).Unix() //AddDate(0, 0, validity).Unix()
 
 	if coupon == "" {
 		length := 8

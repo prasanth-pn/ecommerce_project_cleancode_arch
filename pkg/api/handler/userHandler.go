@@ -116,6 +116,20 @@ func (cr *UserHandler) ListProductsByCategories(c *gin.Context) {
 	}
 }
 
+func (cr *UserHandler) Profile(c *gin.Context) {
+	user_id, _ := strconv.Atoi(c.Writer.Header().Get("id"))
+	user, err := cr.AuthService.FindUserById(uint(user_id))
+	if err != nil {
+		res := response.ErrorResponse("failed to fetch the user details ", err.Error(), "failed to get  user details")
+		c.Writer.WriteHeader(400)
+		utils.ResponseJSON(c, res)
+		return
+	}
+	res := response.SuccessResponse(true, "successfully fetched the data", user)
+	c.Writer.WriteHeader(200)
+	utils.ResponseJSON(c, res)
+}
+
 func (cr *UserHandler) UserEdit(c *gin.Context) {
 	user_id, _ := strconv.Atoi(c.Writer.Header().Get("id"))
 	profile, _ := c.FormFile("profile")

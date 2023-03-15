@@ -16,7 +16,7 @@ type UserUseCase interface {
 	QuantityCart(product_id, user_id uint) (domain.Cart, error)
 	UpdateCart(totalprice float32, quantity, product_id, user_id uint) (domain.Cart, error)
 	CreateCart(cart domain.Cart) (domain.Cart, error)
-	DeleteCart(product_id, user_id int)error
+	DeleteCart(product_id, user_id int) error
 	FindTheSumOfCart(user_id int) (int, error)
 	TotalCartPrice(user_id uint) (float32, error)
 	AddAddress(address domain.Address) error
@@ -32,7 +32,7 @@ type UserUseCase interface {
 	UpdateOrders(payment_id, order_id string) error
 	Insert_To_My_Order(carts domain.CartListResponse, order_id string) error
 	ClearCart(user_id uint) error
-	ListOrder(user_id uint) ([]domain.ListOrder, uint, error)
+	ListOrder(user_id uint) ([]domain.OrderResponse, error)
 	FindCoupon(coupon string) (domain.Coupon, error)
 	UpdateUser(user domain.Users) (domain.Users, error)
 }

@@ -76,7 +76,6 @@ func (cr *AuthHandler) UserLogin(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
-	//fmt.Println(user.Email)
 	err := cr.authUseCase.VerifyUser(user.Email, user.Password)
 
 	if err != nil {

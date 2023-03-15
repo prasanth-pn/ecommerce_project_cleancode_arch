@@ -21,20 +21,18 @@ func (c *adminDatabase) ListUsers(pagenation utils.Filter) ([]domain.UserRespons
 	var users []domain.UserResponse
 	//	fmt.Println("reached int repository", pagenation.Page, pagenation.PageSize)
 	query := `SELECT COUNT(*) OVER(),user_id,first_name,
-last_name,
-email,
-gender,
-phone
-FROM users
-LIMIT $1 OFFSET $2;`
+	last_name,
+	email,
+	gender,
+	phone
+	FROM users
+	LIMIT $1 OFFSET $2;`
 	rows, err := c.DB.Query(query, pagenation.Limit(), pagenation.Offset())
-
 	if err != nil {
 		return nil, utils.Metadata{}, err
 	}
 	var totalRecords int
 	defer rows.Close()
-
 	for rows.Next() {
 		var user domain.UserResponse
 		err = rows.Scan(
@@ -55,13 +53,12 @@ LIMIT $1 OFFSET $2;`
 		return users, utils.ComputeMetadata(&totalRecords, &pagenation.Page, &pagenation.PageSize), err
 	}
 	return users, utils.ComputeMetadata(&totalRecords, &pagenation.Page, &pagenation.PageSize), err
-
 }
 func (c *adminDatabase) ListBlockedUsers(pagenation utils.Filter) ([]domain.Users, utils.Metadata, error) {
 	var users []domain.Users
-	query := `SELECT COUNT(*) OVER(), user_id,first_name,last_name,email,gender,phone  FROM users WHERE block_status=true LIMIT $1 OFFSET $2;`
+	query := `SELECT COUNT(*) OVER(), user_id,first_name,last_name,email,gender,phone,country,city FROM users WHERE block_status=$1 LIMIT $2 OFFSET $3;`
 
-	rows, err := c.DB.Query(query, pagenation.Limit(), pagenation.Offset())
+	rows, err := c.DB.Query(query, true, pagenation.Limit(), pagenation.Offset())
 	if err != nil {
 		return nil, utils.Metadata{}, err
 	}
@@ -69,17 +66,14 @@ func (c *adminDatabase) ListBlockedUsers(pagenation utils.Filter) ([]domain.User
 	defer rows.Close()
 	for rows.Next() {
 		var user domain.Users
-		err = rows.Scan(&totalrecords, &user.User_Id, &user.First_Name, &user.Last_Name, &user.Email, &user.Gender, &user.Phone)
+		err = rows.Scan(&totalrecords, &user.User_Id, &user.First_Name, &user.Last_Name, &user.Email, &user.Gender, &user.Phone, &user.Country, &user.City)
+		fmt.Println(err, "error in next")
 		if err != nil {
 			return nil, utils.Metadata{}, err
 		}
 		users = append(users, user)
-		if err := rows.Err(); err != nil {
-			return users, utils.ComputeMetadata(&totalrecords, &pagenation.Page, &pagenation.PageSize), err
-		}
 	}
 	return users, utils.ComputeMetadata(&totalrecords, &pagenation.Page, &pagenation.PageSize), err
-
 }
 func (c *adminDatabase) AddProducts(product domain.Product) (int, error) {
 	query := `INSERT INTO 
@@ -286,4 +280,23 @@ func (c *adminDatabase) FindCoupon(coupon string) (domain.Coupon, error) {
 	query := `SELECT * FROM coupons where coupon=$1;`
 	err := c.DB.QueryRow(query, coupon).Scan(&cpn.Created_At, &cpn.Coupon_Id, &cpn.Coupon, &cpn.Discount, cpn.Quantity, cpn.Validity)
 	return cpn, err
+}
+func (c *adminDatabase) SearchUserByName(pagenation utils.Filter, name string) ([]domain.Users, utils.Metadata, error) {
+	var users []domain.Users
+	var totalrecords int
+	query := `SELECT COUNT(*) OVER(),user_id,first_name,last_name,country,city,phone,email,gender FROM users WHERE first_name LIKE $1 LIMIT $2 OFFSET $3;`
+	rows, err := c.DB.Query(query, name, pagenation.Limit(), pagenation.Offset())
+	if err != nil {
+		return nil, utils.Metadata{}, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var user domain.Users
+		err := rows.Scan(&totalrecords, &user.User_Id, &user.First_Name, &user.Last_Name, &user.Country, &user.City, &user.Phone, &user.Email, &user.Gender)
+		if err != nil {
+			return users, utils.Metadata{}, err
+		}
+		users = append(users, user)
+	}
+	return users, utils.ComputeMetadata(&totalrecords, &pagenation.Page, &pagenation.PageSize), nil
 }

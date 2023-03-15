@@ -23,29 +23,43 @@ type Home struct {
 }
 
 func (cr *UserHandler) RazorPay(c *gin.Context) {
-	//email:=c.Writer.Header().Get("email")
+	//email := c.Query("email")
 	email := "prasanthpn68@gmail.com"
-	user, _ := cr.AuthService.FindUser(email)
-
-	sum, err := cr.UserService.FindTheSumOfCart(int(user.ID))
+	//coupon := c.Query("coupon")
+	coupon := "YATSTJ61"
+	address_id := 1
+	user, err := cr.AuthService.FindUser(email)
 	if err != nil {
-		res := response.ErrorResponse("error in find the sum of cart ", err.Error(), "error in findinsumCArt")
-		c.Writer.WriteHeader(422)
-		utils.ResponseJSON(c, res)
+		c.HTML(400, "failed to find user", nil)
+		c.Abort()
 		return
 	}
+
+	Coupn, _ := cr.UserService.FindCoupon(coupon)
+
+	if Coupn.Validity < time.Now().Unix() {
+		Coupn.Discount = 0
+		Coupn.Coupon = "no value"
+		// res := response.ErrorResponse("your coupon expired", "your coupon expired", "enter anothere coupon")
+		// //c.Writer.WriteHeader(300)
+		// utils.ResponseJSON(c, res)
+	}
+
+	sum, err := cr.UserService.FindTheSumOfCart(int(user.ID))
+	fmt.Println(sum)
+	if err != nil {
+
+		c.HTML(300, "fdisaoifdjaio", sum)
+	}
 	client := razorpay.NewClient("rzp_test_0h8oXuKI0kORyw", "McmgVREukL239BhjpTuS4j3t")
-	razorpaytotal := sum * 100
+	razorpaytotal := (sum - Coupn.Discount) * 100
 	data := map[string]interface{}{
 		"amount":   razorpaytotal,
 		"currency": "INR",
 	}
 	body, err := client.Order.Create(data, nil)
 	if err != nil {
-		res := response.ErrorResponse("erro in crearte datat in  client order", err.Error(), "order.create")
-		c.Writer.WriteHeader(422)
-		utils.ResponseJSON(c, res)
-		return
+		c.HTML(422, "failed to create order", nil)
 	}
 	value := fmt.Sprint(body["id"])
 	user_id := fmt.Sprint(user.ID)
@@ -59,23 +73,25 @@ func (cr *UserHandler) RazorPay(c *gin.Context) {
 		Contact:     user.Password,
 	}
 	order := domain.Orders{
-		Created_at:     time.Now(),
-		User_Id:        user.ID,
-		Order_Id:       value,
-		Total_Amount:   uint(sum),
-		PaymentMethod:  "razorpay",
-		Payment_Status: "uncomplete",
-		Order_Status:   "ordered",
-		Address_Id:     1,
+		Created_at:      time.Now(),
+		User_Id:         user.ID,
+		Order_Id:        value,
+		Applied_Coupons: Coupn.Coupon,
+		Discount:        uint(Coupn.Discount),
+		Total_Amount:    uint(sum),
+		Balance_Amount:  sum - Coupn.Discount,
+		PaymentMethod:   "razorpay",
+		Payment_Status:  "incomplete",
+		Order_Status:    "order_placed",
+		Address_Id:      uint(address_id),
 	}
 	err = cr.UserService.CreateOrder(order)
 	if err != nil {
-		res := response.ErrorResponse("order is not created", err.Error(), nil)
-		c.Writer.WriteHeader(422)
-		utils.ResponseJSON(c, res)
-		return
+		c.HTML(422, "faile to create order", nil)
 	}
+	//c.HTML(200, "success ", Home)
 	c.HTML(200, "app.html", Home)
+
 }
 func (cr *UserHandler) Payment_Success(c *gin.Context) {
 	payment_id := c.Query("paymentid")

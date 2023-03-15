@@ -66,12 +66,12 @@ func (cr *AdminHandler) ListUsers(c *gin.Context) {
 func (cr *AdminHandler) ListBlockedUsers(c *gin.Context) {
 	page, _ := strconv.Atoi(c.Query("page"))
 	pagesize, _ := strconv.Atoi(c.Query("pagesize"))
+	p("page", page, "pagesize", pagesize)
 
 	pagenation := utils.Filter{
 		Page:     page,
 		PageSize: pagesize,
 	}
-
 	users, metadata, err := cr.adminService.ListBlockedUsers(pagenation)
 	result := struct {
 		Users []domain.Users
@@ -100,10 +100,9 @@ func (cr *AdminHandler) BlockUser(c *gin.Context) {
 	fmt.Println(user.Block_Status)
 
 	if user.Block_Status {
-		c.JSON(200, gin.H{
-			"message ": "the user is blocked",
-		})
-		c.Abort()
+		res := response.SuccessResponse(true, "the user  is already blocked", user)
+		c.Writer.WriteHeader(200)
+		utils.ResponseJSON(c, res)
 		return
 	}
 	err := cr.authService.BlockUnblockUser(uint(user_id), true)
@@ -112,9 +111,7 @@ func (cr *AdminHandler) BlockUser(c *gin.Context) {
 		c.Writer.WriteHeader(400)
 		utils.ResponseJSON(c, resp)
 	}
-	//fmt.Println(err)
-
-	resp := response.SuccessResponse(true, "user is bllocked successfully", "blocked successsfully")
+	resp := response.SuccessResponse(true, "user is bllocked successfully", user)
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, resp)
 
@@ -124,10 +121,9 @@ func (cr *AdminHandler) UnblockUser(c *gin.Context) {
 	user, _ := cr.authService.FindUserById(uint(user_id))
 
 	if !user.Block_Status {
-		c.JSON(300, gin.H{
-			"message": "user is already unblocked",
-		})
-		c.Abort()
+		res := response.SuccessResponse(true, "user already unblocked", user)
+		c.Writer.WriteHeader(200)
+		utils.ResponseJSON(c, res)
 		return
 	} else {
 		err := cr.authService.BlockUnblockUser(uint(user_id), false)
@@ -139,6 +135,39 @@ func (cr *AdminHandler) UnblockUser(c *gin.Context) {
 		}
 	}
 
+}
+func (cr *AdminHandler) SearchUserByName(c *gin.Context) {
+	name := c.Query("name")
+	name = "%" + name + "%"
+	page, _ := strconv.Atoi(c.Query("page"))
+	pagesize := 5
+	pagenation := utils.Filter{
+		Page:     page,
+		PageSize: pagesize,
+	}
+	users, metadata, err := cr.adminService.SearchUserByName(pagenation, name)
+	if len(users) == 0 {
+		res := response.ErrorResponse("can't find the user", "enter the correct name", "please enter the correct validation")
+		c.Writer.WriteHeader(400)
+		utils.ResponseJSON(c, res)
+		return
+	}
+	if err != nil {
+		res := response.ErrorResponse("failed to search ", err.Error(), "user data is not available")
+		c.Writer.WriteHeader(400)
+		utils.ResponseJSON(c, res)
+		return
+	}
+	data := struct {
+		Users    []domain.Users
+		Metadata utils.Metadata
+	}{
+		Users:    users,
+		Metadata: metadata,
+	}
+	res := response.SuccessResponse(true, "search completed", data)
+	c.Writer.WriteHeader(200)
+	utils.ResponseJSON(c, res)
 }
 
 // --------------------add category-----------------------------------------------------

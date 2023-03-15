@@ -118,22 +118,28 @@ func (cr *UserHandler) ListCart(c *gin.Context) {
 		utils.ResponseJSON(c, respons)
 		return
 	}
-	//var cart []domain.CartListResponse
-
 	cart, metadata, err := cr.UserService.ListCart(pagenation, user.ID)
+	if cart == nil {
+		res := response.ErrorResponse("empty cart", "cart is empty", nil)
+		c.Writer.WriteHeader(205)
+		utils.ResponseJSON(c, res)
+		p(res)
+		return
+	}
+	fmt.Println(err)
 	if err != nil {
 		respons := response.ErrorResponse("oops carts not fetched ", err.Error(), nil)
-		c.Writer.WriteHeader(502)
+		c.Writer.WriteHeader(400)
 		utils.ResponseJSON(c, respons)
 		return
-
 	}
 	var totalPrice float32
 	totalPrice, err = cr.UserService.TotalCartPrice(user.ID)
 	if err != nil {
 		respo := response.ErrorResponse("cannot  calculate total amount", err.Error(), nil)
-		c.Writer.WriteHeader(502)
+		c.Writer.WriteHeader(400)
 		utils.ResponseJSON(c, respo)
+		return
 	}
 	data := struct {
 		Cart             []domain.CartListResponse
@@ -198,6 +204,7 @@ func (cr *UserHandler) DeleteCart(c *gin.Context) {
 func (cr *UserHandler) Apply_Coupon(c *gin.Context) {
 	var cpn string
 	var total int
+	var msg string
 	user_id, _ := strconv.Atoi(c.Writer.Header().Get("id"))
 	address_id, _ := strconv.Atoi(c.Query("address_id"))
 	coupon := c.Query("coupon")
@@ -215,8 +222,6 @@ func (cr *UserHandler) Apply_Coupon(c *gin.Context) {
 		c.Writer.WriteHeader(300)
 		utils.ResponseJSON(c, res)
 	} else {
-		fmt.Println("find couopon", coupon)
-		//find Coupon
 		Coupons, err = cr.UserService.FindCoupon(coupon)
 		if err != nil {
 			res := response.ErrorResponse("This coupon is not available right now", err.Error(), coupon)
@@ -224,15 +229,20 @@ func (cr *UserHandler) Apply_Coupon(c *gin.Context) {
 			utils.ResponseJSON(c, res)
 			return
 		}
-
 		var time = time.Now().Unix()
 		if Coupons.Validity > time {
+			msg = fmt.Sprintf("coupen %d rupess applied ", Coupons.Discount)
 			total = cartvalue - Coupons.Discount
 			v := Coupons.Validity - time
 			v = v / 3600
 			cpn = fmt.Sprintf("coupon is valid user before %d hours", v)
+
 		} else {
 			cpn = "coupon is expired check your"
+			res := response.ErrorResponse("coupon is expired", "enter another coupon", "or place order")
+			c.Writer.WriteHeader(300)
+			utils.ResponseJSON(c, res)
+			msg = "coupon is not applied"
 		}
 	}
 	data := struct {
@@ -250,17 +260,35 @@ func (cr *UserHandler) Apply_Coupon(c *gin.Context) {
 		Total_CartValue: cartvalue,
 		Order_Total:     total,
 	}
-	res := response.SuccessResponse(true, fmt.Sprintf("coupen %d rupess applied ", Coupons.Discount), data)
+	res := response.SuccessResponse(true, msg, data)
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, res)
 }
 func (cr *UserHandler) Checkout(c *gin.Context) {
-	email := c.Writer.Header().Get("email")
+	//email := c.Writer.Header().Get("email")
 	address_id, _ := strconv.Atoi(c.Query("address_id"))
 
-	user, _ := cr.AuthService.FindUser(email)
-	cart, _ := cr.UserService.ListViewCart(uint(user.ID))
+	// user, _ := cr.AuthService.FindUser(email)
+	// if err != nil {
+	// 	res := response.ErrorResponse("failed to fetch the total value", err.Error(), "failedt to get the total price")
+	// 	c.Writer.WriteHeader(400)
+	// 	utils.ResponseJSON(c, res)
+	// 	return
+	// }
 	payment_method := c.Query("payment_method")
-	fmt.Println(cart)
-	fmt.Println(payment_method, "  address_id", address_id)
+	cr.Apply_Coupon(c)
+
+	// cod := "cod"
+	// razorpay := "razorpay"
+
+	data := struct {
+		Payment_Method string
+		Address_Id     int
+	}{
+		Payment_Method: payment_method,
+		Address_Id:     address_id,
+	}
+	res := response.SuccessResponse(true, "sucees fully checkout", data)
+	c.Writer.WriteHeader(200)
+	utils.ResponseJSON(c, res)
 }

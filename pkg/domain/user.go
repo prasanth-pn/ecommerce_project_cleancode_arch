@@ -73,16 +73,17 @@ type Orders struct {
 	Canceled_at     time.Time
 	User_Id         uint   `json:"user_id"  gorm:"not null" `
 	Order_Id        string `json:"order_id"  gorm:"not null" `
-	Total_Amount    uint   `json:"total_amount"  gorm:"not null" `
 	Applied_Coupons string `json:"applied_coupons"  `
 	Discount        uint   `json:"discount"`
+	Total_Amount    uint   `json:"total_amount"  gorm:"not null" `
+	Balance_Amount  int    `json:"balance_amount"`
 	PaymentMethod   string `json:"paymentmethod"  gorm:"not null" `
 	Payment_Status  string `json:"payment_status"   `
-	Payment_Id      string `json:payment_id`
+	Payment_Id      string `json:"payment_id"`
 	Order_Status    string `json:"order_status"`
 	Address_Id      uint   `json:"address_id" `
 }
-type Orderd_Items struct {
+type Ordered_Items struct {
 	Product_id   uint   `json:"product_id"`
 	Order_Id     string `json:"order_id"`
 	Product_Name string

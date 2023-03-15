@@ -140,6 +140,8 @@ func (c *userDatabase) ListCart(pagenation utils.Filter, User_id uint) ([]domain
 	if err != nil {
 		return nil, utils.Metadata{}, err
 	}
+	fmt.Println("entered into for loop")
+
 	defer rows.Close()
 	for rows.Next() {
 		var cart domain.CartListResponse
@@ -148,8 +150,11 @@ func (c *userDatabase) ListCart(pagenation utils.Filter, User_id uint) ([]domain
 			return nil, utils.Metadata{}, err
 		}
 		carts = append(carts, cart)
-
 	}
+	if err := rows.Err(); err != nil {
+		return nil, utils.Metadata{}, errors.New("empty cart")
+	}
+
 	return carts, utils.ComputeMetadata(&totalrecords, &pagenation.Page, &pagenation.PageSize), nil
 }
 
@@ -177,6 +182,11 @@ func (c *userDatabase) CreateCart(cart domain.Cart) (domain.Cart, error) {
 		&Cart.User_Id, &Cart.Image, &Cart.Product_Id, &Cart.Quantity, &Cart.Total_Price)
 	return Cart, err
 }
+func (c *userDatabase) DeleteCart(product_id, user_id int) error {
+	query := `DELETE FROM carts WHERE product_id=$1 AND user_id=$2;`
+	err := c.DB.QueryRow(query, product_id, user_id).Err()
+	return err
+}
 func (c *userDatabase) ListViewCart(user_id uint) ([]domain.CartListResponse, error) {
 	var carts []domain.CartListResponse
 	query := `SELECT C.quantity,C.total_price,P.description,P.image,P.product_name,C.product_id
@@ -202,6 +212,10 @@ func (c *userDatabase) ListViewCart(user_id uint) ([]domain.CartListResponse, er
 			return nil, err
 		}
 		carts = append(carts, cart)
+	}
+	if err := rows.Err(); err != nil {
+		return carts, errors.New(" cart is empty ")
+
 	}
 	return carts, nil
 }
@@ -289,8 +303,8 @@ func (c *userDatabase) UpdateAddress(add domain.Address, user_id, address_id uin
 }
 func (c *userDatabase) CreateOrder(order domain.Orders) error {
 	var time = time.Now()
-	query := `INSERT INTO orders (created_at,user_id,order_id,total_amount,payment_method,payment_status,order_status,address_id) values($1,$2,$3,$4,$5,$6,$7,$8);`
-	err := c.DB.QueryRow(query, time, order.User_Id, order.Order_Id, order.Total_Amount, order.PaymentMethod, order.Payment_Status, order.Order_Status, order.Address_Id)
+	query := `INSERT INTO orders (created_at,user_id,order_id,applied_coupons,discount,total_amount,balance_amount,payment_method,payment_status,order_status,address_id) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11);`
+	err := c.DB.QueryRow(query, time, order.User_Id, order.Order_Id, order.Applied_Coupons, order.Discount, order.Total_Amount, order.Balance_Amount, order.PaymentMethod, order.Payment_Status, order.Order_Status, order.Address_Id)
 	return err.Err()
 }
 func (c *userDatabase) SearchOrder(order_id string) (domain.Orders, error) {
@@ -305,7 +319,7 @@ func (c *userDatabase) UpdateOrders(payement_id, order_id string) error {
 	return err
 }
 func (c *userDatabase) Insert_To_My_Order(carts domain.CartListResponse, order_id string) error {
-	query := `INSERT INTO orderd_items(product_id,order_id,product_name,image_path,price,quantity)
+	query := `INSERT INTO ordered_items(product_id,order_id,product_name,image_path,price,quantity)
 	 values($1,$2,$3,$4,$5,$6);`
 	err := c.DB.QueryRow(query, carts.Product_id, order_id, carts.Product_Name, carts.Image_Path, carts.Total_Amount, carts.Quantity)
 	return err.Err()
@@ -315,29 +329,30 @@ func (c *userDatabase) ClearCart(user_id uint) error {
 	err := c.DB.QueryRow(query, user_id)
 	return err.Err()
 }
-func (c *userDatabase) ListOrder(user_id uint) ([]domain.ListOrder, uint, error) {
-	var orders []domain.ListOrder
-	query := `select P.created_at ,P.order_id,P.total_amount,P.payment_method,P.payment_status,P.payment_id,P.order_status,P.address_id,C.product_id,
-	C.product_name,C.image_path,C.price,C.quantity from orders AS P
-	inner join orderd_items AS C ON C.order_id=P.order_id WHERE user_id=$1;`
+func (c *userDatabase) ListOrder(user_id uint) ([]domain.OrderResponse, error) {
+	var orders []domain.OrderResponse
+	var address_id int
+	query := `select O.created_at,P.product_id,P.product_name,P.description,P.price,P.image,OI.quantity,O.total_amount,OI.order_id,O.payment_method,
+	O.order_status,O.payment_id,O.payment_status,O.address_id FROM products AS P INNER JOIN ordered_items AS 
+	OI ON OI.product_id=P.product_id INNER JOIN orders AS O ON 
+	OI.order_id=O.order_id WHERE O.user_id=$1;`
 	rows, err := c.DB.Query(query, user_id)
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
-	var add_id uint
-	var order domain.ListOrder
+	var order domain.OrderResponse
 	defer rows.Close()
 	for rows.Next() {
-		err = rows.Scan(&order.Created_At, &order.Order_id, &order.Total_amount,
-			&order.Payment_Method, &order.Payment_Status, &order.Payment_id, &order.Order_Status, &order.Address_Id,
-			&order.Product_Id, &order.Product_Name, &order.Image_Path, &order.Price, &order.Quantity)
+		err = rows.Scan(&order.Created_At, &order.Product_Id, &order.Product_Name, &order.Description, &order.Price, &order.Image, &order.Quantity,
+			&order.Total_Amount, &order.Order_id, &order.PaymentMethod, &order.Order_Status, &order.Payment_Id, &order.Payment_Status, &address_id)
 		if err != nil {
-			return nil, 0, err
+			return nil, err
 		}
+		address, _ := c.FindAddress(user_id, uint(address_id))
+		order.Address = address
 		orders = append(orders, order)
-		add_id = order.Address_Id
 	}
-	return orders, add_id, nil
+	return orders, nil
 }
 func (c *userDatabase) FindCoupon(coupon string) (domain.Coupon, error) {
 	var Coupon domain.Coupon

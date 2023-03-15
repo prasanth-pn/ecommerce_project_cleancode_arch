@@ -6,6 +6,7 @@ import (
 )
 
 type AdminRepository interface {
+	SearchUserByName(pagenation utils.Filter, name string) ([]domain.Users, utils.Metadata, error)
 	ListUsers(pagenation utils.Filter) ([]domain.UserResponse, utils.Metadata, error)
 	ListBlockedUsers(pagenation utils.Filter) ([]domain.Users, utils.Metadata, error)
 	AddProducts(product domain.Product) (int, error)
