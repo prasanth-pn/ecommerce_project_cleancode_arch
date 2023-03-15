@@ -40,4 +40,4 @@ wire: ## Generate wire_gen.go
 # swag: ## Generate swagger docs
 # 	cd cmd/api && swag init --parseDependency --parseInternal --parseDepth 1 -md ./documentation -o ./docs
 swag :## generate swagger docs
-	swag init -g pkg/api/handler/authHandler.go -o ./cmd/api/docs
+	swag init -g pkg/api/handler/adminHandler.go -o ./cmd/api/docs

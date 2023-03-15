@@ -9,7 +9,15 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -39,48 +47,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/domain.Category"
                         }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
                     },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/admin/add/products": {
-            "post": {
-                "security": [
                     {
-                        "BearerAuth": []
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Admin"
-                ],
-                "summary": "List user for admin",
-                "operationId": "AdminAddProducts",
-                "parameters": [
-                    {
-                        "description": "AdminAddProduct",
-                        "name": "AdminAddProducts",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/domain.Product"
-                        }
+                        "type": "file",
+                        "description": "select image",
+                        "name": "image",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -459,9 +432,6 @@ const docTemplate = `{
                 },
                 "description": {
                     "type": "string"
-                },
-                "image": {
-                    "type": "string"
                 }
             }
         },
@@ -481,54 +451,6 @@ const docTemplate = `{
                     "type": "string",
                     "maxLength": 12,
                     "minLength": 6
-                }
-            }
-        },
-        "domain.Product": {
-            "type": "object",
-            "properties": {
-                "available": {
-                    "type": "boolean"
-                },
-                "brand_id": {
-                    "type": "integer"
-                },
-                "cart_id": {
-                    "type": "integer"
-                },
-                "category_id": {
-                    "type": "integer"
-                },
-                "color": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "image_path": {
-                    "type": "string"
-                },
-                "model_id": {
-                    "type": "integer"
-                },
-                "price": {
-                    "type": "number"
-                },
-                "product_Id": {
-                    "type": "integer"
-                },
-                "product_name": {
-                    "type": "string"
-                },
-                "quantity": {
-                    "type": "integer"
-                },
-                "trending": {
-                    "type": "boolean"
-                },
-                "wishListID": {
-                    "description": "Brand        Brand\nCategory     Category",
-                    "type": "integer"
                 }
             }
         },
@@ -553,7 +475,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "created_At": {
-                    "description": "Orders_ID uint",
                     "type": "string"
                 },
                 "email": {
@@ -586,6 +507,9 @@ const docTemplate = `{
                     "maxLength": 12,
                     "minLength": 3
                 },
+                "profile_Pic": {
+                    "type": "string"
+                },
                 "updated_At": {
                     "type": "string"
                 },
@@ -593,7 +517,6 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "verification": {
-                    "description": "Status       bool",
                     "type": "boolean"
                 }
             }
@@ -611,17 +534,24 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
+	Version:          "1.0",
 	Host:             "",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "Go + Gin ecommerce API",
+	Description:      "This is a sample server  server. You can visit the GitHub repository at https://github.com/prasanth-pn/clean-code-architecture-ecommerce",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

@@ -39,8 +39,6 @@ definitions:
         type: string
       description:
         type: string
-      image:
-        type: string
     type: object
   domain.Login:
     properties:
@@ -56,40 +54,6 @@ definitions:
     - email
     - password
     type: object
-  domain.Product:
-    properties:
-      available:
-        type: boolean
-      brand_id:
-        type: integer
-      cart_id:
-        type: integer
-      category_id:
-        type: integer
-      color:
-        type: string
-      description:
-        type: string
-      image_path:
-        type: string
-      model_id:
-        type: integer
-      price:
-        type: number
-      product_Id:
-        type: integer
-      product_name:
-        type: string
-      quantity:
-        type: integer
-      trending:
-        type: boolean
-      wishListID:
-        description: |-
-          Brand        Brand
-          Category     Category
-        type: integer
-    type: object
   domain.Users:
     properties:
       block_Status:
@@ -99,7 +63,6 @@ definitions:
       country:
         type: string
       created_At:
-        description: Orders_ID uint
         type: string
       email:
         maxLength: 50
@@ -125,12 +88,13 @@ definitions:
         maxLength: 12
         minLength: 3
         type: string
+      profile_Pic:
+        type: string
       updated_At:
         type: string
       user_Id:
         type: integer
       verification:
-        description: Status       bool
         type: boolean
     required:
     - email
@@ -150,7 +114,17 @@ definitions:
         type: boolean
     type: object
 info:
-  contact: {}
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server  server. You can visit the GitHub repository
+    at https://github.com/prasanth-pn/clean-code-architecture-ecommerce
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: Go + Gin ecommerce API
+  version: "1.0"
 paths:
   /admin/add/category:
     post:
@@ -162,32 +136,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/domain.Category'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/response.Response'
-        "422":
-          description: Unprocessable Entity
-          schema:
-            $ref: '#/definitions/response.Response'
-      security:
-      - BearerAuth: []
-      summary: List user for admin
-      tags:
-      - Admin
-  /admin/add/products:
-    post:
-      operationId: AdminAddProducts
-      parameters:
-      - description: AdminAddProduct
-        in: body
-        name: AdminAddProducts
+      - description: select image
+        in: formData
+        name: image
         required: true
-        schema:
-          $ref: '#/definitions/domain.Product'
+        type: file
       produces:
       - application/json
       responses:
@@ -396,4 +349,9 @@ paths:
       summary: VerifyUserOtp for User
       tags:
       - User
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

@@ -91,6 +91,7 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	adminapi.POST("/update/image", AdminHandler.ImageUpload)
 	adminapi.DELETE("/delete/image", AdminHandler.DeleteImage)
 	adminapi.POST("/generate-coupon", AdminHandler.GenerateCoupon)
+	adminapi.GET("/list-orders",AdminHandler.ListOrders)
 
 	return &ServerHTTP{engine: engine}
 }

@@ -300,3 +300,26 @@ func (c *adminDatabase) SearchUserByName(pagenation utils.Filter, name string) (
 	}
 	return users, utils.ComputeMetadata(&totalrecords, &pagenation.Page, &pagenation.PageSize), nil
 }
+func (c *adminDatabase) ListOrder(pagenation utils.Filter) ([]domain.Orders, utils.Metadata, error) {
+	var Orders []domain.Orders
+	var totalrecords int
+	query := `SELECT * FROM orders LIMIT $1 OFFSET $2;`
+	rows, err := c.DB.Query(query, pagenation.Limit(), pagenation.Offset())
+	if err != nil {
+		return Orders, utils.Metadata{}, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var Canceled_at []byte
+
+		var order domain.Orders
+		err = rows.Scan(&order.Created_at, &Canceled_at, &order.User_Id, &order.Order_Id, &order.Applied_Coupons,
+			&order.Discount, &order.Total_Amount, &order.Balance_Amount, &order.PaymentMethod, &order.Payment_Status,
+			&order.Payment_Id, &order.Order_Status, &order.Address_Id)
+		if err != nil {
+			return Orders, utils.Metadata{}, err
+		}
+		Orders = append(Orders, order)
+	}
+	return Orders, utils.ComputeMetadata(&totalrecords, &pagenation.Page, &pagenation.PageSize), nil
+}

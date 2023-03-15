@@ -7,6 +7,7 @@ import (
 	"clean/pkg/utils"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"path/filepath"
 	"strconv"
@@ -28,6 +29,24 @@ func NewAdminHandler(usecase services.AdminUseCase, jwtService services.JWTServi
 		authService:  authusecase,
 	}
 }
+
+// @title Go + Gin ecommerce API
+// @version 1.0
+// @description This is a sample server  server. You can visit the GitHub repository at https://github.com/prasanth-pn/clean-code-architecture-ecommerce
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name MIT
+// @license.url https://opensource.org/licenses/MIT
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @host localhost:8080
+// @BasePath /
+// @query.collection.format multi
 
 // @Summary List user for admin
 // @ID ListUsers by admin
@@ -176,7 +195,8 @@ func (cr *AdminHandler) SearchUserByName(c *gin.Context) {
 // @Tags Admin
 // @Produce json
 // @Security BearerAuth
-// @Param AdminAddCategory body domain.Category{} true "AdminAddCategory"
+// @Param category formdata domain.Category{} true "AdminAddCategory"
+// @Param image formData file true "select image"
 // @Success 200 {object} response.Response{}
 // @Failure 422 {object} response.Response{}
 // @Router /admin/add/category [post]
@@ -254,5 +274,32 @@ func (cr *AdminHandler) AddModel(c *gin.Context) {
 	respons := response.SuccessResponse(true, "successfully inserted", Model)
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, respons)
+
+}
+func (cr *AdminHandler) ListOrders(c *gin.Context) {
+	page, _ := strconv.Atoi(c.Query("page"))
+	pagesize, _ := strconv.Atoi(c.Query("pagesize"))
+
+	pagenation := utils.Filter{
+		Page:     page,
+		PageSize: pagesize,
+	}
+	listOrder, metadata, err := cr.adminService.ListOrder(pagenation)
+	if err != nil {
+		res := response.ErrorResponse("failed to list order", err.Error(), "failed to list order")
+		c.Writer.WriteHeader(400)
+		utils.ResponseJSON(c, res)
+		return
+	}
+	data := struct {
+		ListOrder []domain.Orders
+		Metadata  utils.Metadata
+	}{
+		ListOrder: listOrder,
+		Metadata:  metadata,
+	}
+	res := response.SuccessResponse(true, "successfully listed the order", data)
+	c.Writer.WriteHeader(200)
+	utils.ResponseJSON(c, res)
 
 }

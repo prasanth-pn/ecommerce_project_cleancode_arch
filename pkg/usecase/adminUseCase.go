@@ -90,3 +90,7 @@ func (c adminUseCase) SearchUserByName(pagenation utils.Filter, name string) ([]
 	users, metadata, err := c.adminRepo.SearchUserByName(pagenation, name)
 	return users, metadata, err
 }
+func (c *adminUseCase) ListOrder(pagenation utils.Filter) ([]domain.Orders, utils.Metadata, error) {
+	listorder, metadata, err := c.adminRepo.ListOrder(pagenation)
+	return listorder, metadata, err
+}
