@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strconv"
 	"time"
@@ -136,13 +137,21 @@ func (cr *AdminHandler) DeleteImage(c *gin.Context) {
 	product_id, _ := strconv.Atoi(c.Query("product_id"))
 
 	err := cr.adminService.DeleteImage(product_id, imageName)
+	fmt.Println(err)
 	if err != nil {
 		res := response.ErrorResponse("failed to delete the image ", err.Error(), "failed to delete the product")
 		c.Writer.WriteHeader(400)
 		utils.ResponseJSON(c, res)
 		return
 	}
-	res := response.SuccessResponse(true, "success fully deleted", "the image"+imageName+" from product_id"+string(product_id)+"deleted")
+	err = os.Remove("./public/" + imageName)
+	if err != nil {
+		res := response.ErrorResponse("failed to delete the image", err.Error(), "failed")
+		c.Writer.WriteHeader(400)
+		utils.ResponseJSON(c, res)
+		return
+	}
+	res := response.SuccessResponse(true, "success fully deleted", "the image"+imageName+" from product_id   :"+string(product_id)+"deleted")
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, res)
 }

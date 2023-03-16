@@ -118,10 +118,18 @@ func (cr *UserHandler) Payment_Success(c *gin.Context) {
 		return
 	}
 	for _, list := range cart {
+
 		err = cr.UserService.Insert_To_My_Order(list, orderid)
 		if err != nil {
 			res := response.ErrorResponse("error in insert into order", err.Error(), "insert into myorder")
 			c.Writer.WriteHeader(422)
+			utils.ResponseJSON(c, res)
+			return
+		}
+		err := cr.UserService.UpdateProductQuantity(int(list.Product_id), int(list.Quantity))
+		if err != nil {
+			res := response.ErrorResponse("failed to update the q uantity to products", err.Error(), nil)
+			c.Writer.WriteHeader(400)
 			utils.ResponseJSON(c, res)
 			return
 		}

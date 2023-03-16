@@ -367,3 +367,8 @@ func (c *userDatabase) UpdateUser(user domain.Users) (domain.Users, error) {
 	err := c.DB.QueryRow(query, user.First_Name, user.Last_Name, user.Gender, user.Country, user.City, user.Profile_Pic, user.User_Id)
 	return user, err.Err()
 }
+func(c *userDatabase)UpdateProductQuantity(product_id,quantity int)error{
+		query:=`UPDATE products SET quantity=$1 WHERE product_id=$2;`
+		err:=c.DB.QueryRow(query,quantity,product_id).Err()
+		return err
+}

@@ -35,4 +35,5 @@ type UserUseCase interface {
 	ListOrder(pagenation utils.Filter, user_id uint) ([]domain.OrderResponse, utils.Metadata, error)
 	FindCoupon(coupon string) (domain.Coupon, error)
 	UpdateUser(user domain.Users) (domain.Users, error)
+	UpdateProductQuantity(product_id, quantity int) error
 }

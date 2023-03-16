@@ -6,6 +6,7 @@ import (
 	interfaces "clean/pkg/repository/interfaces"
 	services "clean/pkg/usecase/interfaces"
 	"clean/pkg/utils"
+	"errors"
 	//"context"
 	//"fmt"
 )
@@ -106,7 +107,7 @@ func (c *userUseCase) ClearCart(user_id uint) error {
 func (c *userUseCase) ListOrder(pagenation utils.Filter, user_id uint) ([]domain.OrderResponse, utils.Metadata, error) {
 	order, metadata, err := c.userRepo.ListOrder(pagenation, user_id)
 
-	return order,metadata, err
+	return order, metadata, err
 }
 func (c *userUseCase) FindCoupon(coupon string) (domain.Coupon, error) {
 	Coupon, err := c.userRepo.FindCoupon(coupon)
@@ -115,4 +116,13 @@ func (c *userUseCase) FindCoupon(coupon string) (domain.Coupon, error) {
 func (c *userUseCase) UpdateUser(user domain.Users) (domain.Users, error) {
 	User, err := c.userRepo.UpdateUser(user)
 	return User, err
+}
+func (c *userUseCase) UpdateProductQuantity(product_id, quantity int) error {
+	product, err := c.FindProduct(uint(product_id))
+	if err != nil {
+		return errors.New("error finding  product")
+	}
+	totalQuantity := product.Quantity - uint16(quantity)
+	err = c.userRepo.UpdateProductQuantity(product_id, int(totalQuantity))
+	return err
 }

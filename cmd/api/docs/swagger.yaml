@@ -1045,7 +1045,7 @@ paths:
         type: string
       - description: category_id
         in: query
-        name: caregory_id
+        name: category_id
         required: true
         type: string
       responses:

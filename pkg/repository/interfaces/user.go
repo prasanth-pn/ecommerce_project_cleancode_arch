@@ -35,4 +35,5 @@ type UserRepository interface {
 	ClearCart(user_id uint) error
 	FindCoupon(coupon string) (domain.Coupon, error)
 	UpdateUser(user domain.Users) (domain.Users, error)
+	UpdateProductQuantity(product_id ,Quantity int)error
 }

@@ -112,7 +112,7 @@ func (cr *UserHandler) ListCategories(c *gin.Context) {
 // @Tags USERVIEW
 // @Param page query string true "page"
 // @Param pagesize query string true "pagesize"
-// @Param caregory_id query string true "category_id"
+// @Param category_id query string true "category_id"
 // @Success 200 {object} response.Response{}
 // @Failure 400 {object} response.Response{}
 // @Router /user/list/products_bycategories [get]
@@ -164,15 +164,16 @@ func (cr *UserHandler) Profile(c *gin.Context) {
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, res)
 }
-//@Summary UserProfileEdit for user
-//@ID UserProfileEdit for user
-//@Tags USERCREDENTIALS
-//@Security BearerAuth 
-//@Param profile formData file true "select a image"
-//@Param user formData string true "usersdetails"
-//@Success 200 {object} response.Response{}
-//@Failure 400 {object} response.Response{}
-//@Router /user/profile-edit [patch]
+
+// @Summary UserProfileEdit for user
+// @ID UserProfileEdit for user
+// @Tags USERCREDENTIALS
+// @Security BearerAuth
+// @Param profile formData file true "select a image"
+// @Param user formData string true "usersdetails"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/profile-edit [patch]
 func (cr *UserHandler) UserEdit(c *gin.Context) {
 	user_id, _ := strconv.Atoi(c.Writer.Header().Get("id"))
 	profile, _ := c.FormFile("profile")

@@ -1443,7 +1443,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "category_id",
-                        "name": "caregory_id",
+                        "name": "category_id",
                         "in": "query",
                         "required": true
                     }
