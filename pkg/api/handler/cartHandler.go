@@ -12,16 +12,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary AddToCart for User
+// @ID UserAddCart for user
+// @Tags USERCARTMANAGEMENT
+// @Security BearerAuth
+// @Param Cart body domain.ProductDetails{} true "productDetails"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/add/cart [post]
 func (cr *UserHandler) AddToCart(c *gin.Context) {
 	var ResponseCart domain.Cart
 	var totalPrice float32
 	id := c.Writer.Header().Get("id")
 	user, _ := strconv.Atoi(id)
 	user_id := uint(user)
-	var ProductDetails struct {
-		Product_id uint
-		Quantity   uint
-	}
+	var ProductDetails domain.ProductDetails
 	if err := c.BindJSON(&ProductDetails); err != nil {
 		res := response.ErrorResponse("failed to fetch data from user", err.Error(), "failed to fetch product details ")
 		c.Writer.WriteHeader(422)
@@ -102,6 +107,15 @@ func (cr *UserHandler) AddToCart(c *gin.Context) {
 
 //--------------------------------------------------------listCart-------------------------
 
+// @Summary ListCart for User
+// @ID UserListCart for user
+// @Tags USERCARTMANAGEMENT
+// @Security BearerAuth
+// @Param page query string true "page"
+// @Param pagesize  query string true "pagesize"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/list/cart [get]
 func (cr *UserHandler) ListCart(c *gin.Context) {
 	email := c.Writer.Header().Get("email")
 	fmt.Println(email)
@@ -123,7 +137,6 @@ func (cr *UserHandler) ListCart(c *gin.Context) {
 		res := response.ErrorResponse("empty cart", "cart is empty", nil)
 		c.Writer.WriteHeader(205)
 		utils.ResponseJSON(c, res)
-		p(res)
 		return
 	}
 	fmt.Println(err)
@@ -154,6 +167,16 @@ func (cr *UserHandler) ListCart(c *gin.Context) {
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, respons)
 }
+
+// @Sumary UpdateCart for User
+// @ID UserUpdateCart for user
+// @Tags USERCARTMANAGEMENT
+// @Security BearerAuth
+// @Param product_id query string true "page"
+// @Param quantity query string true "quantity"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/update/cart [patch]
 func (cr *UserHandler) UpdateCart(c *gin.Context) {
 	user_id, _ := strconv.Atoi(c.Writer.Header().Get("id"))
 	product_id, _ := strconv.Atoi(c.Query("product_id"))
@@ -180,6 +203,15 @@ func (cr *UserHandler) UpdateCart(c *gin.Context) {
 	c.Writer.WriteHeader(http.StatusOK)
 	utils.ResponseJSON(c, res)
 }
+
+// @Summary DeleteCart for user
+// @ID UserDeleteCart for user
+// @Tags USERCARTMANAGEMENT
+// @Security BearerAuth
+// @Param product_id query string true "product_id"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/delete-cart [delete]
 func (cr *UserHandler) DeleteCart(c *gin.Context) {
 	product_id, _ := strconv.Atoi(c.Query("product_id"))
 	user_id, _ := strconv.Atoi(c.Writer.Header().Get("id"))
@@ -201,6 +233,16 @@ func (cr *UserHandler) DeleteCart(c *gin.Context) {
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, res)
 }
+
+// @Summary Appy_Coupon for User
+// @ID UserApplyCoupon for user
+// @Tags APPLY_COUPON
+// @Security BearerAuth
+// @Param address_id query string true "address_id"
+// @Param coupon query string true "coupon"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/apply-coupon [post]
 func (cr *UserHandler) Apply_Coupon(c *gin.Context) {
 	var cpn string
 	var total int
@@ -264,6 +306,15 @@ func (cr *UserHandler) Apply_Coupon(c *gin.Context) {
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, res)
 }
+
+// @Summary UserCheckout for User
+// @ID UserCheckout for user
+// @Tags USERCARTMANAGEMENT
+// @Param address_id query string true "address_id"
+// @Param payment_method query string true "payment_method"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/cart/checkout [post]
 func (cr *UserHandler) Checkout(c *gin.Context) {
 	//email := c.Writer.Header().Get("email")
 	address_id, _ := strconv.Atoi(c.Query("address_id"))

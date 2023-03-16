@@ -16,17 +16,16 @@ import (
 	"github.com/google/uuid"
 )
 
-// @Summary List user for admin
+// @Summary AddProducts for admin
 // @ID AdminAddProducts
-// @Tags Admin
+// @Tags PRODUCTMANAGEMENT
 // @Produce json
 // @Security BearerAuth
-// @Param AdminAddProducts body domain.Product{} true "AdminAddProduct"
+// @Param homepic formData file true "select the  image"
+// @Param products formData string true "AdminAddProduct"
 // @Success 200 {object} response.Response{}
 // @Failure 422 {object} response.Response{}
 // @Router /admin/add/products [post]
-var p = fmt.Println
-
 func (cr *AdminHandler) AddProducts(c *gin.Context) {
 	//adding product details
 	var products domain.Product
@@ -91,9 +90,18 @@ func (cr *AdminHandler) AddProducts(c *gin.Context) {
 	c.Writer.WriteHeader(http.StatusOK)
 	utils.ResponseJSON(c, respons)
 }
+
+// @Summary AdminDeleteProducts for admin
+// @ID AdminAdddProducts for admin
+// @Tags PRODUCTMANAGEMENT
+// @Produce json
+// @Security BearerAuth
+// @Param product_id query string true "product_id"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /admin/product/delete [delete]
 func (cr AdminHandler) DeleteProduct(c *gin.Context) {
 	product_id, _ := strconv.Atoi(c.Query("product_id"))
-	p(product_id)
 	product, err := cr.adminService.FindProduct(product_id)
 	if err != nil {
 		res := response.ErrorResponse("error whenn finding product", err.Error(), "error in find product in delete product")
@@ -113,16 +121,50 @@ func (cr AdminHandler) DeleteProduct(c *gin.Context) {
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, res)
 }
-func (cr *AdminHandler) DeleteImage(c *gin.Context) {
 
+// @Summary DeleteImagein Products
+// @ID DeleteImageFromProduct for admin
+// @Tags PRODUCTMANAGEMENT
+// @Security BearerAuth
+// @Param imageName query string true "select the image name"
+// @Param product_id query string  true "enter the prouduct Id"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /admin/products/delete-image [delete]
+func (cr *AdminHandler) DeleteImage(c *gin.Context) {
+	imageName := c.Query("imageName")
+	product_id, _ := strconv.Atoi(c.Query("product_id"))
+
+	err := cr.adminService.DeleteImage(product_id, imageName)
+	if err != nil {
+		res := response.ErrorResponse("failed to delete the image ", err.Error(), "failed to delete the product")
+		c.Writer.WriteHeader(400)
+		utils.ResponseJSON(c, res)
+		return
+	}
+	res := response.SuccessResponse(true, "success fully deleted", "the image"+imageName+" from product_id"+string(product_id)+"deleted")
+	c.Writer.WriteHeader(200)
+	utils.ResponseJSON(c, res)
 }
+
+// @Summary GenerateCoupon for admin
+// @ID GenereateCoupon for admin
+// @Tags COUPON
+// @Produce json
+// @Security BearerAuth
+// @Param coupon query string true "coupon"
+// @Param quantity query string true "quantity"
+// @Param validity query string true "validity"
+// @Param discount query  string true "discount"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /admin/generate-coupon [post]
 func (cr *AdminHandler) GenerateCoupon(c *gin.Context) {
 	coupon := c.Query("coupon")
 	quantity, _ := strconv.Atoi(c.Query("quantity"))
-	//validity, _ := strconv.Atoi(c.Query("validity"))
+	validity, _ := strconv.Atoi(c.Query("validity"))
 	discount, _ := strconv.Atoi(c.Query("discount"))
-	expirationTime := time.Now().Add(2 * time.Minute).Unix() //AddDate(0, 0, validity).Unix()
-
+	expirationTime := time.Now().AddDate(0, 0, validity).Unix() //Add(2 * time.Minute).Unix() //
 	if coupon == "" {
 		length := 8
 		source := rand.NewSource(time.Now().Unix())
@@ -143,7 +185,7 @@ func (cr *AdminHandler) GenerateCoupon(c *gin.Context) {
 	err := cr.adminService.GenerateCoupon(COUPON)
 	if err != nil {
 		res := response.ErrorResponse("failed to genereate coupon ", err.Error(), "failed to genarate coupon")
-		c.Writer.WriteHeader(422)
+		c.Writer.WriteHeader(400)
 		utils.ResponseJSON(c, res)
 		return
 	}
@@ -151,6 +193,17 @@ func (cr *AdminHandler) GenerateCoupon(c *gin.Context) {
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, res)
 }
+
+// @Summary ListCategories for admin
+// @ID ListCategories for admin
+// @Tags PRODUCTMANAGEMENT
+// @Product json
+// @Security BearerAuth
+// @Param page query string true "page"
+// @Param pagesize query string true "pagesize"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /admin/list/category [get]
 func (cr *AdminHandler) ListCategories(c *gin.Context) {
 	page, _ := strconv.Atoi(c.Query("page"))
 	pagesize, _ := strconv.Atoi(c.Query("pagesize"))
@@ -169,6 +222,18 @@ func (cr *AdminHandler) ListCategories(c *gin.Context) {
 	c.Writer.WriteHeader(422)
 	utils.ResponseJSON(c, res)
 }
+
+// @Summary ListProductByCategories for admin
+// @ID listproductsbycategories for admin
+// @Tags PRODUCTMANGEMENT
+// @Product json
+// @Security BearerAuth
+// @Param cat_id query string true "category_id"
+// @Param page query string true "page"
+// @Param pagesize query string true "pagesize"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /admin/list/productby-categories [get]
 func (cr *AdminHandler) ListProductsByCategories(c *gin.Context) {
 	category_id, _ := strconv.Atoi(c.Query("cat_id"))
 	page, _ := strconv.Atoi(c.Query("page"))
@@ -189,6 +254,18 @@ func (cr *AdminHandler) ListProductsByCategories(c *gin.Context) {
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, res)
 }
+
+// @Summary UpdateProduct for admin
+// @ID UpdateProduct for admin
+// @Tags PRODUCTMANAGEMENT
+// @Product json
+// @Security BearerAuth
+// @Param product_id query string true "product_id"
+// @Param image formData file true "select image"
+// @Param updateproduct formData string true "updateproduct"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /admin/update/product [patch]
 func (cr *AdminHandler) UpdateProduct(c *gin.Context) {
 	product_id, _ := strconv.Atoi(c.Query("product_id"))
 	updateproduct := c.PostForm("updateproduct")
@@ -198,7 +275,6 @@ func (cr *AdminHandler) UpdateProduct(c *gin.Context) {
 		c.Writer.WriteHeader(300)
 		utils.ResponseJSON(c, res)
 	}
-	//json.Unmarshal([]byte(updateproduct), &product)
 	extention := filepath.Ext(file.Filename)
 	image := "product" + uuid.New().String() + extention
 	fmt.Println(image)
@@ -225,8 +301,21 @@ func (cr *AdminHandler) UpdateProduct(c *gin.Context) {
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, res)
 }
+
+//	@Summary ImageUploadproduct for admin
+//	@ID productImageUpload for admin
+//
+// @Tags PRODUCTMANAGEMENT
+// @Product json
+// @Security BearerAuth
+// @Param product_id query string true "product_id"
+// @Param image formData file true "select image"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /admin/upload/image [patch]
 func (cr *AdminHandler) ImageUpload(c *gin.Context) {
-	//product_id,_:=strconv.Atoi(c.Query("product_id"))
+	var images []string
+	product_id, _ := strconv.Atoi(c.Query("product_id"))
 	if err := c.Request.ParseMultipartForm(32 << 20); err != nil {
 		res := response.ErrorResponse("error getting images", err.Error(), "error getting images")
 		c.Writer.WriteHeader(401)
@@ -238,11 +327,24 @@ func (cr *AdminHandler) ImageUpload(c *gin.Context) {
 		extention := filepath.Ext(imagepath.Filename)
 		fmt.Println(extention)
 		image := "product" + uuid.New().String() + extention
-		fmt.Println(image)
+		images = append(images, image)
 	}
-	// fmt.Println(product_id)
-	// err:=cr.adminService.ImageUpload(image,product_id)
-	// if err!=nil{
-	// 	res:=response.ErrorResponse("error from upload image",err.Error(),image)
-	// }
+	fmt.Println(product_id)
+	err := cr.adminService.ImageUpload(images, product_id)
+	if err != nil {
+		res := response.ErrorResponse("error from upload image", err.Error(), "image isn not uploaded")
+		c.Writer.WriteHeader(400)
+		utils.ResponseJSON(c, res)
+		return
+	}
+	data := struct {
+		Image      []string
+		Product_id int
+	}{
+		Image:      images,
+		Product_id: product_id,
+	}
+	res := response.SuccessResponse(true, "successfully image uploaded", data)
+	c.Writer.WriteHeader(200)
+	utils.ResponseJSON(c, res)
 }

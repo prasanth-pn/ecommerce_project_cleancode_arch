@@ -119,3 +119,7 @@ type Applied_Coupons struct {
 	UserID      uint
 	Coupon_Code string `json:"coupon_code"`
 }
+type ProductDetails struct {
+	Product_id uint
+	Quantity   uint
+}

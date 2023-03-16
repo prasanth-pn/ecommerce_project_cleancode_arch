@@ -32,6 +32,15 @@ func NewUserHandler(usecase services.UserUseCase, AuthService services.AuthUseCa
 	}
 
 }
+
+// @Summary ListProducts for user
+// @ID UserListProducts for user
+// @Tags USERVIEW
+// @Param page query string true "page"
+// @Param pagesize query string true "pagesize"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/list/products [get]
 func (cr *UserHandler) ListProducts(c *gin.Context) {
 	page, _ := strconv.Atoi(c.Query("page"))
 	pagesize, _ := strconv.Atoi(c.Query("pagesize"))
@@ -59,6 +68,15 @@ func (cr *UserHandler) ListProducts(c *gin.Context) {
 	utils.ResponseJSON(c, respons)
 
 }
+
+// @Summary ListCategories for user
+// @ID UserListCategories for user
+// @Tags USERVIEW
+// @Param page query string true "page"
+// @Param pagesize query string true "pagesize"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/list/categories [get]
 func (cr *UserHandler) ListCategories(c *gin.Context) {
 	page, _ := strconv.Atoi(c.Query("page"))
 	pagesize, _ := strconv.Atoi(c.Query("pagesize"))
@@ -88,6 +106,16 @@ func (cr *UserHandler) ListCategories(c *gin.Context) {
 	}
 
 }
+
+// @Summary ListProductsByCategories for user
+// @ID UserListProductsByCategories for user
+// @Tags USERVIEW
+// @Param page query string true "page"
+// @Param pagesize query string true "pagesize"
+// @Param caregory_id query string true "category_id"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/list/products_bycategories [get]
 func (cr *UserHandler) ListProductsByCategories(c *gin.Context) {
 	page, _ := strconv.Atoi(c.Query("page"))
 	pagesize, _ := strconv.Atoi(c.Query("pagesize"))
@@ -116,6 +144,13 @@ func (cr *UserHandler) ListProductsByCategories(c *gin.Context) {
 	}
 }
 
+// @Sumamry UserProfile for user
+// @ID UserProfile for user
+// @Tags USERCREDENTIALS
+// @Security BearerAuth
+// @success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/profile [get]
 func (cr *UserHandler) Profile(c *gin.Context) {
 	user_id, _ := strconv.Atoi(c.Writer.Header().Get("id"))
 	user, err := cr.AuthService.FindUserById(uint(user_id))
@@ -129,7 +164,15 @@ func (cr *UserHandler) Profile(c *gin.Context) {
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, res)
 }
-
+//@Summary UserProfileEdit for user
+//@ID UserProfileEdit for user
+//@Tags USERCREDENTIALS
+//@Security BearerAuth 
+//@Param profile formData file true "select a image"
+//@Param user formData string true "usersdetails"
+//@Success 200 {object} response.Response{}
+//@Failure 400 {object} response.Response{}
+//@Router /user/profile-edit [patch]
 func (cr *UserHandler) UserEdit(c *gin.Context) {
 	user_id, _ := strconv.Atoi(c.Writer.Header().Get("id"))
 	profile, _ := c.FormFile("profile")

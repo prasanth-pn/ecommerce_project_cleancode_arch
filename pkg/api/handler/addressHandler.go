@@ -14,12 +14,12 @@ import (
 // @Summary AddAddress for user
 // @ID AddAddress for user
 // @Security BearerAuth
-// @Tags User
+// @Tags ADDRESSMANAGEMENT
 // @Produce json
 // @Param Address body domain.Address{} true "Address"
 // @Success 200 {object} response.Response{}
 // @Failure 401 {object} response.Response{}
-// @Router /user/checkout/add/address [post]
+// @Router /user/add/address [post]
 func (cr *UserHandler) AddAddress(c *gin.Context) {
 	email := c.Writer.Header().Get("email")
 	fmt.Println(email)
@@ -27,7 +27,7 @@ func (cr *UserHandler) AddAddress(c *gin.Context) {
 	var address domain.Address
 	if err := c.BindJSON(&address); err != nil {
 		res := response.ErrorResponse("failed to get the data from front end", err.Error(), "failed to fetch data")
-		c.Writer.WriteHeader(422)
+		c.Writer.WriteHeader(400)
 		utils.ResponseJSON(c, res)
 		return
 	}
@@ -45,6 +45,15 @@ func (cr *UserHandler) AddAddress(c *gin.Context) {
 }
 
 // -----------------------------list Address-------------------------------------
+
+// @Summary AddAddress for user
+// @ID ListAddress for user
+// @Security BearerAuth
+// @Tags ADDRESSMANAGEMENT
+// @Produce json
+// @Success 200 {object} response.Response{}
+// @Failure 401 {object} response.Response{}
+// @Router /user/list/address [get]
 func (cr *UserHandler) ListAddress(c *gin.Context) {
 	s := c.Writer.Header().Get("id")
 	user_id, _ := strconv.ParseUint(s, 10, 64)
@@ -60,6 +69,16 @@ func (cr *UserHandler) ListAddress(c *gin.Context) {
 	utils.ResponseJSON(c, respo)
 
 }
+
+// @Summary GetAddress for user
+// @ID GetAddress for user
+// @Security BearerAuth
+// @Tags ADDRESSMANAGEMENT
+// @Produce json
+// @Param address_id query string true "enter the address_id"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/edit/address [get]
 func (cr *UserHandler) GetAddressToEdit(c *gin.Context) {
 	email := c.Writer.Header().Get("email")
 	address_id, _ := strconv.Atoi(c.Query("address_id"))
@@ -67,7 +86,7 @@ func (cr *UserHandler) GetAddressToEdit(c *gin.Context) {
 	address, err := cr.UserService.FindAddress(user.ID, uint(address_id))
 	if err != nil {
 		res := response.ErrorResponse("failed find the address", err.Error(), "failed to fetch data from server")
-		c.Writer.WriteHeader(422)
+		c.Writer.WriteHeader(400)
 		utils.ResponseJSON(c, res)
 		return
 	}
@@ -76,6 +95,16 @@ func (cr *UserHandler) GetAddressToEdit(c *gin.Context) {
 	utils.ResponseJSON(c, respo)
 }
 
+
+// @Summary UpdateAddress for user
+// @ID UpdateAddress for user
+// @Security BearerAuth
+// @Tags ADDRESSMANAGEMENT
+// @Produce json
+// @Param Address body domain.Address{} true "Address"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/update/address [patch]
 func (cr *UserHandler) UpdateAddress(c *gin.Context) {
 	email := c.Writer.Header().Get("email")
 	user, _ := cr.AuthService.FindUser(email)
@@ -97,7 +126,6 @@ func (cr *UserHandler) UpdateAddress(c *gin.Context) {
 	err = cr.UserService.UpdateAddress(add, (user.ID), uint(address_id))
 	add.Address_id = uint(address_id)
 	add.User_Id = user.ID
-	fmt.Println(err)
 	if err != nil {
 		res := response.ErrorResponse("failed to update uddress", err.Error(), "failed to update address")
 		c.Writer.WriteHeader(400)

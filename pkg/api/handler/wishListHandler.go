@@ -11,6 +11,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary AddWishList for user
+// @ID UserAddWishList for user
+// @Tags USERWISHLISTMANAGEMENT
+// @Security BearerAuth
+// @Param product_id query string true "product_id"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/add/wishlist [post]
 func (cr *UserHandler) AddWishList(c *gin.Context) {
 	email := c.Writer.Header().Get("email")
 	user, err := cr.AuthService.FindUser(email)
@@ -32,11 +40,11 @@ func (cr *UserHandler) AddWishList(c *gin.Context) {
 		Product_Id: uint(product_id),
 	}
 	product, err := cr.UserService.FindProduct(uint(product_id))
-	if err!=nil{
-		res:=response.ErrorResponse("failed to find the product",err.Error(),"product not found")
+	if err != nil {
+		res := response.ErrorResponse("failed to find the product", err.Error(), "product not found")
 		c.Writer.WriteHeader(422)
-		utils.ResponseJSON(c,res)
-		return 
+		utils.ResponseJSON(c, res)
+		return
 	}
 	err = cr.UserService.AddTo_WishList(wishlist)
 	if err != nil {
@@ -65,6 +73,13 @@ func (cr *UserHandler) AddWishList(c *gin.Context) {
 
 }
 
+// @Summary ViewWishList for user
+// @ID UserViewWishList for user
+// @Tags USERWISHLISTMANAGEMENT
+// @Security BearerAuth
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/view/wishlist [post]
 func (cr *UserHandler) ViewWishList(c *gin.Context) {
 	// var wishlist domain.WishListResponse
 	email := c.Writer.Header().Get("email")
@@ -76,6 +91,15 @@ func (cr *UserHandler) ViewWishList(c *gin.Context) {
 	c.Writer.WriteHeader(http.StatusOK)
 	utils.ResponseJSON(c, respons)
 }
+
+// @Summary DeleteWishList for user
+// @ID UserDeleteWishList for user
+// @Tags USERWISHLISTMANAGEMENT
+// @Security BearerAuth
+// @Param product_id query string true "product_id"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/delete/wishlist [delete]
 func (cr *UserHandler) RemoveFromWishlist(c *gin.Context) {
 	email := c.Writer.Header().Get("email")
 	product_id, _ := strconv.Atoi(c.Query("product_id"))
@@ -111,6 +135,15 @@ func (cr *UserHandler) RemoveFromWishlist(c *gin.Context) {
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, res)
 }
+
+// @Summary AddWishList-tocart for user
+// @ID UserAddWishList_toCart for user
+// @Tags USERWISHLISTMANAGEMENT
+// @Security BearerAuth
+// @Param product_id query string true "product_id"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/add/wishlist_tocart [post]
 func (cr *UserHandler) WishListTo_Cart(c *gin.Context) {
 	email := c.Writer.Header().Get("email")
 	product_id, _ := strconv.Atoi(c.Query("product_id"))

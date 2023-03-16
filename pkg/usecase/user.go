@@ -103,10 +103,10 @@ func (c *userUseCase) ClearCart(user_id uint) error {
 	err := c.userRepo.ClearCart(user_id)
 	return err
 }
-func (c *userUseCase) ListOrder(user_id uint) ([]domain.OrderResponse, error) {
-	order,err := c.userRepo.ListOrder(user_id)
+func (c *userUseCase) ListOrder(pagenation utils.Filter, user_id uint) ([]domain.OrderResponse, utils.Metadata, error) {
+	order, metadata, err := c.userRepo.ListOrder(pagenation, user_id)
 
-	return order, err
+	return order,metadata, err
 }
 func (c *userUseCase) FindCoupon(coupon string) (domain.Coupon, error) {
 	Coupon, err := c.userRepo.FindCoupon(coupon)

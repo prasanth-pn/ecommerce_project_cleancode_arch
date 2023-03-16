@@ -31,14 +31,16 @@ definitions:
       username:
         type: string
     type: object
-  domain.Category:
+  domain.Brand:
     properties:
-      category_Id:
+      brand_Id:
         type: integer
-      category_name:
+      brand_description:
         type: string
-      description:
+      brand_name:
         type: string
+      discount:
+        type: integer
     type: object
   domain.Login:
     properties:
@@ -53,6 +55,20 @@ definitions:
     required:
     - email
     - password
+    type: object
+  domain.Model:
+    properties:
+      model_id:
+        type: integer
+      model_name:
+        type: string
+    type: object
+  domain.ProductDetails:
+    properties:
+      product_id:
+        type: integer
+      quantity:
+        type: integer
     type: object
   domain.Users:
     properties:
@@ -126,21 +142,102 @@ info:
   title: Go + Gin ecommerce API
   version: "1.0"
 paths:
+  /admin/add/brands:
+    post:
+      operationId: AddBrand by admin
+      parameters:
+      - description: Add brand
+        in: body
+        name: Brand
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Brand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Add Brand for admin
+      tags:
+      - Brand
   /admin/add/category:
     post:
       operationId: AddCategory by admin
       parameters:
-      - description: AdminAddCategory
-        in: body
-        name: AdminAddCategory
-        required: true
-        schema:
-          $ref: '#/definitions/domain.Category'
       - description: select image
         in: formData
         name: image
         required: true
         type: file
+      - description: AdminAddCategory
+        in: formData
+        name: category
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: List user for admin
+      tags:
+      - Admin
+  /admin/add/models:
+    post:
+      operationId: AddModel by admin
+      parameters:
+      - description: Add Model
+        in: body
+        name: Brand
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Model'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Addmodel for admin
+      tags:
+      - Model
+  /admin/add/products:
+    post:
+      operationId: AdminAddProducts
+      parameters:
+      - description: select the  image
+        in: formData
+        name: homepic
+        required: true
+        type: file
+      - description: AdminAddProduct
+        in: formData
+        name: products
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -154,9 +251,170 @@ paths:
             $ref: '#/definitions/response.Response'
       security:
       - BearerAuth: []
-      summary: List user for admin
+      summary: AddProducts for admin
       tags:
-      - Admin
+      - PRODUCTMANAGEMENT
+  /admin/generate-coupon:
+    post:
+      operationId: GenereateCoupon for admin
+      parameters:
+      - description: coupon
+        in: query
+        name: coupon
+        required: true
+        type: string
+      - description: quantity
+        in: query
+        name: quantity
+        required: true
+        type: string
+      - description: validity
+        in: query
+        name: validity
+        required: true
+        type: string
+      - description: discount
+        in: query
+        name: discount
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: GenerateCoupon for admin
+      tags:
+      - COUPON
+  /admin/list-blockedusers:
+    get:
+      operationId: ListBlockUser by admin
+      parameters:
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: pagesize
+        in: query
+        name: pagesize
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: ListBlockUsers for admin
+      tags:
+      - USERMANAGEMENT
+  /admin/list-orders:
+    get:
+      operationId: ListOrders by admin
+      parameters:
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: pagesize
+        in: query
+        name: pagesize
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: ListOrders for admin
+      tags:
+      - OrderManagement
+  /admin/list/category:
+    get:
+      operationId: ListCategories for admin
+      parameters:
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: pagesize
+        in: query
+        name: pagesize
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: ListCategories for admin
+      tags:
+      - PRODUCTMANAGEMENT
+  /admin/list/productby-categories:
+    get:
+      operationId: listproductsbycategories for admin
+      parameters:
+      - description: category_id
+        in: query
+        name: cat_id
+        required: true
+        type: string
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: pagesize
+        in: query
+        name: pagesize
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: ListProductByCategories for admin
+      tags:
+      - PRODUCTMANGEMENT
   /admin/list/users:
     get:
       operationId: ListUsers by admin
@@ -199,7 +457,60 @@ paths:
             $ref: '#/definitions/response.Response'
       summary: Admin Login for Admin
       tags:
-      - Admin
+      - ADMINLOGIN
+  /admin/product/delete:
+    delete:
+      operationId: AdminAdddProducts for admin
+      parameters:
+      - description: product_id
+        in: query
+        name: product_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: AdminDeleteProducts for admin
+      tags:
+      - PRODUCTMANAGEMENT
+  /admin/products/delete-image:
+    delete:
+      operationId: DeleteImageFromProduct for admin
+      parameters:
+      - description: select the image name
+        in: query
+        name: imageName
+        required: true
+        type: string
+      - description: enter the prouduct Id
+        in: query
+        name: product_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: DeleteImagein Products
+      tags:
+      - PRODUCTMANAGEMENT
   /admin/register:
     post:
       operationId: AdminRegister for Admin
@@ -224,7 +535,153 @@ paths:
       summary: Register for Admin
       tags:
       - Admin
-  /user/checkout/add/address:
+  /admin/search-user/name:
+    get:
+      operationId: SearchUserByName by admin
+      parameters:
+      - description: name
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: pagesize
+        in: query
+        name: pagesize
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: SearchUserByName for admin
+      tags:
+      - USERMANAGEMENT
+  /admin/update/product:
+    patch:
+      operationId: UpdateProduct for admin
+      parameters:
+      - description: product_id
+        in: query
+        name: product_id
+        required: true
+        type: string
+      - description: select image
+        in: formData
+        name: image
+        required: true
+        type: file
+      - description: updateproduct
+        in: formData
+        name: updateproduct
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: UpdateProduct for admin
+      tags:
+      - PRODUCTMANAGEMENT
+  /admin/upload/image:
+    patch:
+      operationId: productImageUpload for admin
+      parameters:
+      - description: product_id
+        in: query
+        name: product_id
+        required: true
+        type: string
+      - description: select image
+        in: formData
+        name: image
+        required: true
+        type: file
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: ImageUploadproduct for admin
+      tags:
+      - PRODUCTMANAGEMENT
+  /admin/user/block:
+    patch:
+      operationId: BlockUser by admin
+      parameters:
+      - description: user_id
+        in: query
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Blockuser for admin
+      tags:
+      - USERMANAGEMENT
+  /admin/user/unblock:
+    patch:
+      operationId: UblockUser by admin
+      parameters:
+      - description: user_id
+        in: query
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Unblock for admin
+      tags:
+      - USERMANAGEMENT
+  /user/add/address:
     post:
       operationId: AddAddress for user
       parameters:
@@ -249,7 +706,360 @@ paths:
       - BearerAuth: []
       summary: AddAddress for user
       tags:
-      - User
+      - ADDRESSMANAGEMENT
+  /user/add/cart:
+    post:
+      operationId: UserAddCart for user
+      parameters:
+      - description: productDetails
+        in: body
+        name: Cart
+        required: true
+        schema:
+          $ref: '#/definitions/domain.ProductDetails'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: AddToCart for User
+      tags:
+      - USERCARTMANAGEMENT
+  /user/add/wishlist:
+    post:
+      operationId: UserAddWishList for user
+      parameters:
+      - description: product_id
+        in: query
+        name: product_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: AddWishList for user
+      tags:
+      - USERWISHLISTMANAGEMENT
+  /user/add/wishlist_tocart:
+    post:
+      operationId: UserAddWishList_toCart for user
+      parameters:
+      - description: product_id
+        in: query
+        name: product_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: AddWishList-tocart for user
+      tags:
+      - USERWISHLISTMANAGEMENT
+  /user/apply-coupon:
+    post:
+      operationId: UserApplyCoupon for user
+      parameters:
+      - description: address_id
+        in: query
+        name: address_id
+        required: true
+        type: string
+      - description: coupon
+        in: query
+        name: coupon
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Appy_Coupon for User
+      tags:
+      - APPLY_COUPON
+  /user/cart/checkout:
+    post:
+      operationId: UserCheckout for user
+      parameters:
+      - description: address_id
+        in: query
+        name: address_id
+        required: true
+        type: string
+      - description: payment_method
+        in: query
+        name: payment_method
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: UserCheckout for User
+      tags:
+      - USERCARTMANAGEMENT
+  /user/delete-cart:
+    delete:
+      operationId: UserDeleteCart for user
+      parameters:
+      - description: product_id
+        in: query
+        name: product_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: DeleteCart for user
+      tags:
+      - USERCARTMANAGEMENT
+  /user/delete/wishlist:
+    delete:
+      operationId: UserDeleteWishList for user
+      parameters:
+      - description: product_id
+        in: query
+        name: product_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: DeleteWishList for user
+      tags:
+      - USERWISHLISTMANAGEMENT
+  /user/edit/address:
+    get:
+      operationId: GetAddress for user
+      parameters:
+      - description: enter the address_id
+        in: query
+        name: address_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: GetAddress for user
+      tags:
+      - ADDRESSMANAGEMENT
+  /user/list-order:
+    get:
+      operationId: UserListOrder for User
+      parameters:
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: pagesize
+        in: query
+        name: pagesize
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: UserListOrder for user
+      tags:
+      - ORDERMANAGEMENT
+  /user/list/address:
+    get:
+      operationId: ListAddress for user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: AddAddress for user
+      tags:
+      - ADDRESSMANAGEMENT
+  /user/list/cart:
+    get:
+      operationId: UserListCart for user
+      parameters:
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: pagesize
+        in: query
+        name: pagesize
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: ListCart for User
+      tags:
+      - USERCARTMANAGEMENT
+  /user/list/categories:
+    get:
+      operationId: UserListCategories for user
+      parameters:
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: pagesize
+        in: query
+        name: pagesize
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: ListCategories for user
+      tags:
+      - USERVIEW
+  /user/list/products:
+    get:
+      operationId: UserListProducts for user
+      parameters:
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: pagesize
+        in: query
+        name: pagesize
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: ListProducts for user
+      tags:
+      - USERVIEW
+  /user/list/products_bycategories:
+    get:
+      operationId: UserListProductsByCategories for user
+      parameters:
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: pagesize
+        in: query
+        name: pagesize
+        required: true
+        type: string
+      - description: category_id
+        in: query
+        name: caregory_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: ListProductsByCategories for user
+      tags:
+      - USERVIEW
   /user/login:
     post:
       operationId: user login authentication
@@ -273,7 +1083,51 @@ paths:
             $ref: '#/definitions/response.Response'
       summary: Login for user
       tags:
-      - User
+      - USERTAUTHENTICATION
+  /user/profile:
+    get:
+      operationId: UserProfile for user
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      tags:
+      - USERCREDENTIALS
+  /user/profile-edit:
+    patch:
+      operationId: UserProfileEdit for user
+      parameters:
+      - description: select a image
+        in: formData
+        name: profile
+        required: true
+        type: file
+      - description: usersdetails
+        in: formData
+        name: user
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: UserProfileEdit for user
+      tags:
+      - USERCREDENTIALS
   /user/register:
     post:
       operationId: Register for user
@@ -297,7 +1151,7 @@ paths:
             $ref: '#/definitions/response.Response'
       summary: Register for user
       tags:
-      - User
+      - USERTAUTHENTICATION
   /user/send/verificationmail:
     post:
       operationId: SendUserMail
@@ -320,7 +1174,60 @@ paths:
             $ref: '#/definitions/response.Response'
       summary: Send EmailOtp for User
       tags:
-      - User
+      - USERVERIFICATION
+  /user/update/address:
+    patch:
+      operationId: UpdateAddress for user
+      parameters:
+      - description: Address
+        in: body
+        name: Address
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Address'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: UpdateAddress for user
+      tags:
+      - ADDRESSMANAGEMENT
+  /user/update/cart:
+    patch:
+      operationId: UserUpdateCart for user
+      parameters:
+      - description: page
+        in: query
+        name: product_id
+        required: true
+        type: string
+      - description: quantity
+        in: query
+        name: quantity
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      tags:
+      - USERCARTMANAGEMENT
   /user/verify/otp:
     get:
       operationId: VerifyUserOtp for authentication
@@ -348,7 +1255,24 @@ paths:
             $ref: '#/definitions/response.Response'
       summary: VerifyUserOtp for User
       tags:
-      - User
+      - USERVERIFICATION
+  /user/view/wishlist:
+    post:
+      operationId: UserViewWishList for user
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: ViewWishList for user
+      tags:
+      - USERWISHLISTMANAGEMENT
 securityDefinitions:
   BearerAuth:
     in: header

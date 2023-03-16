@@ -15,6 +15,48 @@
         "version": "1.0"
     },
     "paths": {
+        "/admin/add/brands": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Brand"
+                ],
+                "summary": "Add Brand for admin",
+                "operationId": "AddBrand by admin",
+                "parameters": [
+                    {
+                        "description": "Add brand",
+                        "name": "Brand",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Brand"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/add/category": {
             "post": {
                 "security": [
@@ -32,18 +74,105 @@
                 "operationId": "AddCategory by admin",
                 "parameters": [
                     {
-                        "description": "AdminAddCategory",
-                        "name": "AdminAddCategory",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/domain.Category"
-                        }
-                    },
-                    {
                         "type": "file",
                         "description": "select image",
                         "name": "image",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "AdminAddCategory",
+                        "name": "category",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/add/models": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Model"
+                ],
+                "summary": "Addmodel for admin",
+                "operationId": "AddModel by admin",
+                "parameters": [
+                    {
+                        "description": "Add Model",
+                        "name": "Brand",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Model"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/add/products": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PRODUCTMANAGEMENT"
+                ],
+                "summary": "AddProducts for admin",
+                "operationId": "AdminAddProducts",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "select the  image",
+                        "name": "homepic",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "AdminAddProduct",
+                        "name": "products",
                         "in": "formData",
                         "required": true
                     }
@@ -57,6 +186,256 @@
                     },
                     "422": {
                         "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/generate-coupon": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "COUPON"
+                ],
+                "summary": "GenerateCoupon for admin",
+                "operationId": "GenereateCoupon for admin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "coupon",
+                        "name": "coupon",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "quantity",
+                        "name": "quantity",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "validity",
+                        "name": "validity",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "discount",
+                        "name": "discount",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/list-blockedusers": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "USERMANAGEMENT"
+                ],
+                "summary": "ListBlockUsers for admin",
+                "operationId": "ListBlockUser by admin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pagesize",
+                        "name": "pagesize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/list-orders": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderManagement"
+                ],
+                "summary": "ListOrders for admin",
+                "operationId": "ListOrders by admin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pagesize",
+                        "name": "pagesize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/list/category": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "PRODUCTMANAGEMENT"
+                ],
+                "summary": "ListCategories for admin",
+                "operationId": "ListCategories for admin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pagesize",
+                        "name": "pagesize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/list/productby-categories": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "PRODUCTMANGEMENT"
+                ],
+                "summary": "ListProductByCategories for admin",
+                "operationId": "listproductsbycategories for admin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "category_id",
+                        "name": "cat_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pagesize",
+                        "name": "pagesize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -101,7 +480,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "ADMINLOGIN"
                 ],
                 "summary": "Admin Login for Admin",
                 "operationId": "AdminLogin for Admin",
@@ -125,6 +504,90 @@
                     },
                     "401": {
                         "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/product/delete": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PRODUCTMANAGEMENT"
+                ],
+                "summary": "AdminDeleteProducts for admin",
+                "operationId": "AdminAdddProducts for admin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "product_id",
+                        "name": "product_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/products/delete-image": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "PRODUCTMANAGEMENT"
+                ],
+                "summary": "DeleteImagein Products",
+                "operationId": "DeleteImageFromProduct for admin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "select the image name",
+                        "name": "imageName",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "enter the prouduct Id",
+                        "name": "product_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -169,7 +632,236 @@
                 }
             }
         },
-        "/user/checkout/add/address": {
+        "/admin/search-user/name": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "USERMANAGEMENT"
+                ],
+                "summary": "SearchUserByName for admin",
+                "operationId": "SearchUserByName by admin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pagesize",
+                        "name": "pagesize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/update/product": {
+            "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "PRODUCTMANAGEMENT"
+                ],
+                "summary": "UpdateProduct for admin",
+                "operationId": "UpdateProduct for admin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "product_id",
+                        "name": "product_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "select image",
+                        "name": "image",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "updateproduct",
+                        "name": "updateproduct",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/upload/image": {
+            "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "PRODUCTMANAGEMENT"
+                ],
+                "summary": "ImageUploadproduct for admin",
+                "operationId": "productImageUpload for admin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "product_id",
+                        "name": "product_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "select image",
+                        "name": "image",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/user/block": {
+            "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "USERMANAGEMENT"
+                ],
+                "summary": "Blockuser for admin",
+                "operationId": "BlockUser by admin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user_id",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/user/unblock": {
+            "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "USERMANAGEMENT"
+                ],
+                "summary": "Unblock for admin",
+                "operationId": "UblockUser by admin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user_id",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/add/address": {
             "post": {
                 "security": [
                     {
@@ -180,7 +872,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "ADDRESSMANAGEMENT"
                 ],
                 "summary": "AddAddress for user",
                 "operationId": "AddAddress for user",
@@ -211,13 +903,566 @@
                 }
             }
         },
+        "/user/add/cart": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "USERCARTMANAGEMENT"
+                ],
+                "summary": "AddToCart for User",
+                "operationId": "UserAddCart for user",
+                "parameters": [
+                    {
+                        "description": "productDetails",
+                        "name": "Cart",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.ProductDetails"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/add/wishlist": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "USERWISHLISTMANAGEMENT"
+                ],
+                "summary": "AddWishList for user",
+                "operationId": "UserAddWishList for user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "product_id",
+                        "name": "product_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/add/wishlist_tocart": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "USERWISHLISTMANAGEMENT"
+                ],
+                "summary": "AddWishList-tocart for user",
+                "operationId": "UserAddWishList_toCart for user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "product_id",
+                        "name": "product_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/apply-coupon": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "APPLY_COUPON"
+                ],
+                "summary": "Appy_Coupon for User",
+                "operationId": "UserApplyCoupon for user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "address_id",
+                        "name": "address_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "coupon",
+                        "name": "coupon",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/cart/checkout": {
+            "post": {
+                "tags": [
+                    "USERCARTMANAGEMENT"
+                ],
+                "summary": "UserCheckout for User",
+                "operationId": "UserCheckout for user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "address_id",
+                        "name": "address_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "payment_method",
+                        "name": "payment_method",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/delete-cart": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "USERCARTMANAGEMENT"
+                ],
+                "summary": "DeleteCart for user",
+                "operationId": "UserDeleteCart for user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "product_id",
+                        "name": "product_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/delete/wishlist": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "USERWISHLISTMANAGEMENT"
+                ],
+                "summary": "DeleteWishList for user",
+                "operationId": "UserDeleteWishList for user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "product_id",
+                        "name": "product_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/edit/address": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ADDRESSMANAGEMENT"
+                ],
+                "summary": "GetAddress for user",
+                "operationId": "GetAddress for user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "enter the address_id",
+                        "name": "address_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/list-order": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "ORDERMANAGEMENT"
+                ],
+                "summary": "UserListOrder for user",
+                "operationId": "UserListOrder for User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pagesize",
+                        "name": "pagesize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/list/address": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ADDRESSMANAGEMENT"
+                ],
+                "summary": "AddAddress for user",
+                "operationId": "ListAddress for user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/list/cart": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "USERCARTMANAGEMENT"
+                ],
+                "summary": "ListCart for User",
+                "operationId": "UserListCart for user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pagesize",
+                        "name": "pagesize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/list/categories": {
+            "get": {
+                "tags": [
+                    "USERVIEW"
+                ],
+                "summary": "ListCategories for user",
+                "operationId": "UserListCategories for user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pagesize",
+                        "name": "pagesize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/list/products": {
+            "get": {
+                "tags": [
+                    "USERVIEW"
+                ],
+                "summary": "ListProducts for user",
+                "operationId": "UserListProducts for user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pagesize",
+                        "name": "pagesize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/list/products_bycategories": {
+            "get": {
+                "tags": [
+                    "USERVIEW"
+                ],
+                "summary": "ListProductsByCategories for user",
+                "operationId": "UserListProductsByCategories for user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pagesize",
+                        "name": "pagesize",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "category_id",
+                        "name": "caregory_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/user/login": {
             "post": {
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "USERTAUTHENTICATION"
                 ],
                 "summary": "Login for user",
                 "operationId": "user login authentication",
@@ -248,13 +1493,84 @@
                 }
             }
         },
+        "/user/profile": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "USERCREDENTIALS"
+                ],
+                "operationId": "UserProfile for user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/profile-edit": {
+            "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "USERCREDENTIALS"
+                ],
+                "summary": "UserProfileEdit for user",
+                "operationId": "UserProfileEdit for user",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "select a image",
+                        "name": "profile",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "usersdetails",
+                        "name": "user",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/user/register": {
             "post": {
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "USERTAUTHENTICATION"
                 ],
                 "summary": "Register for user",
                 "operationId": "Register for user",
@@ -291,7 +1607,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "USERVERIFICATION"
                 ],
                 "summary": "Send EmailOtp for User",
                 "operationId": "SendUserMail",
@@ -320,13 +1636,98 @@
                 }
             }
         },
+        "/user/update/address": {
+            "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ADDRESSMANAGEMENT"
+                ],
+                "summary": "UpdateAddress for user",
+                "operationId": "UpdateAddress for user",
+                "parameters": [
+                    {
+                        "description": "Address",
+                        "name": "Address",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Address"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/update/cart": {
+            "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "USERCARTMANAGEMENT"
+                ],
+                "operationId": "UserUpdateCart for user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page",
+                        "name": "product_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "quantity",
+                        "name": "quantity",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/user/verify/otp": {
             "get": {
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "USERVERIFICATION"
                 ],
                 "summary": "VerifyUserOtp for User",
                 "operationId": "VerifyUserOtp for authentication",
@@ -355,6 +1756,34 @@
                     },
                     "401": {
                         "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/view/wishlist": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "USERWISHLISTMANAGEMENT"
+                ],
+                "summary": "ViewWishList for user",
+                "operationId": "UserViewWishList for user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -413,17 +1842,20 @@
                 }
             }
         },
-        "domain.Category": {
+        "domain.Brand": {
             "type": "object",
             "properties": {
-                "category_Id": {
+                "brand_Id": {
                     "type": "integer"
                 },
-                "category_name": {
+                "brand_description": {
                     "type": "string"
                 },
-                "description": {
+                "brand_name": {
                     "type": "string"
+                },
+                "discount": {
+                    "type": "integer"
                 }
             }
         },
@@ -443,6 +1875,28 @@
                     "type": "string",
                     "maxLength": 12,
                     "minLength": 6
+                }
+            }
+        },
+        "domain.Model": {
+            "type": "object",
+            "properties": {
+                "model_id": {
+                    "type": "integer"
+                },
+                "model_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.ProductDetails": {
+            "type": "object",
+            "properties": {
+                "product_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
                 }
             }
         },

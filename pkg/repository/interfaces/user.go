@@ -31,7 +31,7 @@ type UserRepository interface {
 	SearchOrder(order_id string) (domain.Orders, error)
 	UpdateOrders(payment_id, order_id string) error
 	Insert_To_My_Order(carts domain.CartListResponse, order_id string) error
-	ListOrder(user_id uint) ([]domain.OrderResponse, error)
+	ListOrder(pagenation utils.Filter, user_id uint) ([]domain.OrderResponse, utils.Metadata, error)
 	ClearCart(user_id uint) error
 	FindCoupon(coupon string) (domain.Coupon, error)
 	UpdateUser(user domain.Users) (domain.Users, error)

@@ -29,7 +29,7 @@ func NewAuthHandler(usecase services.AuthUseCase, jwtUseCase services.JWTService
 
 // @Summary Register for user
 // @ID Register for user
-// @Tags User
+// @Tags USERTAUTHENTICATION
 // @Produce json
 // @Param Register body domain.Users{} true "Register"
 // @Success 200 {object} response.Response{}
@@ -62,7 +62,7 @@ func (cr *AuthHandler) Register(c *gin.Context) {
 // -------------------------------UserLogin----------------------------------------
 // @Summary Login for user
 // @ID user login authentication
-// @Tags User
+// @Tags USERTAUTHENTICATION
 // @Produce json
 // @Param userLogin body domain.Login{} true "userLogin"
 // @Success 200 {object} response.Response{}
@@ -134,7 +134,7 @@ func (cr *AuthHandler) AdminRegister(c *gin.Context) {
 
 // @Summary Admin Login for Admin
 // @ID AdminLogin for Admin
-// @Tags Admin
+// @Tags ADMINLOGIN
 // @Produce json
 // @Param AdminLogin body domain.Admins{} true "AdminLogin"
 // @Success 200 {object} response.Response{}
@@ -170,7 +170,7 @@ func (cr *AuthHandler) AdminLogin(c *gin.Context) {
 
 // @Summary Send EmailOtp for User
 // @ID SendUserMail
-// @Tags User
+// @Tags USERVERIFICATION
 // @Produce json
 // @Param  email query  string true "email"
 // @Success 200 {object} response.Response{}
@@ -201,7 +201,7 @@ func (cr *AuthHandler) SendUserMail(c *gin.Context) {
 
 // @Summary VerifyUserOtp for User
 // @ID VerifyUserOtp for authentication
-// @Tags User
+// @Tags USERVERIFICATION
 // @Produce json
 // @Param  email query  string true "email"
 // @Param  code  query  int true "code"

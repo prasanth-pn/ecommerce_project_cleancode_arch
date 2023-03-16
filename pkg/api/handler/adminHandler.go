@@ -7,7 +7,6 @@ import (
 	"clean/pkg/utils"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"path/filepath"
 	"strconv"
@@ -82,11 +81,20 @@ func (cr *AdminHandler) ListUsers(c *gin.Context) {
 	utils.ResponseJSON(c, respons)
 
 }
+
+// @Summary ListBlockUsers for admin
+// @ID ListBlockUser by admin
+// @Tags USERMANAGEMENT
+// @Produce json
+// @Security BearerAuth
+// @Param page query string true "page"
+// @Param pagesize query string true "pagesize"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /admin/list-blockedusers [get]
 func (cr *AdminHandler) ListBlockedUsers(c *gin.Context) {
 	page, _ := strconv.Atoi(c.Query("page"))
 	pagesize, _ := strconv.Atoi(c.Query("pagesize"))
-	p("page", page, "pagesize", pagesize)
-
 	pagenation := utils.Filter{
 		Page:     page,
 		PageSize: pagesize,
@@ -112,10 +120,19 @@ func (cr *AdminHandler) ListBlockedUsers(c *gin.Context) {
 	}
 
 }
+
+// @Summary Blockuser for admin
+// @ID BlockUser by admin
+// @Tags USERMANAGEMENT
+// @Produce json
+// @Security BearerAuth
+// @Param user_id query string true "user_id"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /admin/user/block [patch]
 func (cr *AdminHandler) BlockUser(c *gin.Context) {
 	user_id, _ := strconv.Atoi(c.Query("user_id"))
 	user, _ := cr.authService.FindUserById(uint(user_id))
-	fmt.Println(user, "\n\n\n\n ")
 	fmt.Println(user.Block_Status)
 
 	if user.Block_Status {
@@ -135,13 +152,23 @@ func (cr *AdminHandler) BlockUser(c *gin.Context) {
 	utils.ResponseJSON(c, resp)
 
 }
+
+// @Summary Unblock for admin
+// @ID UblockUser by admin
+// @Tags USERMANAGEMENT
+// @Produce json
+// @Security BearerAuth
+// @Param user_id query string true "user_id"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /admin/user/unblock [patch]
 func (cr *AdminHandler) UnblockUser(c *gin.Context) {
 	user_id, _ := strconv.Atoi(c.Query("user_id"))
 	user, _ := cr.authService.FindUserById(uint(user_id))
 
 	if !user.Block_Status {
 		res := response.SuccessResponse(true, "user already unblocked", user)
-		c.Writer.WriteHeader(200)
+		c.Writer.WriteHeader(300)
 		utils.ResponseJSON(c, res)
 		return
 	} else {
@@ -155,11 +182,23 @@ func (cr *AdminHandler) UnblockUser(c *gin.Context) {
 	}
 
 }
+
+// @Summary SearchUserByName for admin
+// @ID SearchUserByName by admin
+// @Tags USERMANAGEMENT
+// @Produce json
+// @Security BearerAuth
+// @Param name query string true "name"
+// @Param  page query  string true "page"
+// @Param pagesize query string true "pagesize"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /admin/search-user/name [get]
 func (cr *AdminHandler) SearchUserByName(c *gin.Context) {
 	name := c.Query("name")
 	name = "%" + name + "%"
 	page, _ := strconv.Atoi(c.Query("page"))
-	pagesize := 5
+	pagesize, _ := strconv.Atoi(c.Query("pagesize"))
 	pagenation := utils.Filter{
 		Page:     page,
 		PageSize: pagesize,
@@ -190,21 +229,22 @@ func (cr *AdminHandler) SearchUserByName(c *gin.Context) {
 }
 
 // --------------------add category-----------------------------------------------------
+
 // @Summary List user for admin
 // @ID AddCategory by admin
 // @Tags Admin
 // @Produce json
 // @Security BearerAuth
-// @Param category formdata domain.Category{} true "AdminAddCategory"
 // @Param image formData file true "select image"
+// @Param category formData string true "AdminAddCategory"
 // @Success 200 {object} response.Response{}
-// @Failure 422 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
 // @Router /admin/add/category [post]
 func (cr *AdminHandler) AddCategory(c *gin.Context) {
 	files, err := c.FormFile("image")
 	if err != nil {
 		res := response.ErrorResponse("please select the image to upload ", err.Error(), "no image is selected")
-		c.Writer.WriteHeader(422)
+		c.Writer.WriteHeader(400)
 		utils.ResponseJSON(c, res)
 		return
 	}
@@ -233,6 +273,16 @@ func (cr *AdminHandler) AddCategory(c *gin.Context) {
 	utils.ResponseJSON(c, respons)
 
 }
+
+// @Summary Add Brand for admin
+// @ID AddBrand by admin
+// @Tags Brand
+// @Produce json
+// @Security BearerAuth
+// @Param Brand body domain.Brand{} true "Add brand"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /admin/add/brands [post]
 func (cr *AdminHandler) AddBrand(c *gin.Context) {
 	var brand domain.Brand
 	if err := c.BindJSON(&brand); err != nil {
@@ -255,6 +305,15 @@ func (cr *AdminHandler) AddBrand(c *gin.Context) {
 
 }
 
+// @Summary Addmodel for admin
+// @ID AddModel by admin
+// @Tags Model
+// @Produce json
+// @Security BearerAuth
+// @Param Brand body domain.Model{} true "Add Model"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /admin/add/models [post]
 func (cr *AdminHandler) AddModel(c *gin.Context) {
 	var Model domain.Model
 	if err := c.BindJSON(&Model); err != nil {
@@ -276,6 +335,17 @@ func (cr *AdminHandler) AddModel(c *gin.Context) {
 	utils.ResponseJSON(c, respons)
 
 }
+
+// @Summary ListOrders for admin
+// @ID ListOrders by admin
+// @Tags OrderManagement
+// @Produce json
+// @Security BearerAuth
+// @Param  page query  string true "page"
+// @Param pagesize query string true "pagesize"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /admin/list-orders [get]
 func (cr *AdminHandler) ListOrders(c *gin.Context) {
 	page, _ := strconv.Atoi(c.Query("page"))
 	pagesize, _ := strconv.Atoi(c.Query("pagesize"))

@@ -329,30 +329,31 @@ func (c *userDatabase) ClearCart(user_id uint) error {
 	err := c.DB.QueryRow(query, user_id)
 	return err.Err()
 }
-func (c *userDatabase) ListOrder(user_id uint) ([]domain.OrderResponse, error) {
+func (c *userDatabase) ListOrder(pagenation utils.Filter, user_id uint) ([]domain.OrderResponse, utils.Metadata, error) {
 	var orders []domain.OrderResponse
+	var totalrecords int
 	var address_id int
-	query := `select O.created_at,P.product_id,P.product_name,P.description,P.price,P.image,OI.quantity,O.total_amount,OI.order_id,O.payment_method,
+	query := `select COUNT(*) OVER(),O.created_at,P.product_id,P.product_name,P.description,P.price,P.image,OI.quantity,O.total_amount,OI.order_id,O.payment_method,
 	O.order_status,O.payment_id,O.payment_status,O.address_id FROM products AS P INNER JOIN ordered_items AS 
 	OI ON OI.product_id=P.product_id INNER JOIN orders AS O ON 
-	OI.order_id=O.order_id WHERE O.user_id=$1;`
-	rows, err := c.DB.Query(query, user_id)
+	OI.order_id=O.order_id WHERE O.user_id=$1 LIMIT $2 OFFSET $3;`
+	rows, err := c.DB.Query(query, user_id, pagenation.Limit(), pagenation.Offset())
 	if err != nil {
-		return nil, err
+		return nil, utils.Metadata{}, err
 	}
 	var order domain.OrderResponse
 	defer rows.Close()
 	for rows.Next() {
-		err = rows.Scan(&order.Created_At, &order.Product_Id, &order.Product_Name, &order.Description, &order.Price, &order.Image, &order.Quantity,
+		err = rows.Scan(&totalrecords, &order.Created_At, &order.Product_Id, &order.Product_Name, &order.Description, &order.Price, &order.Image, &order.Quantity,
 			&order.Total_Amount, &order.Order_id, &order.PaymentMethod, &order.Order_Status, &order.Payment_Id, &order.Payment_Status, &address_id)
 		if err != nil {
-			return nil, err
+			return nil, utils.Metadata{}, err
 		}
 		address, _ := c.FindAddress(user_id, uint(address_id))
 		order.Address = address
 		orders = append(orders, order)
 	}
-	return orders, nil
+	return orders, utils.ComputeMetadata(&totalrecords, &pagenation.Page, &pagenation.PageSize), nil
 }
 func (c *userDatabase) FindCoupon(coupon string) (domain.Coupon, error) {
 	var Coupon domain.Coupon

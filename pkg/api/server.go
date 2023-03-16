@@ -82,16 +82,16 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	adminapi.GET("/search-user/name", AdminHandler.SearchUserByName)
 	adminapi.POST("/add/category", AdminHandler.AddCategory)
 	adminapi.GET("/list/category", AdminHandler.ListCategories)
-	adminapi.POST("add/brands", AdminHandler.AddBrand)
-	adminapi.POST("add/models", AdminHandler.AddModel)
+	adminapi.POST("/add/brands", AdminHandler.AddBrand)
+	adminapi.POST("/add/models", AdminHandler.AddModel)
 	adminapi.POST("/add/products", AdminHandler.AddProducts)
 	adminapi.DELETE("/product/delete", AdminHandler.DeleteProduct)
 	adminapi.GET("/list/productby-categories", AdminHandler.ListProductsByCategories)
 	adminapi.PATCH("/update/product", AdminHandler.UpdateProduct)
-	adminapi.POST("/update/image", AdminHandler.ImageUpload)
-	adminapi.DELETE("/delete/image", AdminHandler.DeleteImage)
+	adminapi.POST("/upload/image", AdminHandler.ImageUpload)
+	adminapi.DELETE("/products/delete-image", AdminHandler.DeleteImage)
 	adminapi.POST("/generate-coupon", AdminHandler.GenerateCoupon)
-	adminapi.GET("/list-orders",AdminHandler.ListOrders)
+	adminapi.GET("/list-orders", AdminHandler.ListOrders)
 
 	return &ServerHTTP{engine: engine}
 }

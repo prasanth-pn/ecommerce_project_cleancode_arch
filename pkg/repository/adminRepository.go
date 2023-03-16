@@ -303,7 +303,7 @@ func (c *adminDatabase) SearchUserByName(pagenation utils.Filter, name string) (
 func (c *adminDatabase) ListOrder(pagenation utils.Filter) ([]domain.Orders, utils.Metadata, error) {
 	var Orders []domain.Orders
 	var totalrecords int
-	query := `SELECT * FROM orders LIMIT $1 OFFSET $2;`
+	query := `SELECT COUNT(*) OVER(),* FROM orders LIMIT $1 OFFSET $2;`
 	rows, err := c.DB.Query(query, pagenation.Limit(), pagenation.Offset())
 	if err != nil {
 		return Orders, utils.Metadata{}, err
@@ -313,7 +313,7 @@ func (c *adminDatabase) ListOrder(pagenation utils.Filter) ([]domain.Orders, uti
 		var Canceled_at []byte
 
 		var order domain.Orders
-		err = rows.Scan(&order.Created_at, &Canceled_at, &order.User_Id, &order.Order_Id, &order.Applied_Coupons,
+		err = rows.Scan(&totalrecords, &order.Created_at, &Canceled_at, &order.User_Id, &order.Order_Id, &order.Applied_Coupons,
 			&order.Discount, &order.Total_Amount, &order.Balance_Amount, &order.PaymentMethod, &order.Payment_Status,
 			&order.Payment_Id, &order.Order_Status, &order.Address_Id)
 		if err != nil {
