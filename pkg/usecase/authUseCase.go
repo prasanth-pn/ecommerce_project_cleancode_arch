@@ -54,10 +54,9 @@ func (c *authUseCase) SendVerificationEmail(email string) error {
 	max := 9999
 	min := 1000
 	code := rand.Intn((max - min) + min)
-	message := fmt.Sprintf("\n the verification code is \n \n %d \n\n use to verify \n your account.\n have good shoping experience", 1234)
+	message := fmt.Sprintf("\n the verification code is \n \n %d \n\n use to verify \n your account.\n have good shoping experience", code)
 
 	//messag = []byte(message)
-	fmt.Println(message, "this is the message to send to email")
 	// send random code to user's email
 	err := c.mailConfig.SendMail(c.config, email, []byte(message))
 	fmt.Println(err, " it is a  big error in the program verifiction")

@@ -31,7 +31,6 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 	//engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	engine.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	//request jwt
-
 	userapi := engine.Group("user")
 	{
 		userapi.POST("/register", AuthHandler.Register)

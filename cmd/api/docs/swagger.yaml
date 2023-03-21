@@ -261,7 +261,6 @@ paths:
       - description: coupon
         in: query
         name: coupon
-        required: true
         type: string
       - description: quantity
         in: query

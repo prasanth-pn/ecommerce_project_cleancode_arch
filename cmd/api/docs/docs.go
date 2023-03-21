@@ -221,8 +221,7 @@ const docTemplate = `{
                         "type": "string",
                         "description": "coupon",
                         "name": "coupon",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
                     },
                     {
                         "type": "string",

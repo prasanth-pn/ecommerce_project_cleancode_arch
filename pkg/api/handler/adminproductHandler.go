@@ -70,12 +70,11 @@ func (cr *AdminHandler) AddProducts(c *gin.Context) {
 	for _, imagepath := range files {
 		extention := filepath.Ext(imagepath.Filename)
 		image := "product" + uuid.New().String() + extention
-		err = c.SaveUploadedFile(imagepath, "./public"+image)
+		err = c.SaveUploadedFile(imagepath, "./public/"+image)
 		if err != nil {
 			res := response.ErrorResponse("error while savauploadfile", err.Error(), "error in saveupload")
-			c.Writer.WriteHeader(422)
+			c.Writer.WriteHeader(300)
 			utils.ResponseJSON(c, res)
-			return
 		}
 		images = append(images, image)
 	}
@@ -161,7 +160,7 @@ func (cr *AdminHandler) DeleteImage(c *gin.Context) {
 // @Tags COUPON
 // @Produce json
 // @Security BearerAuth
-// @Param coupon query string true "coupon"
+// @Param coupon query string false "coupon"
 // @Param quantity query string true "quantity"
 // @Param validity query string true "validity"
 // @Param discount query  string true "discount"
