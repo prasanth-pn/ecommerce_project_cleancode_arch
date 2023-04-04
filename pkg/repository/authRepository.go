@@ -24,24 +24,14 @@ func NewAuthRepository(DB *sql.DB) interfaces.AuthRepository {
 // ------------------register------------------------------------------------------------------
 func (c *authDatabase) Register(user domain.Users) (int, error) {
 	var User_id int
-	user.Created_At = time.Now()
-	query := `INSERT INTO users(
-                  first_name,
-                  last_name,
-                  email,
-                  gender,
-                  phone,
-                  password,created_at)
-    VALUES($1,$2,$3,$4,$5,$6,$7)
-RETURNING user_id;`
+	query := `INSERT INTO users(first_name,last_name,email,gender,phone,password)VALUES($1,$2,$3,$4,$5,$6)RETURNING user_id;`
 	err := c.DB.QueryRow(query,
 		user.First_Name,
 		user.Last_Name,
 		user.Email,
 		user.Gender,
 		user.Phone,
-		user.Password,
-		user.Created_At).Scan(&User_id)
+		user.Password).Scan(&User_id)
 	return User_id, err
 
 }

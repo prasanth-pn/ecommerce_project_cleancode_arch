@@ -13,7 +13,7 @@ type Login struct {
 type Verification struct {
 	Creat_At time.Time
 	Exp_At   time.Time
-	Email    string `json:"email" gorm:"not null;unique"`
+	Email    string `json:"email"`
 	Code     int    `json:"code" gorm:"not null"`
 }
 type Users struct {
