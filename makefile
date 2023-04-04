@@ -1,4 +1,5 @@
-
+GOCMD=go
+CODE_COVERAGE=code-coverage
 build: ${BINARY_DIR} ## Compile the code, build Executable File
 	$(GOCMD) build -o $(BINARY_DIR) -v ./cmd/api
 

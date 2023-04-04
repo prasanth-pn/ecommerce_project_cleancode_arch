@@ -39,16 +39,7 @@ func (c *authDatabase) Register(user domain.Users) (int, error) {
 // --------------------------------find user-----------------------------------------------------
 func (c *authDatabase) FindUser(email string) (domain.UserResponse, error) {
 	var user domain.UserResponse
-	query := `SELECT
-    user_id,
-first_name,
-last_name,
-email,
-gender,
-password,
-phone
-FROM users
-WHERE email=$1;`
+	query := `SELECT user_id,first_name,last_name,email,gender,password,phone FROM users WHERE email=$1;`
 
 	err := c.DB.QueryRow(query, email).Scan(&user.ID,
 		&user.First_Name,
@@ -58,18 +49,14 @@ WHERE email=$1;`
 		&user.Password,
 		&user.Phone,
 	)
-	if user.Email == "" {
-		return user, nil
-	}
-
+	
+	
 	return user, err
 }
 
 // --------------------------adminRegister---------------------------------
 func (c *authDatabase) AdminRegister(admin domain.Admins) error {
-	query := `INSERT INTO 
-admins (user_name,password)
-VALUES ($1,$2);`
+	query := `INSERT INTO admins(user_name,password)VALUES($1,$2);`
 	err := c.DB.QueryRow(query, admin.UserName,
 		admin.Password,
 	).Err()
