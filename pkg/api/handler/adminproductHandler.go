@@ -150,7 +150,7 @@ func (cr *AdminHandler) DeleteImage(c *gin.Context) {
 		utils.ResponseJSON(c, res)
 		return
 	}
-	res := response.SuccessResponse(true, "success fully deleted", "the image"+imageName+" from product_id   :"+string(product_id)+"deleted")
+	res := response.SuccessResponse(true, "success fully deleted", "the image"+imageName+" from product_id   :"+string(rune(product_id))+"deleted")
 	c.Writer.WriteHeader(200)
 	utils.ResponseJSON(c, res)
 }
