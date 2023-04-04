@@ -24,24 +24,14 @@ func NewAuthRepository(DB *sql.DB) interfaces.AuthRepository {
 // ------------------register------------------------------------------------------------------
 func (c *authDatabase) Register(user domain.Users) (int, error) {
 	var User_id int
-	user.Created_At = time.Now()
-	query := `INSERT INTO users(
-                  first_name,
-                  last_name,
-                  email,
-                  gender,
-                  phone,
-                  password,created_at)
-    VALUES($1,$2,$3,$4,$5,$6,$7)
-RETURNING user_id;`
+	query := `INSERT INTO users(first_name,last_name,email,gender,phone,password)VALUES($1,$2,$3,$4,$5,$6)RETURNING user_id;`
 	err := c.DB.QueryRow(query,
 		user.First_Name,
 		user.Last_Name,
 		user.Email,
 		user.Gender,
 		user.Phone,
-		user.Password,
-		user.Created_At).Scan(&User_id)
+		user.Password).Scan(&User_id)
 	return User_id, err
 
 }
@@ -49,16 +39,7 @@ RETURNING user_id;`
 // --------------------------------find user-----------------------------------------------------
 func (c *authDatabase) FindUser(email string) (domain.UserResponse, error) {
 	var user domain.UserResponse
-	query := `SELECT
-    user_id,
-first_name,
-last_name,
-email,
-gender,
-password,
-phone
-FROM users
-WHERE email=$1;`
+	query := `SELECT user_id,first_name,last_name,email,gender,password,phone FROM users WHERE email=$1;`
 
 	err := c.DB.QueryRow(query, email).Scan(&user.ID,
 		&user.First_Name,
@@ -68,18 +49,14 @@ WHERE email=$1;`
 		&user.Password,
 		&user.Phone,
 	)
-	if user.Email == "" {
-		return user, nil
-	}
-
+	
+	
 	return user, err
 }
 
 // --------------------------adminRegister---------------------------------
 func (c *authDatabase) AdminRegister(admin domain.Admins) error {
-	query := `INSERT INTO 
-admins (user_name,password)
-VALUES ($1,$2);`
+	query := `INSERT INTO admins(user_name,password)VALUES($1,$2);`
 	err := c.DB.QueryRow(query, admin.UserName,
 		admin.Password,
 	).Err()
