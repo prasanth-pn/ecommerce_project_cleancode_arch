@@ -4,8 +4,6 @@ import (
 	domain "clean/pkg/domain"
 	interfaces "clean/pkg/repository/interfaces"
 	"database/sql"
-	"errors"
-	"fmt"
 	"time"
 	//"errors"
 	//"fmt"
@@ -49,8 +47,7 @@ func (c *authDatabase) FindUser(email string) (domain.UserResponse, error) {
 		&user.Password,
 		&user.Phone,
 	)
-	
-	
+
 	return user, err
 }
 
@@ -66,11 +63,7 @@ func (c *authDatabase) FindAdmin(username string) (domain.AdminResponse, error) 
 	//log.Println("username of admin", username)
 	var admin domain.AdminResponse
 	query :=
-		`SELECT
-id,
-user_name,
-password
-FROM admins WHERE user_name=$1;`
+		`SELECT id,user_name,password FROM admins WHERE user_name=$1;`
 	err := c.DB.QueryRow(query, username).Scan(&admin.ID,
 		&admin.UserName,
 		&admin.Password)
@@ -78,44 +71,33 @@ FROM admins WHERE user_name=$1;`
 
 }
 func (c *authDatabase) StoreVerificationDetails(email string, code int) error {
-	var time = time.Now()
-	query := `INSERT INTO verifications(creat_at,email,code)
-	VALUES($1,$2,$3);`
+	var time = time.Date(2022, time.March, 1, 10, 0, 0, 0, time.UTC)
+	query := `INSERT INTO verifications(creat_at,email,code)VALUES($1,$2,$3);`
 	err := c.DB.QueryRow(query, time, email, code).Err()
 
 	return err
 }
 func (c *authDatabase) VerifyOtp(email string, code int) error {
-	var vr domain.Verification
 	query := `SELECT email,code FROM verifications WHERE email=$1 and code=$2;`
-	err := c.DB.QueryRow(query, email, code).Scan(&vr.Email, &vr.Code)
-	//fmt.Println(err, "sellelnkfjkfkljrrofon")
-	if err != nil {
-		return errors.New("email or otp incorrect")
-	}
-	return nil
+	err := c.DB.QueryRow(query, email, code).Err()
 
+	return err
 }
 func (c *authDatabase) UpdateUserStatus(email string) error {
 	var user domain.Users
 	query := `UPDATE users SET verification=$1 WHERE email=$2;`
 	err := c.DB.QueryRow(query, true, email).Scan(&user.Verification)
-	if err != nil {
-		return err
-	}
-	return nil
+
+	return err
 }
 func (c *authDatabase) FindUserById(user_id uint) (domain.Users, error) {
 	var user domain.Users
 
-	query := `SELECT first_name,last_name,email,gender,phone,password,verification,country,
-	city,block_status FROM users WHERE user_id=$1;`
+	query := `SELECT first_name,last_name,email,gender,phone,password,verification,country,city,block_status FROM users WHERE user_id=$1;`
 	err := c.DB.QueryRow(query, user_id).Scan(&user.First_Name,
 		&user.Last_Name,
 		&user.Email,
 		&user.Gender, &user.Phone, &user.Password, &user.Verification, &user.Country, &user.City, &user.Block_Status)
-
-	fmt.Println(err)
 	return user, err
 }
 func (c *authDatabase) BlockUnblockUser(user_id uint, val bool) error {
