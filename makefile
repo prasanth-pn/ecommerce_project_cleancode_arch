@@ -22,4 +22,5 @@ swag :## generate swagger docs
 	swag init -g pkg/api/handler/adminHandler.go -o ./cmd/api/docs
 
 mock :#generate mock data
-	mockgen -source=pkg/repository/interfaces/authInterface.go -destination=pkg/mock/authmockRepo.go -package=mock
+	mockgen -source=pkg/repository/interfaces/authInterface.go -destination=pkg/mock/auth/authmockRepo.go -package=mock
+	mockgen -source=pkg/usecase/interfaces/authInterface.go -destination=pkg/mock/auth/authmockUseCase.go -package mock

@@ -30,8 +30,6 @@ func NewAuthUseCase(repo interfaces.AuthRepository, mailConfig config.MailConfig
 // ------------------------------------------register-------------------------
 func (c *authUseCase) Register(user domain.Users) (domain.Users, error) {
 	retun, _ := c.FindUser(user.Email)
-	//fmt.Println(user.Email, retun.Email)
-	fmt.Println(retun.Email, user.Email)
 	if retun.Email == user.Email {
 		return user, errors.New("user already exists ")
 
@@ -59,7 +57,6 @@ func (c *authUseCase) SendVerificationEmail(email string) error {
 	//messag = []byte(message)
 	// send random code to user's email
 	err := c.mailConfig.SendMail(c.config, email, []byte(message))
-	fmt.Println(err, " it is a  big error in the program verifiction")
 	if err != nil {
 
 		return err
