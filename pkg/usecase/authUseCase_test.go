@@ -99,3 +99,78 @@ func Test_FindUserById(t *testing.T) {
 
 	}
 }
+func Test_FindUser(t *testing.T) {
+	user := domain.UserResponse{
+		First_Name: "prasanthpn",
+		Email:      "prasanthpn68@gmail.com",
+	}
+	ctl := gomock.NewController(t)
+	c := mock.NewMockAuthRepository(ctl)
+	authUseCase := NewAuthUseCase(c, config.NewMailConfig(), config.Config{})
+	testcase := []struct {
+		name        string
+		email       string
+		beforetest  func(authRepo *mock.MockAuthRepository)
+		expectedErr error
+	}{
+		{
+			name:  "success",
+			email: "prasanthpn68@gmail.com",
+			beforetest: func(authRepo *mock.MockAuthRepository) {
+				authRepo.EXPECT().FindUser("prasanthpn68@gmail.com").Return(user, nil)
+
+			},
+			expectedErr: nil,
+		},
+	}
+	for _, test := range testcase {
+		test.beforetest(c)
+		actualUser, err := authUseCase.FindUser(user.Email)
+		assert.Equal(t, test.expectedErr, err)
+		if err != nil {
+			assert.Equal(t, user, actualUser)
+
+		}
+	}
+
+}
+func Test_BlockUnblockUser(t *testing.T) {
+	ctl := gomock.NewController(t)
+	c := mock.NewMockAuthRepository(ctl)
+	authUsecase := NewAuthUseCase(c, config.NewMailConfig(), config.Config{})
+	testcase := []struct {
+		name        string
+		user_id     uint
+		value       bool
+		beforetest  func(autheusecase *mock.MockAuthRepository)
+		ExpectedErr error
+	}{
+		{
+			name:    "unblocked",
+			user_id: 1,
+			value:   true,
+			beforetest: func(autheusecase *mock.MockAuthRepository) {
+				autheusecase.EXPECT().BlockUnblockUser(uint(1), true).Return(nil)
+			},
+			ExpectedErr: nil,
+		},
+		{
+			name: "blocked",
+			user_id: 1,
+			value: false,
+			beforetest: func (authUseCase *mock.MockAuthRepository)  {
+				authUseCase.EXPECT().BlockUnblockUser(uint(1),false).Return(nil)
+				
+			},
+			ExpectedErr: nil,
+
+
+		},
+	}
+	for _, test := range testcase {
+		test.beforetest(c)
+		actualErr := authUsecase.BlockUnblockUser(test.user_id,test.value)
+		assert.Equal(t, test.ExpectedErr, actualErr)
+	}
+
+}
