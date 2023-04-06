@@ -174,3 +174,29 @@ func Test_BlockUnblockUser(t *testing.T) {
 	}
 
 }
+//userRegister
+func Test_Register(t *testing.T){
+	user:=domain.Users{
+		First_Name: "prasanth",
+		Email: "prasanthpn68@gmail.com",
+		City: "palakkad",
+	}
+
+	ctl:=gomock.NewController(t)
+	c:=mock.NewMockAuthRepository(ctl)
+	authUseCase:=NewAuthUseCase(c,config.NewMailConfig(),config.Config{})
+testcase:=[]struct{
+	name string
+	testUser domain.Users
+	beforetest func(authusecase *mock.MockAuthRepository)
+	beforetest func(authusecase *mock.MockAuthRepository)
+    ExpectedErr error
+}{
+	{
+		name: "user already exists ",
+		testUser: user,
+		func
+
+	},
+}
+}

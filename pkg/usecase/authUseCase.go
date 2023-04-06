@@ -34,7 +34,6 @@ func (c *authUseCase) Register(user domain.Users) (domain.Users, error) {
 		return user, errors.New("user already exists ")
 
 	}
-
 	_, err := c.authRepo.Register(user)
 	if err != nil {
 		return user, errors.New("email id already exists")
