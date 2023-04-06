@@ -36,13 +36,9 @@ func (c *authUseCase) Register(user domain.Users) (domain.Users, error) {
 	}
 
 	_, err := c.authRepo.Register(user)
-	fmt.Println(err)
 	if err != nil {
 		return user, errors.New("email id already exists")
 	}
-	fmt.Println(user, "register")
-
-	//fmt.Printf("\n\n %v ")
 	return user, err
 }
 
