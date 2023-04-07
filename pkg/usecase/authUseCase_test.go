@@ -86,7 +86,7 @@ func Test_FindUserById(t *testing.T) {
 				}, nil)
 
 			},
-			expectedErr: errors.New("error"),
+			expectedErr: nil,
 		},
 	}
 	for _, test := range testauth {
@@ -205,14 +205,14 @@ func Test_Register(t *testing.T) {
 					Email:      "prasanthpn68@gmail.com",
 				}, nil)
 			},
-			expectedErr:errors.New("user already exists"),
+			expectedErr: errors.New("user already exists"),
 		},
 		{
 			name:     "register success",
 			testUser: user,
 			beforeTest: func(authRepo *mock.MockAuthRepository) {
 				authRepo.EXPECT().FindUser("prasanthpn68@gmail.com").Return(domain.UserResponse{}, nil)
-				authRepo.EXPECT().Register(user).Return(1,nil)
+				authRepo.EXPECT().Register(user).Return(1, nil)
 			},
 			expectedErr: nil,
 		},
@@ -223,6 +223,6 @@ func Test_Register(t *testing.T) {
 
 		users, actualErr := authUseCase.Register(user)
 		assert.Equal(t, tc.expectedErr, actualErr)
-		 assert.Equal(t, user, users)
+		assert.Equal(t, user, users)
 	}
 }
