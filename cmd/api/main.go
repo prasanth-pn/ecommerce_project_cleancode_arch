@@ -40,7 +40,7 @@ func main() {
 	if configErr != nil {
 		log.Fatal("cannot load config :", configErr)
 
-	}
+	//}
 	//connect database
 	gorm, _ := db.ConnectGormDB(config)
 	fmt.Println(gorm)
