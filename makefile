@@ -1,7 +1,7 @@
 GOCMD=go
 CODE_COVERAGE=code-coverage
 build: ${BINARY_DIR} ## Compile the code, build Executable File
-	$(GOCMD) build -o $(BINARY_DIR) -v ./cmd/api
+	GOOS "windows" $(GOCMD) build -o $(BINARY_DIR) myfile ./cmd/api
 
 run: ## Start application
 	$(GOCMD) run ./cmd/api
