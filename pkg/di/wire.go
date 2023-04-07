@@ -1,5 +1,5 @@
 //go:build wireinject
-// +build wireinject
+//+build wireinject
 
 package di
 
@@ -17,7 +17,7 @@ import (
 )
 
 func InitializeEvent(cfg config.Config) (*http.ServerHTTP, error) {
-	wire.Build(db.ConnectDB,
+	wire.Build(
 		 repository.NewUserRepository,
 		 repository.NewAdminRepository,
 		 config.NewMailConfig,
@@ -31,6 +31,7 @@ func InitializeEvent(cfg config.Config) (*http.ServerHTTP, error) {
 		 handler.NewAuthHandler,
 		 middleware.NewUserMiddleware,
 		 http.NewServerHTTP,
+		 db.ConnectDB,
 
 		)
 	return &http.ServerHTTP{}, nil

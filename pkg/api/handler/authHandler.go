@@ -221,9 +221,13 @@ func (cr *AuthHandler) VerifyUserOtp(c *gin.Context) {
 	}
 	err = cr.authUseCase.UpdateUserStatus(email)
 	if err != nil {
-		respo := response.SuccessResponse(true, "user verified successfully", " login the page using username and password ")
+		res:=response.ErrorResponse("status is not updated",err.Error(),nil)
+		c.Writer.WriteHeader(422)
+		utils.ResponseJSON(c,res)
+		return 
+	}
+	respo := response.SuccessResponse(true, "success", " login the page using username and password ")
 		c.Writer.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(c, respo)
-	}
 
 }
