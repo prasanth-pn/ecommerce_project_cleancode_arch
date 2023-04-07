@@ -86,7 +86,7 @@ func Test_FindUserById(t *testing.T) {
 				}, nil)
 
 			},
-			expectedErr: nil,
+			expectedErr: errors.New("error"),
 		},
 	}
 	for _, test := range testauth {

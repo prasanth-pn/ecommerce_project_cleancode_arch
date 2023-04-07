@@ -5,6 +5,7 @@ import (
 	"clean/pkg/common/response"
 	"clean/pkg/mock"
 	"encoding/json"
+	"errors"
 	"net/http/httptest"
 	"testing"
 
@@ -43,7 +44,7 @@ func Test_VerifyOtp(t *testing.T) {
 				Errors:  nil,
 				Data:    "emaildotcome",
 			},
-			expectedErr: nil,
+			expectedErr: errors.New("eroroor"),
 		},
 	}
 	for _, test := range testcase {
