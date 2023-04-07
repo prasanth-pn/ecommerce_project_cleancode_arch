@@ -23,4 +23,4 @@ swag :## generate swagger docs
 
 mock :#generate mock data
 	mockgen -source=pkg/repository/interfaces/authInterface.go -destination=pkg/mock/auth/authmockRepo.go -package=mock
-	mockgen -source=pkg/usecase/interfaces/authInterface.go -destination=pkg/mock/auth/authmockUseCase.go -package mock
+	mockgen -source=pkg/usecase/interfaces/authInterface.go -destination=pkg/mock/auth/authmockUseCase.go -package=mock
