@@ -75,7 +75,7 @@ func Test_FindUserById(t *testing.T) {
 		beforetest  func(authRepo *mock.MockAuthRepository)
 		expectedErr error
 	}{
-		//{
+		{
 			name:    "success",
 			user_id: 1,
 			beforetest: func(authRepo *mock.MockAuthRepository) {
