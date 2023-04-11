@@ -1,0 +1,70 @@
+# version: '3'
+
+# services:
+#   postgres:
+#     image: postgres:alpine
+#     environment:
+#       POSTGRES_USER: ${DB_USER}
+#       POSTGRES_PASSWORD: ${DB_PASSWORD}
+#       POSTGRES_DB: ${DB_NAME}
+#     volumes:
+#       - db-data:/var/lib/postgresql/data
+#     ports:
+#       - "5432:5432"
+#     networks:
+#       - myapp
+
+#   api:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     image: prasanthpn/ecomerce-project:1.1
+#     env_file:
+#       - .env
+#     ports:
+#       - "8080:8080"
+#     depends_on:
+#       - postgres
+#     restart: on-failure
+#     networks:
+#       - myapp
+
+# volumes:
+#   db-data:
+
+# networks:
+#   myapp:
+
+
+version: '3'
+services:
+
+  postgres:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_USER=${DB_USER}  
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - DATABASE_HOST=${DB_HOST} 
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    networks:
+      - myapp
+  api:
+    build: . 
+    image: prasanth
+    env_file:
+      - .env
+    ports: 
+      - 8080:8080
+    restart: on-failure
+    depends_on:
+      - postgres
+    networks:
+      - myapp
+volumes:
+  db:
+networks:
+  myapp:
