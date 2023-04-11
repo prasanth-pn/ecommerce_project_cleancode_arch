@@ -1,4 +1,8 @@
-# This project is a ecommerce project for suiltable for single store 
-In this project you can use as a template of small ecommerce api
-Implemented cicd using github actions in this project
-
+# This is ecommerce web api
+# Technology tools used in project 
+    postgres is database
+    go-gin frame work is used 
+    viper for env file export
+    wire dependency injection
+    testy ,asset ,mockgen are use for unittesting
+    
