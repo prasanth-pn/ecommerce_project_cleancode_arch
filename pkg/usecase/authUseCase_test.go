@@ -11,9 +11,9 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-func Test_SendVerificationEmail(t *testing.T) {
+// func Test_SendVerificationEmail(t *testing.T) {
 
-}
+// }
 func Test_FindAdmin(t *testing.T) {
 	ctr := gomock.NewController(t)
 	defer ctr.Finish()
@@ -75,7 +75,7 @@ func Test_FindUserById(t *testing.T) {
 		beforetest  func(authRepo *mock.MockAuthRepository)
 		expectedErr error
 	}{
-		//{
+		{
 			name:    "success",
 			user_id: 1,
 			beforetest: func(authRepo *mock.MockAuthRepository) {
