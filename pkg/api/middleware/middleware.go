@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	"clean/pkg/common/response"
-	services "clean/pkg/usecase/interfaces"
-	"clean/pkg/utils"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/common/response"
+	services "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/usecase/interfaces"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/utils"
 	"errors"
 	"fmt"
 	"net/http"

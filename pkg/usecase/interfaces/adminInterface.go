@@ -1,9 +1,10 @@
 package interfaces
 
 import (
-	"clean/pkg/domain"
-	"clean/pkg/utils"
 	"context"
+
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/utils"
 )
 
 type AdminUseCase interface {

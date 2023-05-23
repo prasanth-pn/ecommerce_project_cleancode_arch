@@ -1,8 +1,8 @@
 package repository
 
 import (
-	domain "clean/pkg/domain"
-	interfaces "clean/pkg/repository/interfaces"
+	domain "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	interfaces "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/repository/interfaces"
 	"database/sql"
 	"time"
 	//"errors"

@@ -1,12 +1,13 @@
 package usecase
 
 import (
-	//domain "clean/pkg/domain"
-	"clean/pkg/domain"
-	interfaces "clean/pkg/repository/interfaces"
-	services "clean/pkg/usecase/interfaces"
-	"clean/pkg/utils"
+	//domain "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
 	"errors"
+
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	interfaces "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/repository/interfaces"
+	services "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/usecase/interfaces"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/utils"
 	//"context"
 	//"fmt"
 )

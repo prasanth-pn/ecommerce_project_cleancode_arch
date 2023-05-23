@@ -18,7 +18,6 @@ func NewMailConfig() MailConfig {
 }
 
 func (c *mailConfig) SendMail(cfg Config, to string, message []byte) error {
-	fmt.Printf("\n\nemail: %v\n ", to)
 	//	log.Println("Email is to senf message:", to)
 	fmt.Println(to, message)
 	userName := cfg.SMTPUSERNAME

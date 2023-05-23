@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"clean/pkg/domain"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
 	"errors"
 	"fmt"
 )

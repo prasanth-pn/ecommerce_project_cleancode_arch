@@ -1,4 +1,4 @@
-module clean
+module github.com/prasanth-pn/ecommerce_project_cleancode_arch
 
 go 1.20
 

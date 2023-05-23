@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	domain "clean/pkg/domain"
+	domain "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
 )
 
 type AuthUseCase interface {

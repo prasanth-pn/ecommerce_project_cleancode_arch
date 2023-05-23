@@ -1,16 +1,17 @@
 package usecase
 
 import (
-	//"clean/pkg/common/response"
+	//"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/common/response"
 
-	"clean/pkg/config"
-	domain "clean/pkg/domain"
-	interfaces "clean/pkg/repository/interfaces"
-	services "clean/pkg/usecase/interfaces"
 	"errors"
 	"fmt"
 	"math/rand"
 	"time"
+
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/config"
+	domain "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	interfaces "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/repository/interfaces"
+	services "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/usecase/interfaces"
 )
 
 type authUseCase struct {
@@ -29,9 +30,9 @@ func NewAuthUseCase(repo interfaces.AuthRepository, mailConfig config.MailConfig
 
 // ------------------------------------------register-------------------------
 func (c *authUseCase) Register(user domain.Users) (domain.Users, error) {
-	retun, err:= c.FindUser(user.Email)
-	if err!=nil{
-return domain.Users{},err
+	retun, err := c.FindUser(user.Email)
+	if err != nil {
+		return domain.Users{}, err
 	}
 	if retun.Email == user.Email {
 		return user, errors.New("user already exists")

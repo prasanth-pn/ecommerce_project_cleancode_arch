@@ -1,12 +1,13 @@
 package handler
 
 import (
-	"clean/pkg/common/response"
-	"clean/pkg/domain"
-	"clean/pkg/utils"
 	"fmt"
 	"strings"
 	"time"
+
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/common/response"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/utils"
 
 	"github.com/gin-gonic/gin"
 	razorpay "github.com/razorpay/razorpay-go"
@@ -112,7 +113,7 @@ func (cr *UserHandler) Payment_Success(c *gin.Context) {
 		utils.ResponseJSON(c, res)
 	}
 	cart, err := cr.UserService.ListViewCart(order.User_Id)
-	if err != nil { 
+	if err != nil {
 		res := response.ErrorResponse("error in list cart", err.Error(), "update orders listcart")
 		utils.ResponseJSON(c, res)
 		return

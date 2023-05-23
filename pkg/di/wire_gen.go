@@ -7,13 +7,13 @@
 package di
 
 import (
-	"clean/pkg/api"
-	"clean/pkg/api/handler"
-	"clean/pkg/api/middleware"
-	"clean/pkg/config"
-	"clean/pkg/db"
-	"clean/pkg/repository"
-	"clean/pkg/usecase"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/api"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/api/handler"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/api/middleware"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/config"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/db"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/repository"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/usecase"
 )
 
 // Injectors from wire.go:

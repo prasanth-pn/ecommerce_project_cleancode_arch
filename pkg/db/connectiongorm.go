@@ -1,8 +1,8 @@
 package db
 
 import (
-	config "clean/pkg/config"
-	domain "clean/pkg/domain"
+	config "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/config"
+	domain "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
 
 	//"fmt"
 
@@ -32,6 +32,6 @@ func ConnectGormDB(cfg config.Config) (*gorm.DB, error) {
 	db.AutoMigrate(&domain.Ordered_Items{})
 	db.AutoMigrate(&domain.Coupon{})
 	db.AutoMigrate(&domain.Applied_Coupons{})
-
+	
 	return db, dbErr
 }

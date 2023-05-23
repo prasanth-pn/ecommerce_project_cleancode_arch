@@ -1,14 +1,14 @@
 package http
 
 import (
-	handler "clean/pkg/api/handler"
-	"clean/pkg/api/middleware"
+	handler "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/api/handler"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/api/middleware"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	_ "clean/cmd/api/docs"
+	_ "github.com/prasanth-pn/ecommerce_project_cleancode_arch/cmd/api/docs"
 )
 
 type ServerHTTP struct {
@@ -97,6 +97,6 @@ func NewServerHTTP(UserHandler *handler.UserHandler,
 
 func (sh *ServerHTTP) Start() {
 
-	sh.engine.Run(":8080")
+	sh.engine.Run(":9090")
 
 }

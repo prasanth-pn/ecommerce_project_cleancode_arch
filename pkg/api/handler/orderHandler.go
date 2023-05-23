@@ -1,23 +1,24 @@
 package handler
 
 import (
-	"clean/pkg/common/response"
-	"clean/pkg/domain"
-	"clean/pkg/utils"
 	"strconv"
+
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/common/response"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
-//@Summary UserListOrder for user
-//@ID UserListOrder for User
-//@Tags ORDERMANAGEMENT
-//@Security BearerAuth
-//@Param page query string true "page"
-//@Param pagesize query string true "pagesize"
-//@Success 200 {object} response.Response{}
-//@Failure 400 {object} response.Response{}
-//@Router /user/list-order [get]
+// @Summary UserListOrder for user
+// @ID UserListOrder for User
+// @Tags ORDERMANAGEMENT
+// @Security BearerAuth
+// @Param page query string true "page"
+// @Param pagesize query string true "pagesize"
+// @Success 200 {object} response.Response{}
+// @Failure 400 {object} response.Response{}
+// @Router /user/list-order [get]
 func (cr *UserHandler) ListOrder(c *gin.Context) {
 	user_id := c.Writer.Header().Get("id")
 	userid, _ := strconv.Atoi(user_id)

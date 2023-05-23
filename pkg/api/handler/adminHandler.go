@@ -1,15 +1,16 @@
 package handler
 
 import (
-	"clean/pkg/common/response"
-	"clean/pkg/domain"
-	services "clean/pkg/usecase/interfaces"
-	"clean/pkg/utils"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"path/filepath"
 	"strconv"
+
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/common/response"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	services "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/usecase/interfaces"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -31,7 +32,7 @@ func NewAdminHandler(usecase services.AdminUseCase, jwtService services.JWTServi
 
 // @title Go + Gin ecommerce API
 // @version 1.0
-// @description This is a sample server  server. You can visit the GitHub repository at https://github.com/prasanth-pn/clean-code-architecture-ecommerce
+// @description This is a sample server  server. You can visit the GitHub repository at https://github.com/prasanth-pn/github.com/prasanth-pn/ecommerce_project_cleancode_arch-code-architecture-ecommerce
 
 // @contact.name API Support
 // @contact.url http://www.swagger.io/support

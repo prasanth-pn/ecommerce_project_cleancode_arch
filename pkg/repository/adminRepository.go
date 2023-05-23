@@ -1,9 +1,9 @@
 package repository
 
 import (
-	"clean/pkg/domain"
-	interfaces "clean/pkg/repository/interfaces"
-	"clean/pkg/utils"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	interfaces "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/repository/interfaces"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/utils"
 	"database/sql"
 	"fmt"
 	"log"

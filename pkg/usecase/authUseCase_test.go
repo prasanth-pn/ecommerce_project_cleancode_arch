@@ -1,9 +1,9 @@
 package usecase
 
 import (
-	"clean/pkg/config"
-	"clean/pkg/domain"
-	"clean/pkg/mock"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/config"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/mock"
 	"errors"
 	"testing"
 

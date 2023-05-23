@@ -2,11 +2,12 @@ package handler
 
 import (
 	"bytes"
-	"clean/pkg/common/response"
-	"clean/pkg/mock"
 	"encoding/json"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/common/response"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/mock"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
@@ -30,7 +31,7 @@ func Test_VerifyOtp(t *testing.T) {
 		{
 			name:  "success",
 			email: "emaildotcome",
-			code :"1234",
+			code:  "1234",
 			beforetest: func(authusecase *mock.MockAuthUseCase) {
 				authusecase.EXPECT().VerifyUserOtp("emaildotcome", 1234).Return(nil)
 				authusecase.EXPECT().UpdateUserStatus("emaildotcome").Return(nil)
@@ -60,14 +61,13 @@ func Test_VerifyOtp(t *testing.T) {
 			q := req.URL.Query()
 			q.Add("email", test.email)
 			q.Add("code", test.code)
-			req.URL.RawQuery=q.Encode()
-			gin.ServeHTTP(rec,req)
+			req.URL.RawQuery = q.Encode()
+			gin.ServeHTTP(rec, req)
 			var acutal response.Response
-			err:=json.Unmarshal(rec.Body.Bytes(),&acutal)
-			assert.NoError(t,err)
-			assert.Equal(t,test.expectedcode,rec.Code)
-			assert.Equal(t,test.expectedresponse.Message,acutal.Message)
-
+			err := json.Unmarshal(rec.Body.Bytes(), &acutal)
+			assert.NoError(t, err)
+			assert.Equal(t, test.expectedcode, rec.Code)
+			assert.Equal(t, test.expectedresponse.Message, acutal.Message)
 
 		})
 	}

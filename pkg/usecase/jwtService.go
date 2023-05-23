@@ -6,12 +6,11 @@ import (
 	"os"
 	"time"
 
-	"clean/pkg/domain"
-	"clean/pkg/usecase/interfaces"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/usecase/interfaces"
 
 	"github.com/golang-jwt/jwt/v4"
 )
-
 
 type jwtService struct {
 	SecretKey string
@@ -24,7 +23,7 @@ func NewJWTService() interfaces.JWTService {
 }
 
 func (j *jwtService) GenerateToken(User_Id uint, First_Name, Email string) string {
-	fmt.Println("first ghost",User_Id,First_Name,Email,"firstghost\n ")
+	fmt.Println("first ghost", User_Id, First_Name, Email, "firstghost\n ")
 	//j.SecretKey = "kofmjlksdjgmklsdjml"
 	claims := &domain.SignedDetails{
 		User_Id:    User_Id,
@@ -57,12 +56,12 @@ func (j *jwtService) VerifyToken(signedToken string) (bool, *domain.SignedDetail
 }
 
 func (j *jwtService) GetTokenFromString(signedToken string, claims *domain.SignedDetails) (*jwt.Token, error) {
-	return jwt.ParseWithClaims(signedToken, claims, 
+	return jwt.ParseWithClaims(signedToken, claims,
 		func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method:#{token.Header['alg']}")
-		}
-		return []byte(j.SecretKey), nil
-	})
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, fmt.Errorf("unexpected signing method:#{token.Header['alg']}")
+			}
+			return []byte(j.SecretKey), nil
+		})
 
 }

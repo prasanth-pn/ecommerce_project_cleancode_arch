@@ -1,14 +1,15 @@
 package handler
 
 import (
-	response "clean/pkg/common/response"
-	domain "clean/pkg/domain"
-	services "clean/pkg/usecase/interfaces"
-	utils "clean/pkg/utils"
 	"fmt"
 	"net/http"
 	"strconv"
 	"time"
+
+	response "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/common/response"
+	domain "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	services "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/usecase/interfaces"
+	utils "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/copier"
@@ -221,13 +222,13 @@ func (cr *AuthHandler) VerifyUserOtp(c *gin.Context) {
 	}
 	err = cr.authUseCase.UpdateUserStatus(email)
 	if err != nil {
-		res:=response.ErrorResponse("status is not updated",err.Error(),nil)
+		res := response.ErrorResponse("status is not updated", err.Error(), nil)
 		c.Writer.WriteHeader(422)
-		utils.ResponseJSON(c,res)
-		return 
+		utils.ResponseJSON(c, res)
+		return
 	}
 	respo := response.SuccessResponse(true, "success", " login the page using username and password ")
-		c.Writer.WriteHeader(http.StatusOK)
-		utils.ResponseJSON(c, respo)
+	c.Writer.WriteHeader(http.StatusOK)
+	utils.ResponseJSON(c, respo)
 
 }

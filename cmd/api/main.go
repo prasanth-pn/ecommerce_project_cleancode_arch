@@ -1,20 +1,20 @@
 package main
 
 import (
-	_ "clean/cmd/api/docs"
-	_ "clean/pkg/common/response"
-	"clean/pkg/config"
-	"clean/pkg/db"
-	"clean/pkg/di"
-	"fmt"
 	"log"
+
+	_ "github.com/prasanth-pn/ecommerce_project_cleancode_arch/cmd/api/docs"
+	_ "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/common/response"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/config"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/db"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/di"
 
 	"github.com/joho/godotenv"
 )
 
 // @title Go + Gin ecommerce API
 // @version 1.0
-// @description This is a sample server  server. You can visit the GitHub repository at https://github.com/prasanth-pn/clean-code-architecture-ecommerce
+// @description This is a sample server  server. You can visit the GitHub repository at https://github.com/prasanth-pn/github.com/prasanth-pn/ecommerce_project_cleancode_arch-code-architecture-ecommerce
 
 // @contact.name API Support
 // @contact.url http://www.swagger.io/support
@@ -42,8 +42,8 @@ func main() {
 
 	}
 	//connect database
-	gorm, _ := db.ConnectGormDB(config)
-	fmt.Println(gorm)
+	_, _ = db.ConnectGormDB(config)
+	//fmt.Println(gorm)
 	server, diErr := di.InitializeEvent(config)
 
 	if diErr != nil {

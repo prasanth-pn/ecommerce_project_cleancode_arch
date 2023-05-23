@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	"clean/pkg/domain"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
 )
 
 type AuthRepository interface {

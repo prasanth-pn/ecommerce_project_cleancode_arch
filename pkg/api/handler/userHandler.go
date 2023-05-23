@@ -2,20 +2,21 @@ package handler
 
 import (
 	//"net/http"
-	//domain "clean/pkg/domain"
-	"clean/pkg/common/response"
-	"clean/pkg/domain"
-	services "clean/pkg/usecase/interfaces"
-	"clean/pkg/utils"
+	//domain "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"path/filepath"
 	"strconv"
 
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/common/response"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	services "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/usecase/interfaces"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/utils"
+
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	// 	response "clean/pkg/common/response"
+	// 	response "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/common/response"
 	// 	"github.com/gin-gonic/gin"
 	// 	"github.com/jinzhu/copier"
 )

@@ -21,7 +21,7 @@ type Config struct {
 
 var envs = []string{
 	"DB_HOST", "DB_NAME", "DB_USER", "DB_PORT", "DB_PASSWORD", "DB_SOURCE", "SECRET_KEY",
-	"SMTPUSERNAME","SMTPHTTPPASSWORD","SMTPHOST","SMTPPORT",
+	"SMTPUSERNAME", "SMTPHTTPPASSWORD", "SMTPHOST", "SMTPPORT",
 }
 
 func LoadConfig() (Config, error) {

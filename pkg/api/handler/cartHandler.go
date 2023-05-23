@@ -1,13 +1,14 @@
 package handler
 
 import (
-	"clean/pkg/common/response"
-	"clean/pkg/domain"
-	"clean/pkg/utils"
 	"fmt"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/common/response"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/utils"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,11 +1,12 @@
 package usecase
 
 import (
-	"clean/pkg/domain"
-	interfaces "clean/pkg/repository/interfaces"
-	services "clean/pkg/usecase/interfaces"
-	"clean/pkg/utils"
 	"context"
+
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	interfaces "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/repository/interfaces"
+	services "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/usecase/interfaces"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/utils"
 )
 
 type adminUseCase struct {

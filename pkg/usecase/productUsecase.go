@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"clean/pkg/domain"
-	"clean/pkg/utils"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/utils"
 )
 
 func (c *userUseCase) FindProduct(product_id uint) (domain.Product, error) {
