@@ -8,8 +8,6 @@ import (
 	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/config"
 	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/db"
 	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/di"
-
-	"github.com/joho/godotenv"
 )
 
 // @title Go + Gin ecommerce API
@@ -31,10 +29,6 @@ import (
 // @query.collection.format multi
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("error loading env file")
-	}
 
 	config, configErr := config.LoadConfig()
 	if configErr != nil {
