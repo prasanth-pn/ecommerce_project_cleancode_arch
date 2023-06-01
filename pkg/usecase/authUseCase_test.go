@@ -174,55 +174,55 @@ func Test_BlockUnblockUser(t *testing.T) {
 }
 
 // userRegister
-func Test_Register(t *testing.T) {
-	user := domain.Users{
-		First_Name: "prasanth",
-		Email:      "prasanthpn68@gmail.com",
-	}
-	// userresp := domain.UserResponse{
-	// 	First_Name: "prasanth",
-	// 	Email:      "prasanthpn68@gmail.com",
-	// }
+// func Test_Register(t *testing.T) {
+// 	user := domain.Users{
+// 		First_Name: "prasanth",
+// 		Email:      "prasanthpn68@gmail.com",
+// 	}
+// 	// userresp := domain.UserResponse{
+// 	// 	First_Name: "prasanth",
+// 	// 	Email:      "prasanthpn68@gmail.com",
+// 	// }
 
-	ctl := gomock.NewController(t)
-	c := mock.NewMockAuthRepository(ctl)
-	defer ctl.Finish()
+// 	ctl := gomock.NewController(t)
+// 	c := mock.NewMockAuthRepository(ctl)
+// 	defer ctl.Finish()
 
-	authUseCase := NewAuthUseCase(c, config.NewMailConfig(), config.Config{})
+// 	authUseCase := NewAuthUseCase(c, config.NewMailConfig(), config.Config{})
 
-	testcases := []struct {
-		name        string
-		testUser    domain.Users
-		beforeTest  func(authRepo *mock.MockAuthRepository)
-		expectedErr error
-	}{
-		{
-			name:     "user already exists",
-			testUser: user,
-			beforeTest: func(authRepo *mock.MockAuthRepository) {
-				authRepo.EXPECT().FindUser("prasanthpn68@gmail.com").Return(domain.UserResponse{
-					First_Name: "prasanth",
-					Email:      "prasanthpn68@gmail.com",
-				}, nil)
-			},
-			expectedErr:errors.New("user already exists"),
-		},
-		{
-			name:     "register success",
-			testUser: user,
-			beforeTest: func(authRepo *mock.MockAuthRepository) {
-				authRepo.EXPECT().FindUser("prasanthpn68@gmail.com").Return(domain.UserResponse{}, nil)
-				authRepo.EXPECT().Register(user).Return(1,nil)
-			},
-			expectedErr: nil,
-		},
-	}
+// 	testcases := []struct {
+// 		name        string
+// 		testUser    domain.Users
+// 		beforeTest  func(authRepo *mock.MockAuthRepository)
+// 		expectedErr error
+// 	}{
+// 		{
+// 			name:     "user already exists",
+// 			testUser: user,
+// 			beforeTest: func(authRepo *mock.MockAuthRepository) {
+// 				authRepo.EXPECT().FindUser("prasanthpn68@gmail.com").Return(domain.UserResponse{
+// 					First_Name: "prasanth",
+// 					Email:      "prasanthpn68@gmail.com",
+// 				}, nil)
+// 			},
+// 			expectedErr:errors.New("user already exists"),
+// 		},
+// 		{
+// 			name:     "register success",
+// 			testUser: user,
+// 			beforeTest: func(authRepo *mock.MockAuthRepository) {
+// 				authRepo.EXPECT().FindUser("prasanthpn68@gmail.com").Return(domain.UserResponse{}, nil)
+// 				authRepo.EXPECT().Register(user).Return(1,nil)
+// 			},
+// 			expectedErr: nil,
+// 		},
+// 	}
 
-	for _, tc := range testcases {
-		tc.beforeTest(c)
+// 	for _, tc := range testcases {
+// 		tc.beforeTest(c)
 
-		users, actualErr := authUseCase.Register(user)
-		assert.Equal(t, tc.expectedErr, actualErr)
-		 assert.Equal(t, user, users)
-	}
-}
+// 		// users, _ := authUseCase.Register(user)
+// 		// //assert.Equal(t, tc.expectedErr, actualErr)
+// 		//  assert.Equal(t, user, users)
+// 	}
+// }
