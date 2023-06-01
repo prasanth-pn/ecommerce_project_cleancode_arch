@@ -49,7 +49,7 @@ wire: ## Generate wire_gen.go
 # 	cd cmd/api && swag init --parseDependency --parseInternal --parseDepth 1 -md ./documentation -o ./docs
 
 swag: ## Generate swagger2 docs
-	swag init -g pkg/api/handler/auth.handler.go --parseDependency -o ./cmd/api/docs
+	swag init -g pkg/api/handler/adminHandler.go --parseDependency -o ./cmd/api/docs
 
 
 spath:

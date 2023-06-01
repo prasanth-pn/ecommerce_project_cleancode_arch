@@ -45,7 +45,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Brand"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Brand"
                         }
                     }
                 ],
@@ -53,13 +53,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -100,13 +100,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -134,7 +134,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Model"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Model"
                         }
                     }
                 ],
@@ -142,13 +142,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -189,13 +189,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "422": {
                         "description": "Unprocessable Entity",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -249,13 +249,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -296,13 +296,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -343,13 +343,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -387,13 +387,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -438,13 +438,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -469,13 +469,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "422": {
                         "description": "Unprocessable Entity",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -498,7 +498,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Admins"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Admins"
                         }
                     }
                 ],
@@ -506,13 +506,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -546,13 +546,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -590,13 +590,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -619,7 +619,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Admins"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Admins"
                         }
                     }
                 ],
@@ -627,13 +627,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -681,13 +681,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -732,13 +732,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -776,13 +776,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -816,13 +816,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -856,13 +856,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -890,7 +890,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Address"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Address"
                         }
                     }
                 ],
@@ -898,13 +898,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -929,7 +929,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.ProductDetails"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.ProductDetails"
                         }
                     }
                 ],
@@ -937,13 +937,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -974,13 +974,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1011,13 +1011,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1055,13 +1055,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1094,13 +1094,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1131,13 +1131,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1168,13 +1168,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1208,13 +1208,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1252,13 +1252,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1283,13 +1283,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1327,13 +1327,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1366,13 +1366,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1405,13 +1405,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1451,13 +1451,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1480,7 +1480,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Login"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Login"
                         }
                     }
                 ],
@@ -1488,13 +1488,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1515,13 +1515,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1559,13 +1559,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1588,7 +1588,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Users"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Users"
                         }
                     }
                 ],
@@ -1596,13 +1596,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1631,13 +1631,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1665,7 +1665,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Address"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Address"
                         }
                     }
                 ],
@@ -1673,13 +1673,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1716,13 +1716,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1758,13 +1758,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1786,13 +1786,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1800,7 +1800,20 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "domain.Address": {
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "errors": {},
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Address": {
             "type": "object",
             "properties": {
                 "address_id": {
@@ -1835,7 +1848,7 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.Admins": {
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Admins": {
             "type": "object",
             "properties": {
                 "id": {
@@ -1849,7 +1862,7 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.Brand": {
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Brand": {
             "type": "object",
             "properties": {
                 "brand_Id": {
@@ -1866,7 +1879,7 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.Login": {
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Login": {
             "type": "object",
             "required": [
                 "email",
@@ -1885,7 +1898,7 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.Model": {
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Model": {
             "type": "object",
             "properties": {
                 "model_id": {
@@ -1896,7 +1909,7 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.ProductDetails": {
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.ProductDetails": {
             "type": "object",
             "properties": {
                 "product_id": {
@@ -1907,7 +1920,7 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.Users": {
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Users": {
             "type": "object",
             "required": [
                 "email",
@@ -1918,6 +1931,9 @@ const docTemplate = `{
                 "phone"
             ],
             "properties": {
+                "_": {
+                    "type": "string"
+                },
                 "block_Status": {
                     "type": "boolean"
                 },
@@ -1925,9 +1941,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "country": {
-                    "type": "string"
-                },
-                "created_At": {
                     "type": "string"
                 },
                 "email": {
@@ -1963,26 +1976,10 @@ const docTemplate = `{
                 "profile_Pic": {
                     "type": "string"
                 },
-                "updated_At": {
-                    "type": "string"
-                },
                 "user_Id": {
                     "type": "integer"
                 },
                 "verification": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "response.Response": {
-            "type": "object",
-            "properties": {
-                "data": {},
-                "errors": {},
-                "message": {
-                    "type": "string"
-                },
-                "status": {
                     "type": "boolean"
                 }
             }
@@ -2004,7 +2001,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Go + Gin ecommerce API",
-	Description:      "This is a sample server  server. You can visit the GitHub repository at https://github.com/prasanth-pn/clean-code-architecture-ecommerce",
+	Description:      "This is a sample server  server. You can visit the GitHub repository at https://github.com/prasanth-pn/github.com/prasanth-pn/ecommerce_project_cleancode_arch-code-architecture-ecommerce",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }
