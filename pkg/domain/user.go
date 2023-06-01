@@ -28,8 +28,8 @@ type Users struct {
 	Country      string `json:"country "`
 	City         string `json:"city " `
 	Block_Status bool
-	Created_At   time.Time
-	Updated_At   time.Time
+	Created_At   time.Time `json:"_"`
+	Updated_At   time.Time `json:"_"`
 	Profile_Pic  string
 }
 type Cart struct {

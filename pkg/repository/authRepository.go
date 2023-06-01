@@ -1,10 +1,11 @@
 package repository
 
 import (
-	domain "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
-	interfaces "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/repository/interfaces"
 	"database/sql"
 	"time"
+
+	domain "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
+	interfaces "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/repository/interfaces"
 	//"errors"
 	//"fmt"
 )
@@ -38,7 +39,6 @@ func (c *authDatabase) Register(user domain.Users) (int, error) {
 func (c *authDatabase) FindUser(email string) (domain.UserResponse, error) {
 	var user domain.UserResponse
 	query := `SELECT user_id,first_name,last_name,email,gender,password,phone FROM users WHERE email=$1;`
-
 	err := c.DB.QueryRow(query, email).Scan(&user.ID,
 		&user.First_Name,
 		&user.Last_Name,
@@ -47,7 +47,6 @@ func (c *authDatabase) FindUser(email string) (domain.UserResponse, error) {
 		&user.Password,
 		&user.Phone,
 	)
-
 	return user, err
 }
 
@@ -80,19 +79,15 @@ func (c *authDatabase) StoreVerificationDetails(email string, code int) error {
 func (c *authDatabase) VerifyOtp(email string, code int) error {
 	query := `SELECT email,code FROM verifications WHERE email=$1 and code=$2;`
 	err := c.DB.QueryRow(query, email, code).Err()
-
 	return err
 }
 func (c *authDatabase) UpdateUserStatus(email string) error {
-	var user domain.Users
 	query := `UPDATE users SET verification=$1 WHERE email=$2;`
-	err := c.DB.QueryRow(query, true, email).Scan(&user.Verification)
-
+	err := c.DB.QueryRow(query, true, email).Err()
 	return err
 }
 func (c *authDatabase) FindUserById(user_id uint) (domain.Users, error) {
 	var user domain.Users
-
 	query := `SELECT first_name,last_name,email,gender,phone,password,verification,country,city,block_status FROM users WHERE user_id=$1;`
 	err := c.DB.QueryRow(query, user_id).Scan(&user.First_Name,
 		&user.Last_Name,

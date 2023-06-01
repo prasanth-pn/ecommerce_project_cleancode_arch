@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"time"
 
 	response "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/common/response"
 	domain "github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/domain"
@@ -70,7 +69,6 @@ func (cr *AuthHandler) Register(c *gin.Context) {
 // @Failure 401 {object} response.Response{}
 // @Router /user/login [post]
 func (cr *AuthHandler) UserLogin(c *gin.Context) {
-	fmt.Println(time.Now())
 
 	var user domain.Login
 	if err := c.BindJSON(&user); err != nil {
@@ -83,17 +81,13 @@ func (cr *AuthHandler) UserLogin(c *gin.Context) {
 		respons := response.ErrorResponse("failed to login", err.Error(), user)
 		c.Writer.Header().Set("Content-Type", "application/json")
 		c.Writer.WriteHeader(http.StatusUnauthorized)
-		fmt.Printf("\n\n%v", respons)
 		utils.ResponseJSON(c, respons)
 		return
 	}
-	fmt.Println(user)
 	users, _ := cr.authUseCase.FindUser(user.Email)
 
 	token := cr.jwtService.GenerateToken(uint(users.ID), users.First_Name, user.Email)
 
-	fmt.Println(users.First_Name, token)
-	fmt.Printf("\n\ntockenygbhuy : %v\n\n", token)
 	users.Password = ""
 	users.Token = token
 	respons := response.SuccessResponse(true, "Login successfully", users.Token)

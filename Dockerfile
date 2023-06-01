@@ -6,14 +6,11 @@ WORKDIR /project
 COPY . .
 RUN apk add --no-cache make 
 RUN make deps
-#RUN go mod download
 RUN go mod vendor
 RUN make build
 #run stage 
 FROM alpine:3.17
 WORKDIR /project
-COPY go.mod .
-COPY go.sum . 
 COPY  .env .
 COPY templates ./templates
 COPY --from=builder /project/build/bin/api .

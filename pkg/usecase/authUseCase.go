@@ -31,8 +31,8 @@ func NewAuthUseCase(repo interfaces.AuthRepository, mailConfig config.MailConfig
 // ------------------------------------------register-------------------------
 func (c *authUseCase) Register(user domain.Users) (domain.Users, error) {
 	retun, err := c.FindUser(user.Email)
-	if err != nil {
-		return domain.Users{}, err
+	if err == nil {
+		return domain.Users{}, nil
 	}
 	if retun.Email == user.Email {
 		return user, errors.New("user already exists")
@@ -83,6 +83,7 @@ func (c *authUseCase) UpdateUserStatus(email string) error {
 // -----------------------------------------verifyUser-----------------------------
 func (c *authUseCase) VerifyUser(email, password string) error {
 	user, err := c.authRepo.FindUser(email)
+	fmt.Println("erooors \n\n\n", err)
 
 	if err != nil {
 		return errors.New("username is incorrect")
