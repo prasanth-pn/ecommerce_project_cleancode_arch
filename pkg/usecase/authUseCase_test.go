@@ -221,8 +221,9 @@ func Test_BlockUnblockUser(t *testing.T) {
 // 	for _, tc := range testcases {
 // 		tc.beforeTest(c)
 
-// 		// users, _ := authUseCase.Register(user)
-// 		// //assert.Equal(t, tc.expectedErr, actualErr)
-// 		//  assert.Equal(t, user, users)
+
+// 		users, actualErr := authUseCase.Register(user)
+// 		assert.Equal(t, tc.expectedErr, actualErr)
+// 		 assert.Equal(t, user, users)
 // 	}
 // }
