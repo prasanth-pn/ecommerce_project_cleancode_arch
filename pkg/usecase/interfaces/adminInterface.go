@@ -25,4 +25,5 @@ type AdminUseCase interface {
 	GenerateCoupon(coupon domain.Coupon) error
 	FindCoupon(coupon string) (domain.Coupon, error)
 	ListOrder(pagention utils.Filter) ([]domain.Orders, utils.Metadata, error)
+    
 }

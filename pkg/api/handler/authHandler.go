@@ -16,7 +16,7 @@ import (
 
 type AuthHandler struct {
 	authUseCase services.AuthUseCase
-	jwtService  services.JWTService
+	 jwtService  services.JWTService
 }
 
 func NewAuthHandler(usecase services.AuthUseCase, jwtUseCase services.JWTService) *AuthHandler {
