@@ -1,5 +1,14 @@
 definitions:
-  domain.Address:
+  github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response:
+    properties:
+      data: {}
+      errors: {}
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Address:
     properties:
       address_id:
         type: integer
@@ -22,7 +31,7 @@ definitions:
       user_id:
         type: integer
     type: object
-  domain.Admins:
+  github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Admins:
     properties:
       id:
         type: integer
@@ -31,7 +40,7 @@ definitions:
       username:
         type: string
     type: object
-  domain.Brand:
+  github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Brand:
     properties:
       brand_Id:
         type: integer
@@ -42,7 +51,7 @@ definitions:
       discount:
         type: integer
     type: object
-  domain.Login:
+  github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Login:
     properties:
       email:
         maxLength: 50
@@ -56,29 +65,29 @@ definitions:
     - email
     - password
     type: object
-  domain.Model:
+  github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Model:
     properties:
       model_id:
         type: integer
       model_name:
         type: string
     type: object
-  domain.ProductDetails:
+  github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.ProductDetails:
     properties:
       product_id:
         type: integer
       quantity:
         type: integer
     type: object
-  domain.Users:
+  github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Users:
     properties:
+      _:
+        type: string
       block_Status:
         type: boolean
       city:
         type: string
       country:
-        type: string
-      created_At:
         type: string
       email:
         maxLength: 50
@@ -106,8 +115,6 @@ definitions:
         type: string
       profile_Pic:
         type: string
-      updated_At:
-        type: string
       user_Id:
         type: integer
       verification:
@@ -120,22 +127,13 @@ definitions:
     - password
     - phone
     type: object
-  response.Response:
-    properties:
-      data: {}
-      errors: {}
-      message:
-        type: string
-      status:
-        type: boolean
-    type: object
 info:
   contact:
     email: support@swagger.io
     name: API Support
     url: http://www.swagger.io/support
   description: This is a sample server  server. You can visit the GitHub repository
-    at https://github.com/prasanth-pn/clean-code-architecture-ecommerce
+    at https://github.com/prasanth-pn/github.com/prasanth-pn/ecommerce_project_cleancode_arch-code-architecture-ecommerce
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
@@ -151,18 +149,18 @@ paths:
         name: Brand
         required: true
         schema:
-          $ref: '#/definitions/domain.Brand'
+          $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Brand'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: Add Brand for admin
@@ -188,11 +186,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: List user for admin
@@ -207,18 +205,18 @@ paths:
         name: Brand
         required: true
         schema:
-          $ref: '#/definitions/domain.Model'
+          $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Model'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: Addmodel for admin
@@ -244,11 +242,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "422":
           description: Unprocessable Entity
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: AddProducts for admin
@@ -283,11 +281,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: GenerateCoupon for admin
@@ -313,11 +311,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: ListBlockUsers for admin
@@ -343,11 +341,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: ListOrders for admin
@@ -371,11 +369,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: ListCategories for admin
@@ -404,11 +402,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: ListProductByCategories for admin
@@ -423,11 +421,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "422":
           description: Unprocessable Entity
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: List user for admin
@@ -442,18 +440,18 @@ paths:
         name: AdminLogin
         required: true
         schema:
-          $ref: '#/definitions/domain.Admins'
+          $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Admins'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       summary: Admin Login for Admin
       tags:
       - ADMINLOGIN
@@ -472,11 +470,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: AdminDeleteProducts for admin
@@ -500,11 +498,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: DeleteImagein Products
@@ -519,18 +517,18 @@ paths:
         name: AdminRegister
         required: true
         schema:
-          $ref: '#/definitions/domain.Admins'
+          $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Admins'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       summary: Register for Admin
       tags:
       - Admin
@@ -559,11 +557,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: SearchUserByName for admin
@@ -592,11 +590,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: UpdateProduct for admin
@@ -620,11 +618,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: ImageUploadproduct for admin
@@ -645,11 +643,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: Blockuser for admin
@@ -670,11 +668,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: Unblock for admin
@@ -689,18 +687,18 @@ paths:
         name: Address
         required: true
         schema:
-          $ref: '#/definitions/domain.Address'
+          $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Address'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: AddAddress for user
@@ -715,16 +713,16 @@ paths:
         name: Cart
         required: true
         schema:
-          $ref: '#/definitions/domain.ProductDetails'
+          $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.ProductDetails'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: AddToCart for User
@@ -743,11 +741,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: AddWishList for user
@@ -766,11 +764,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: AddWishList-tocart for user
@@ -794,11 +792,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: Appy_Coupon for User
@@ -822,11 +820,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       summary: UserCheckout for User
       tags:
       - USERCARTMANAGEMENT
@@ -843,11 +841,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: DeleteCart for user
@@ -866,11 +864,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: DeleteWishList for user
@@ -891,11 +889,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: GetAddress for user
@@ -919,11 +917,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: UserListOrder for user
@@ -938,11 +936,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: AddAddress for user
@@ -966,11 +964,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: ListCart for User
@@ -994,11 +992,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       summary: ListCategories for user
       tags:
       - USERVIEW
@@ -1020,11 +1018,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       summary: ListProducts for user
       tags:
       - USERVIEW
@@ -1051,11 +1049,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       summary: ListProductsByCategories for user
       tags:
       - USERVIEW
@@ -1068,18 +1066,18 @@ paths:
         name: userLogin
         required: true
         schema:
-          $ref: '#/definitions/domain.Login'
+          $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Login'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       summary: Login for user
       tags:
       - USERTAUTHENTICATION
@@ -1090,11 +1088,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       tags:
@@ -1117,11 +1115,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: UserProfileEdit for user
@@ -1136,18 +1134,18 @@ paths:
         name: Register
         required: true
         schema:
-          $ref: '#/definitions/domain.Users'
+          $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Users'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       summary: Register for user
       tags:
       - USERTAUTHENTICATION
@@ -1166,11 +1164,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       summary: Send EmailOtp for User
       tags:
       - USERVERIFICATION
@@ -1183,18 +1181,18 @@ paths:
         name: Address
         required: true
         schema:
-          $ref: '#/definitions/domain.Address'
+          $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Address'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: UpdateAddress for user
@@ -1218,11 +1216,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       tags:
@@ -1247,11 +1245,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       summary: VerifyUserOtp for User
       tags:
       - USERVERIFICATION
@@ -1262,11 +1260,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response'
       security:
       - BearerAuth: []
       summary: ViewWishList for user

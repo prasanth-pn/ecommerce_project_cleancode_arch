@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a sample server  server. You can visit the GitHub repository at https://github.com/prasanth-pn/clean-code-architecture-ecommerce",
+        "description": "This is a sample server  server. You can visit the GitHub repository at https://github.com/prasanth-pn/github.com/prasanth-pn/ecommerce_project_cleancode_arch-code-architecture-ecommerce",
         "title": "Go + Gin ecommerce API",
         "contact": {
             "name": "API Support",
@@ -37,7 +37,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Brand"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Brand"
                         }
                     }
                 ],
@@ -45,13 +45,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -92,13 +92,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -126,7 +126,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Model"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Model"
                         }
                     }
                 ],
@@ -134,13 +134,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -181,13 +181,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "422": {
                         "description": "Unprocessable Entity",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -241,13 +241,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -288,13 +288,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -335,13 +335,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -379,13 +379,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -430,13 +430,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -461,13 +461,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "422": {
                         "description": "Unprocessable Entity",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -490,7 +490,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Admins"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Admins"
                         }
                     }
                 ],
@@ -498,13 +498,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -538,13 +538,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -582,13 +582,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -611,7 +611,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Admins"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Admins"
                         }
                     }
                 ],
@@ -619,13 +619,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -673,13 +673,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -724,13 +724,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -768,13 +768,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -808,13 +808,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -848,13 +848,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -882,7 +882,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Address"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Address"
                         }
                     }
                 ],
@@ -890,13 +890,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -921,7 +921,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.ProductDetails"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.ProductDetails"
                         }
                     }
                 ],
@@ -929,13 +929,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -966,13 +966,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1003,13 +1003,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1047,13 +1047,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1086,13 +1086,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1123,13 +1123,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1160,13 +1160,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1200,13 +1200,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1244,13 +1244,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1275,13 +1275,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1319,13 +1319,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1358,13 +1358,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1397,13 +1397,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1443,13 +1443,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1472,7 +1472,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Login"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Login"
                         }
                     }
                 ],
@@ -1480,13 +1480,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1507,13 +1507,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1551,13 +1551,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1580,7 +1580,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Users"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Users"
                         }
                     }
                 ],
@@ -1588,13 +1588,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1623,13 +1623,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1657,7 +1657,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Address"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Address"
                         }
                     }
                 ],
@@ -1665,13 +1665,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1708,13 +1708,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1750,13 +1750,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1778,13 +1778,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "$ref": "#/definitions/github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response"
                         }
                     }
                 }
@@ -1792,7 +1792,20 @@
         }
     },
     "definitions": {
-        "domain.Address": {
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_common_response.Response": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "errors": {},
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Address": {
             "type": "object",
             "properties": {
                 "address_id": {
@@ -1827,7 +1840,7 @@
                 }
             }
         },
-        "domain.Admins": {
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Admins": {
             "type": "object",
             "properties": {
                 "id": {
@@ -1841,7 +1854,7 @@
                 }
             }
         },
-        "domain.Brand": {
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Brand": {
             "type": "object",
             "properties": {
                 "brand_Id": {
@@ -1858,7 +1871,7 @@
                 }
             }
         },
-        "domain.Login": {
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Login": {
             "type": "object",
             "required": [
                 "email",
@@ -1877,7 +1890,7 @@
                 }
             }
         },
-        "domain.Model": {
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Model": {
             "type": "object",
             "properties": {
                 "model_id": {
@@ -1888,7 +1901,7 @@
                 }
             }
         },
-        "domain.ProductDetails": {
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.ProductDetails": {
             "type": "object",
             "properties": {
                 "product_id": {
@@ -1899,7 +1912,7 @@
                 }
             }
         },
-        "domain.Users": {
+        "github_com_prasanth-pn_ecommerce_project_cleancode_arch_pkg_domain.Users": {
             "type": "object",
             "required": [
                 "email",
@@ -1910,6 +1923,9 @@
                 "phone"
             ],
             "properties": {
+                "_": {
+                    "type": "string"
+                },
                 "block_Status": {
                     "type": "boolean"
                 },
@@ -1917,9 +1933,6 @@
                     "type": "string"
                 },
                 "country": {
-                    "type": "string"
-                },
-                "created_At": {
                     "type": "string"
                 },
                 "email": {
@@ -1955,26 +1968,10 @@
                 "profile_Pic": {
                     "type": "string"
                 },
-                "updated_At": {
-                    "type": "string"
-                },
                 "user_Id": {
                     "type": "integer"
                 },
                 "verification": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "response.Response": {
-            "type": "object",
-            "properties": {
-                "data": {},
-                "errors": {},
-                "message": {
-                    "type": "string"
-                },
-                "status": {
                     "type": "boolean"
                 }
             }

@@ -19,7 +19,7 @@ type Category struct {
 	Category_Id   int    `gorm:"serial primaryKey;autoIncrement:true;unique"`
 	Category_Name string `json:"category_name" gorm:"not null;unique"`
 	Description   string `json:"description" gorm:"not null"`
-	Image         string `json:"_"`
+	Image         string `json:""`
 }
 
 type Product struct {
