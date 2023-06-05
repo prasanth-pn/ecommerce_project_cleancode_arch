@@ -10,9 +10,9 @@ const docTemplate = `{
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
         "contact": {
-            "name": "API Support",
+            "name": "PRASANTH P N",
             "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
+            "email": "support@prasanthpn68@gmail.com"
         },
         "license": {
             "name": "MIT",
@@ -2000,8 +2000,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Go + Gin ecommerce API",
-	Description:      "This is a sample server  server. You can visit the GitHub repository at https://github.com/prasanth-pn/github.com/prasanth-pn/ecommerce_project_cleancode_arch-code-architecture-ecommerce",
+	Title:            "Go + Gin MobDex API",
+	Description:      "PROJECT UPDATING YOU CAN VISIT GitHub repository AT https://github.com/prasanth-pn/ecommerce_project_cleancode_arch\nUSED TECHNOLOGIES IN THE PROJECT IS VIPER, WIRE GIN-GONIC FRAMEWORK,\nPOSTGRESQL DATABASE, JWT AUTHENTICATION, DOCKER,DOCKER COMPOSE",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

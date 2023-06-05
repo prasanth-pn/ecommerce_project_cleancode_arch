@@ -35,6 +35,7 @@ func NewAdminHandler(usecase services.AdminUseCase, jwtService services.JWTServi
 // @description PROJECT UPDATING YOU CAN VISIT GitHub repository AT https://github.com/prasanth-pn/ecommerce_project_cleancode_arch
 // @description USED TECHNOLOGIES IN THE PROJECT IS VIPER, WIRE GIN-GONIC FRAMEWORK,  
 // @description POSTGRESQL DATABASE, JWT AUTHENTICATION, DOCKER,DOCKER COMPOSE
+
 // @contact.name PRASANTH P N
 // @contact.url http://www.swagger.io/support
 // @contact.email support@prasanthpn68@gmail.com
