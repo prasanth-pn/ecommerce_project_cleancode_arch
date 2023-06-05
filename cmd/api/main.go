@@ -10,13 +10,14 @@ import (
 	"github.com/prasanth-pn/ecommerce_project_cleancode_arch/pkg/di"
 )
 
-// @title Go + Gin ecommerce API
+// @title Go + Gin MobDex API
 // @version 1.0
-// @description This is a sample server  server. You can visit the GitHub repository at https://github.com/prasanth-pn/github.com/prasanth-pn/ecommerce_project_cleancode_arch-code-architecture-ecommerce
-
-// @contact.name API Support
+// @description PROJECT UPDATING YOU CAN VISIT GitHub repository AT https://github.com/prasanth-pn/ecommerce_project_cleancode_arch
+// @description USED TECHNOLOGIES IN THE PROJECT IS VIPER, WIRE GIN-GONIC FRAMEWORK,  
+// @description POSTGRESQL DATABASE, JWT AUTHENTICATION, DOCKER,DOCKER COMPOSE
+// @contact.name PRASANTH P N
 // @contact.url http://www.swagger.io/support
-// @contact.email support@swagger.io
+// @contact.email support@prasanthpn68@gmail.com
 
 // @license.name MIT
 // @license.url https://opensource.org/licenses/MIT
